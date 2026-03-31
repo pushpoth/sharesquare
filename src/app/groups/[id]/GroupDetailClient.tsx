@@ -2,7 +2,7 @@
 // Implements: TASK-047
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useGroups } from "@/hooks/useGroups";
 import { useExpenses } from "@/hooks/useExpenses";
@@ -23,7 +23,7 @@ import type { ExpenseFiltersState } from "@/components/ExpenseFilters/ExpenseFil
 import type { ExpensePayer, ExpenseSplit } from "@/types";
 
 export default function GroupDetailClient() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const params = useParams();
   const groupId = params.id as string;
   const { getGroupById, updateGroup, getGroupMembers } = useGroups();
@@ -70,7 +70,10 @@ export default function GroupDetailClient() {
     [groupMembers, repos.users],
   );
 
-  const effectiveMembersMap = membersWithUsers ?? new Map<string, { name: string }>();
+  const effectiveMembersMap = useMemo(
+    () => membersWithUsers ?? new Map<string, { name: string }>(),
+    [membersWithUsers],
+  );
 
   useEffect(() => {
     if (!expenses.length) {
@@ -195,7 +198,7 @@ export default function GroupDetailClient() {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => router.back()}
+            onClick={() => navigate(-1)}
             className="rounded-lg p-2 hover:bg-surface-muted"
             aria-label="Go back"
           >
@@ -266,7 +269,7 @@ export default function GroupDetailClient() {
               splits={splitsMap}
               members={effectiveMembersMap}
               currentUserId={currentUser?.id ?? ""}
-              onEdit={(id) => router.push(ROUTES.EDIT_EXPENSE(id))}
+              onEdit={(id) => navigate(ROUTES.EDIT_EXPENSE(id))}
               onDelete={(id) => setDeleteTarget(id)}
             />
           </div>

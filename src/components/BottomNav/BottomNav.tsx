@@ -1,13 +1,12 @@
 "use client";
 // Implements: TASK-029
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useLocation } from "react-router-dom";
 import { NAV_ITEMS } from "./constants";
 import { ROUTES } from "@/constants/routes";
 
 export function BottomNav() {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
 
   return (
     <nav
@@ -15,7 +14,7 @@ export function BottomNav() {
       data-testid="bottom-nav"
     >
       <div className="flex w-full max-w-lg items-end justify-around">
-        {NAV_ITEMS.map((item, index) => {
+        {NAV_ITEMS.map((item) => {
           const isAddExpense = item.href === ROUTES.ADD_EXPENSE;
           const isActive = pathname === item.href;
 
@@ -23,7 +22,7 @@ export function BottomNav() {
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 className="-mt-6 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-accent shadow-lg transition-colors hover:bg-accent/90"
                 aria-label={item.label}
               >
@@ -35,7 +34,7 @@ export function BottomNav() {
           return (
             <Link
               key={item.href}
-              href={item.href}
+              to={item.href}
               className={`flex flex-col items-center gap-1 px-2 py-1 ${
                 isActive ? "text-white" : "text-white/60"
               }`}

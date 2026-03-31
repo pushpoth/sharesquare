@@ -20,10 +20,6 @@ export interface SplitSelectorProps {
   readOnly?: boolean;
 }
 
-function centsToDollars(cents: number): number {
-  return cents / 100;
-}
-
 export function SplitSelector({
   members,
   totalCents,
@@ -79,7 +75,6 @@ export function SplitSelector({
   );
 
   const splitsSumError = validateSplitsSum(splits, totalCents);
-  const totalDollars = centsToDollars(totalCents);
 
   return (
     <div className="space-y-3">

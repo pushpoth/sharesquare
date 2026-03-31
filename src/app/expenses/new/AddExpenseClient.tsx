@@ -2,7 +2,7 @@
 // Implements: TASK-048
 
 import { useCallback, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useGroups } from "@/hooks/useGroups";
 import { useExpenses } from "@/hooks/useExpenses";
@@ -14,8 +14,8 @@ import { ROUTES } from "@/constants/routes";
 import { useToast } from "@/components/Toast/Toast";
 
 export default function AddExpenseClient() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const groupIdParam = searchParams.get("groupId");
   const { groups } = useGroups();
   const { addExpense } = useExpenses();
@@ -70,14 +70,14 @@ export default function AddExpenseClient() {
         data.splits.map((s) => ({ userId: s.userId, amountOwed: s.amountOwed }))
       );
       showToast("Expense added successfully");
-      router.push(ROUTES.GROUP_DETAIL(selectedGroupId));
+      navigate(ROUTES.GROUP_DETAIL(selectedGroupId));
     },
-    [selectedGroupId, currentUser, addExpense, showToast, router]
+    [selectedGroupId, currentUser, addExpense, showToast, navigate]
   );
 
   const handleCancel = useCallback(() => {
-    router.back();
-  }, [router]);
+    navigate(-1);
+  }, [navigate]);
 
   return (
     <AppLayout>

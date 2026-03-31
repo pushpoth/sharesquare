@@ -1,16 +1,17 @@
 # Tasks: ShareSquare
-> Version: 0.1 | Status: Draft | Last updated: 2026-03-10
-> Implements: spec.md v0.1 | design.md v0.1
+
+> Version: 0.3 | Status: Draft | Last updated: 2026-03-31
+> Implements: spec.md v0.2 | design.md v0.3
 
 ---
 
 ## Summary
 
-| Status | Count |
-|--------|-------|
-| ⬜ Pending | 49 |
-| 🔄 In Progress | 0 |
-| ✅ Done | 0 |
+| Status       | Count |
+| ------------ | ----- |
+| ⬜ Pending   | 60    |
+| 🔄 In Progress | 0   |
+| ✅ Done      | 0     |
 
 ---
 
@@ -22,30 +23,34 @@
 
 ---
 
-### TASK-001: Initialize Next.js project with TypeScript and Tailwind CSS
+### TASK-001: Initialize Vite project with React, TypeScript, and Tailwind CSS
+
 **Phase:** infra
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-026, REQ-027
 **Depends on:** none
 
 **Description:**
-Create a new Next.js 15 project with App Router, TypeScript, and Tailwind CSS 4. Configure `next.config.ts` for static export (`output: 'export'`). Set up the Tailwind config with the ShareSquare color palette tokens from the design doc (primary, primary-dark, primary-light, accent, surface, text-primary, etc.). Create `src/styles/globals.css` with Tailwind directives and base styles. Set up `tsconfig.json` with path aliases (`@/` → `src/`). Create `.env.example` with `NEXT_PUBLIC_GOOGLE_CLIENT_ID` placeholder. Update `.gitignore` for Next.js.
+Scaffold a **Vite 6** project with **React** and **TypeScript**. Add **Tailwind CSS 4** with the ShareSquare color palette tokens from design.md (`primary`, `primary-dark`, `primary-light`, `accent`, `surface`, `text-primary`, etc.). Create `src/styles/globals.css` with Tailwind directives. Configure `tsconfig.json` with path aliases (`@/` → `src/`). Create `.env.example` with `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` placeholders (no secrets). Add `index.html` at repo root. Update `.gitignore` for Vite/Node.
 
 **Acceptance Criteria:**
-- [ ] `npm run dev` starts the Next.js dev server without errors
-- [ ] `npm run build` produces a static export in `out/` directory
-- [ ] TypeScript strict mode is enabled
-- [ ] Tailwind CSS classes render correctly with custom color tokens
-- [ ] Path aliases `@/` resolve to `src/` directory
+
+- [x] `npm run dev` starts the Vite dev server (default port 5173) without errors
+- [x] `npm run build` produces a static `dist/` output
+- [x] TypeScript strict mode is enabled
+- [x] Tailwind CSS classes render correctly with custom color tokens
+- [x] Path aliases `@/` resolve to `src/`
 
 **Test Plan:**
+
 - **Unit:** N/A (project scaffold)
-- **Manual:** Verify dev server starts, build succeeds, Tailwind classes apply
+- **Manual:** Verify dev server, build, Tailwind classes apply
 
 ---
 
 ### TASK-002: Configure ESLint, Prettier, and Jest testing framework
+
 **Phase:** infra
 **Effort:** S
 **Status:** ⬜ Pending
@@ -53,22 +58,25 @@ Create a new Next.js 15 project with App Router, TypeScript, and Tailwind CSS 4.
 **Depends on:** TASK-001
 
 **Description:**
-Set up ESLint 9 with Next.js and TypeScript rules. Configure Prettier for consistent formatting. Set up Jest 29 with React Testing Library 16, including `jest.config.ts` (with `ts-jest` or SWC transform), `jest.setup.ts` (RTL matchers), and module name mapping for path aliases. Add npm scripts: `lint`, `lint:fix`, `format`, `format:check`, `test`, `test:watch`, `test:coverage`, `typecheck`.
+Set up **ESLint 9** with TypeScript and React (Vite-appropriate config — not Next.js plugins). Configure Prettier. Set up **Jest 29** with **React Testing Library 16**, `jest.config.ts` (e.g. `ts-jest` or `babel-jest`), `jest.setup.ts` (RTL matchers), and module name mapping for `@/` aliases. Add npm scripts: `lint`, `lint:fix`, `format`, `format:check`, `test`, `test:watch`, `test:coverage`, `typecheck`.
 
 **Acceptance Criteria:**
+
 - [ ] `npm run lint` runs ESLint with zero errors on scaffolded code
 - [ ] `npm run format:check` passes
 - [ ] `npm test` runs Jest with zero configuration errors
-- [ ] A sample test file passes (`src/__tests__/setup.test.ts` — trivial assertion)
+- [ ] A sample test file passes (`src/__tests__/setup.test.ts`)
 - [ ] `npm run typecheck` succeeds
 
 **Test Plan:**
+
 - **Unit:** Sample test `expect(true).toBe(true)` passes
 - **Manual:** Run all lint/format/test commands
 
 ---
 
-### TASK-003: Configure PWA with Serwist
+### TASK-003: Configure PWA with vite-plugin-pwa
+
 **Phase:** infra
 **Effort:** S
 **Status:** ⬜ Pending
@@ -76,17 +84,19 @@ Set up ESLint 9 with Next.js and TypeScript rules. Configure Prettier for consis
 **Depends on:** TASK-001
 
 **Description:**
-Install `@serwist/next` and `serwist`. Configure the Next.js plugin for service worker generation with precaching of static assets. Create `public/manifest.json` with app name "ShareSquare", theme color, background color, display "standalone", and icon placeholders (192x192, 512x512). Create placeholder PWA icons. Add `<link rel="manifest">` and meta tags to the root layout.
+Install **`vite-plugin-pwa`** (Workbox-based). Configure precaching of the **app shell and static assets** in `vite.config.ts`. Create `public/manifest.json` with app name "ShareSquare", theme color, background color, display `standalone`, and icon placeholders (192x192, 512x512). Register the plugin so a service worker is generated on `npm run build`. Inject manifest link and meta tags via `index.html` or Vite plugin options.
 
 **Acceptance Criteria:**
+
 - [ ] Service worker is generated during `npm run build`
-- [ ] `manifest.json` is served at `/manifest.json` with correct fields
-- [ ] App is installable as PWA when served over HTTPS (or localhost)
-- [ ] Offline access to previously cached pages works
+- [ ] `manifest.json` is served with correct fields
+- [ ] App is installable as PWA over HTTPS (or localhost)
+- [ ] Documentation states **online-first** data (no requirement for offline expense CRUD)
 
 **Test Plan:**
-- **Manual:** Build, serve, verify service worker registers in DevTools → Application tab
-- **Manual:** Lighthouse PWA audit scores > 90
+
+- **Manual:** Build, preview, verify SW in DevTools → Application
+- **Manual:** Lighthouse PWA audit (target strong installability / PWA score)
 
 ---
 
@@ -95,6 +105,7 @@ Install `@serwist/next` and `serwist`. Configure the Next.js plugin for service 
 ---
 
 ### TASK-004: Define TypeScript types for all entities
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -102,21 +113,24 @@ Install `@serwist/next` and `serwist`. Configure the Next.js plugin for service 
 **Depends on:** TASK-001
 
 **Description:**
-Create type definition files following the data schema in design.md. All monetary fields use `number` (integer cents). Files: `src/types/user.ts`, `src/types/group.ts`, `src/types/expense.ts`, `src/types/settlement.ts`, `src/types/activity.ts`. Export barrel file `src/types/index.ts`.
+Create type definition files aligned with **design.md** (Postgres-backed domain types). Files: `src/types/user.ts`, `group.ts`, `expense.ts`, `settlement.ts`, `activity.ts`. All monetary fields use `number` (**integer cents**). **`User.id`** is **UUID** string (matches `auth.users.id`). Export barrel `src/types/index.ts`.
 
 **Acceptance Criteria:**
-- [ ] All entity interfaces match the Dexie schema in design.md
-- [ ] `GroupMember.role` is typed as `'admin' | 'member'`
-- [ ] `ActivityEntry.type` is a union of all activity types
-- [ ] `Expense.amount`, `ExpensePayer.amount`, `ExpenseSplit.amountOwed`, `Settlement.amount` are `number` (cents)
+
+- [ ] Entity interfaces match the logical schema in design.md §6
+- [ ] `GroupMember.role` is `'admin' | 'member'`
+- [ ] `ActivityEntry.type` is the full union of activity types
+- [ ] Expense, payer, split, settlement amounts are `number` (cents)
 - [ ] All types export from `src/types/index.ts`
 
 **Test Plan:**
-- **Unit:** TypeScript compilation succeeds (covered by `npm run typecheck`)
+
+- **Unit:** `npm run typecheck` succeeds
 
 ---
 
 ### TASK-005: Create application constants
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -124,20 +138,22 @@ Create type definition files following the data schema in design.md. All monetar
 **Depends on:** TASK-001
 
 **Description:**
-Create `src/constants/categories.ts` with the predefined expense categories (Food, Rent, Utilities, Transport, Entertainment, Shopping, Health, Travel, Other) including display labels and icons. Create `src/constants/routes.ts` with all route paths. Create `src/constants/colors.ts` with Tailwind token references for programmatic use.
+Create `src/constants/categories.ts` (9 categories with `value`, `label`, `icon`). Create `src/constants/routes.ts` with route paths matching **React Router** (`/`, `/home`, `/groups`, `/groups/:id`, `/expenses/new`, `/expenses/:id/edit`, `/activity`, `/settings`). Create `src/constants/colors.ts` for programmatic Tailwind token references.
 
 **Acceptance Criteria:**
-- [ ] `EXPENSE_CATEGORIES` array contains all 9 categories with `value`, `label`, and `icon` fields
-- [ ] `ROUTES` object maps all page paths
-- [ ] Constants are importable from `@/constants/...`
+
+- [ ] `EXPENSE_CATEGORIES` length === 9 with required fields
+- [ ] `ROUTES` covers all pages
+- [ ] Constants importable from `@/constants/...`
 
 **Test Plan:**
-- **Unit:** Verify category list length === 9, all have required fields
-- **Unit:** Verify routes object has all expected keys
+
+- **Unit:** Category list and routes keys sanity checks
 
 ---
 
 ### TASK-006: Implement utility functions
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -145,20 +161,18 @@ Create `src/constants/categories.ts` with the predefined expense categories (Foo
 **Depends on:** TASK-001
 
 **Description:**
-Create `src/utils/currency.ts`: `centsToDollars(cents)`, `dollarsToCents(dollars)`, `formatCurrency(cents)` → "$125.00". Create `src/utils/dateUtils.ts`: `formatDate(iso)`, `relativeTime(iso)` → "2h ago", `isToday(iso)`, `toISODate(date)`. Create `src/utils/validation.ts`: `validateSplitsSum(splits, totalCents)`, `validateAmount(cents)`, `validateRequired(value, fieldName)`. Create `src/utils/idGenerator.ts`: wrapper around `nanoid` for consistent 21-char IDs. Each file has a co-located `.test.ts`.
+Create `src/utils/currency.ts`: `centsToDollars`, `dollarsToCents`, `formatCurrency(cents, currencyCode?)` (support multi-currency display per REQ-032). Create `src/utils/dateUtils.ts`: `formatDate`, `relativeTime`, `isToday`, `toISODate`. Create `src/utils/validation.ts`: `validateSplitsSum`, `validateAmount`, `validateRequired`. **Do not** use `nanoid` for primary keys — UUIDs come from Postgres / `auth.users`. Optional: `isValidUuid` helper. Co-located `.test.ts` files.
 
 **Acceptance Criteria:**
-- [ ] `formatCurrency(12500)` returns `"$125.00"`
+
+- [ ] `formatCurrency(12500)` works for default USD
 - [ ] `dollarsToCents(125.00)` returns `12500`
-- [ ] `relativeTime` produces human-readable strings ("2h ago", "just now")
-- [ ] `validateSplitsSum` returns error when splits don't equal total
-- [ ] `idGenerator` produces unique 21-char strings
+- [ ] `validateSplitsSum` fails when splits ≠ total
+- [ ] Relative time strings are human-readable
 
 **Test Plan:**
-- **Unit:** Test currency conversions with edge cases (0, 1, 999999, rounding)
-- **Unit:** Test date formatting and relative time calculations
-- **Unit:** Test validation pass/fail cases
-- **Unit:** Test ID uniqueness (generate 1000, assert all unique)
+
+- **Unit:** Currency, dates, validation edge cases
 
 ---
 
@@ -166,29 +180,33 @@ Create `src/utils/currency.ts`: `centsToDollars(cents)`, `dollarsToCents(dollars
 
 ---
 
-### TASK-007: Set up Dexie.js database schema
+### TASK-007: Author Supabase SQL migrations and RLS policies
+
 **Phase:** backend
-**Effort:** S
+**Effort:** M
 **Status:** ⬜ Pending
-**Implements:** REQ-023
+**Implements:** REQ-023, REQ-029
 **Depends on:** TASK-004
 
 **Description:**
-Install `dexie` and `dexie-react-hooks`. Create `src/repositories/indexeddb/database.ts` with the `ShareSquareDB` class extending Dexie. Define version 1 schema with all 8 tables and their indices as specified in the design doc. Export a singleton `db` instance.
+Add **`supabase/migrations`** (or project-documented migration path) defining: `profiles` (PK → `auth.users.id`), `groups` with **`invite_code TEXT UNIQUE NOT NULL`**, `group_members`, `expenses`, `expense_payers`, `expense_splits`, `settlements`, `activity_entries` — FKs and `ON DELETE CASCADE` where appropriate. Implement **RLS** policy *intent* from design.md: users read/update own profile; members read/write group-scoped data per rules; invite lookup policy for authenticated join flow. Optionally add RPCs `create_group_with_admin` and `create_expense_with_splits` for atomic writes. Document how to run migrations against the linked Supabase project.
 
 **Acceptance Criteria:**
-- [ ] `ShareSquareDB` class defines all 8 tables with correct index strings
-- [ ] Singleton `db` instance is exported for use by repositories
-- [ ] `&email` unique index on users, `&inviteCode` on groups
-- [ ] Compound index `[groupId+userId]` on groupMembers
+
+- [ ] All tables and constraints from design.md §4 / §6 are represented in SQL
+- [ ] RLS is **enabled** on all public app tables
+- [ ] Policies allow: create group (authenticated), join by invite code (authenticated lookup + insert membership), CRUD expenses for group members subject to BR-03/BR-04
+- [ ] `invite_code` uniqueness enforced at DB level
 
 **Test Plan:**
-- **Unit:** Mock Dexie, verify schema definition matches expected tables and indices
-- **Integration:** (Deferred to repo tests) Open DB in fake-indexeddb, verify tables exist
+
+- **Manual:** Apply migrations on a dev project; verify with Supabase SQL editor / policy tests
+- **Optional:** pgTAP or Supabase CLI tests if adopted
 
 ---
 
 ### TASK-008: Define repository interfaces
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -196,20 +214,22 @@ Install `dexie` and `dexie-react-hooks`. Create `src/repositories/indexeddb/data
 **Depends on:** TASK-004
 
 **Description:**
-Create interface files: `src/repositories/interfaces/IUserRepository.ts`, `IGroupRepository.ts`, `IExpenseRepository.ts`, `ISettlementRepository.ts`, `IActivityRepository.ts`. Each interface declares async methods matching the contracts in design.md section 4. Create custom error classes in `src/repositories/errors.ts`: `NotFoundError`, `DuplicateError`, `ValidationError`.
+Create `src/repositories/interfaces/*.ts` for `IUserRepository`, `IGroupRepository`, `IExpenseRepository`, `ISettlementRepository`, `IActivityRepository` per design.md §5. Add `src/repositories/errors.ts`: `NotFoundError`, `DuplicateError`, `ValidationError`.
 
 **Acceptance Criteria:**
-- [ ] All 5 repository interfaces are defined with full method signatures
-- [ ] All methods return `Promise<...>` (async contract)
-- [ ] Error classes extend `Error` with appropriate `name` and `code` properties
-- [ ] Interfaces use entity types from `src/types/`
+
+- [ ] All five interfaces match design.md method signatures
+- [ ] Methods return `Promise<...>`
+- [ ] Error classes extend `Error` with `name` / optional `code`
 
 **Test Plan:**
-- **Unit:** TypeScript compilation succeeds (`npm run typecheck`)
+
+- **Unit:** `npm run typecheck`
 
 ---
 
-### TASK-009: Implement DexieUserRepository
+### TASK-009: Implement Supabase profile / user repository
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -217,21 +237,22 @@ Create interface files: `src/repositories/interfaces/IUserRepository.ts`, `IGrou
 **Depends on:** TASK-007, TASK-008, TASK-006
 
 **Description:**
-Create `src/repositories/indexeddb/UserRepository.ts` implementing `IUserRepository`. Methods: `findById`, `findByEmail`, `create` (auto-generates ID via idGenerator, sets createdAt), `getAll`. Use `fake-indexeddb` for tests. Create co-located test file.
+Create `src/repositories/supabase/UserRepository.ts` (and `client.ts` singleton if not already present) implementing `IUserRepository`. Map `profiles` rows to `User` domain type (snake_case ↔ camelCase). `findById` uses `auth.users` id. `create` may be unused if profiles are created by trigger/upsert only — implement or document. Co-located tests with **mocked Supabase client**.
 
 **Acceptance Criteria:**
-- [ ] `create()` generates a nanoid and sets createdAt timestamp
-- [ ] `findByEmail()` returns undefined when no user exists with that email
-- [ ] `findByEmail()` returns the user when found
-- [ ] `create()` with duplicate email throws `DuplicateError`
+
+- [ ] `findByEmail` / `findById` query `profiles` under RLS
+- [ ] Duplicate or constraint errors map to `DuplicateError` where applicable
+- [ ] No Supabase calls outside this module except shared `client.ts`
 
 **Test Plan:**
-- **Unit:** Test all CRUD methods against fake-indexeddb
-- **Unit:** Test duplicate email handling
+
+- **Unit:** Mock `@supabase/supabase-js` client responses
 
 ---
 
-### TASK-010: Implement DexieGroupRepository
+### TASK-010: Implement SupabaseGroupRepository
+
 **Phase:** backend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -239,23 +260,24 @@ Create `src/repositories/indexeddb/UserRepository.ts` implementing `IUserReposit
 **Depends on:** TASK-007, TASK-008, TASK-006
 
 **Description:**
-Create `src/repositories/indexeddb/GroupRepository.ts` implementing `IGroupRepository`. Methods: `findById`, `findByInviteCode`, `getByUserId` (join through groupMembers), `create` (auto-generates ID, createdAt), `update`, `delete` (cascade: remove groupMembers), `addMember`, `getMembers`, `isMember`. Create co-located test file.
+Create `src/repositories/supabase/GroupRepository.ts` implementing `IGroupRepository`: `findById`, `findByInviteCode` (case-normalized), `getByUserId`, `create` (group + admin member — RPC or multi-insert transaction), `update`, `delete`, `addMember`, `getMembers`, `isMember`. Handle **unique violation on `invite_code`** by surfacing `DuplicateError` for retry at service layer. Co-located tests with mocked client.
 
 **Acceptance Criteria:**
-- [ ] `create()` inserts both a Group and a GroupMember (creator as admin)
-- [ ] `getByUserId()` returns all groups where user is a member
-- [ ] `addMember()` throws `DuplicateError` if user already in group
-- [ ] `findByInviteCode()` is case-insensitive (uppercases input)
-- [ ] `delete()` removes group and all associated groupMembers
+
+- [ ] `create` persists group and creator as admin
+- [ ] `findByInviteCode` is case-insensitive
+- [ ] `addMember` throws `DuplicateError` if already member
+- [ ] `delete` removes group and cascaded data per schema/RPC
 
 **Test Plan:**
-- **Unit:** Test all CRUD methods against fake-indexeddb
-- **Unit:** Test duplicate member check, cascade delete
-- **Unit:** Test case-insensitive invite code lookup
+
+- **Unit:** Mock Supabase for each method
+- **Integration:** Optional against real dev project
 
 ---
 
-### TASK-011: Implement DexieExpenseRepository
+### TASK-011: Implement SupabaseExpenseRepository
+
 **Phase:** backend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -263,22 +285,22 @@ Create `src/repositories/indexeddb/GroupRepository.ts` implementing `IGroupRepos
 **Depends on:** TASK-007, TASK-008, TASK-006
 
 **Description:**
-Create `src/repositories/indexeddb/ExpenseRepository.ts` implementing `IExpenseRepository`. Methods: `findById`, `getByGroupId`, `create` (transactional: insert expense + payers + splits), `update` (transactional: update expense, replace payers + splits), `delete` (transactional: remove expense + payers + splits), `getPayers`, `getSplits`. Use Dexie transactions for atomicity. Create co-located test file.
+Create `src/repositories/supabase/ExpenseRepository.ts` implementing `IExpenseRepository`. Use **transaction or RPC** for atomic create/update/delete of expense + payers + splits. `getByGroupId` ordered by date descending. Co-located tests.
 
 **Acceptance Criteria:**
-- [ ] `create()` inserts expense, payer, and split records in one transaction
-- [ ] `update()` replaces payer and split records atomically
-- [ ] `delete()` removes expense and all related payer/split records
-- [ ] `getByGroupId()` returns expenses sorted by date descending
+
+- [ ] Create/update/delete maintain payer and split consistency
+- [ ] `getByGroupId` sort order is correct
+- [ ] Errors from PostgREST map to typed errors where useful
 
 **Test Plan:**
-- **Unit:** Test transactional create/update/delete against fake-indexeddb
-- **Unit:** Test cascade delete removes payers and splits
-- **Unit:** Test sort order of getByGroupId
+
+- **Unit:** Mocked client for transactional behavior
 
 ---
 
-### TASK-012: Implement DexieSettlementRepository
+### TASK-012: Implement SupabaseSettlementRepository
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -286,19 +308,21 @@ Create `src/repositories/indexeddb/ExpenseRepository.ts` implementing `IExpenseR
 **Depends on:** TASK-007, TASK-008, TASK-006
 
 **Description:**
-Create `src/repositories/indexeddb/SettlementRepository.ts` implementing `ISettlementRepository`. Methods: `findById`, `getByGroupId`, `create` (auto-generates ID, sets createdAt), `delete`. Create co-located test file.
+Create `src/repositories/supabase/SettlementRepository.ts` implementing `ISettlementRepository`. Co-located tests.
 
 **Acceptance Criteria:**
-- [ ] `create()` generates ID and sets createdAt
-- [ ] `getByGroupId()` returns settlements sorted by date descending
-- [ ] `delete()` removes the settlement record
+
+- [ ] `getByGroupId` sorted by date descending
+- [ ] `create` / `delete` work under RLS
 
 **Test Plan:**
-- **Unit:** Test all CRUD methods against fake-indexeddb
+
+- **Unit:** Mocked Supabase client
 
 ---
 
-### TASK-013: Implement DexieActivityRepository
+### TASK-013: Implement SupabaseActivityRepository
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -306,20 +330,21 @@ Create `src/repositories/indexeddb/SettlementRepository.ts` implementing `ISettl
 **Depends on:** TASK-007, TASK-008, TASK-006
 
 **Description:**
-Create `src/repositories/indexeddb/ActivityRepository.ts` implementing `IActivityRepository`. Methods: `getByUserId(userId, limit?)` sorted by timestamp descending, `log(entry)` auto-generates ID and timestamp. Create co-located test file.
+Create `src/repositories/supabase/ActivityRepository.ts` implementing `IActivityRepository`. `getByUserId` returns entries for the user's groups, newest first, respects `limit`. Co-located tests.
 
 **Acceptance Criteria:**
-- [ ] `log()` generates ID and sets timestamp
-- [ ] `getByUserId()` returns entries for groups the user belongs to, sorted newest first
-- [ ] `getByUserId()` respects the optional `limit` parameter
+
+- [ ] `log` inserts activity row
+- [ ] `getByUserId` ordering and limit correct
 
 **Test Plan:**
-- **Unit:** Test log and retrieval against fake-indexeddb
-- **Unit:** Test limit parameter
+
+- **Unit:** Mocked client
 
 ---
 
-### TASK-014: Create repository provider and factory
+### TASK-014: Create Supabase client singleton and repository factory
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -327,15 +352,17 @@ Create `src/repositories/indexeddb/ActivityRepository.ts` implementing `IActivit
 **Depends on:** TASK-009, TASK-010, TASK-011, TASK-012, TASK-013
 
 **Description:**
-Create `src/repositories/index.ts` that instantiates all Dexie repositories with the singleton DB instance and exports them as a `repositories` object. This is the single entry point used by the RepositoryContext. Structure allows future swap to different implementations.
+Create `src/repositories/supabase/client.ts` exporting a browser **`createClient`** instance using `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Create `src/repositories/index.ts` that constructs all repositories with this client and exports a `repositories` object for `RepositoryContext`.
 
 **Acceptance Criteria:**
-- [ ] `repositories` object exposes `users`, `groups`, `expenses`, `settlements`, `activity` properties
-- [ ] Each property is an instance of the corresponding Dexie repository
-- [ ] Changing the import in `index.ts` is the only change needed to swap implementations
+
+- [ ] `repositories` exposes `users`, `groups`, `expenses`, `settlements`, `activity`
+- [ ] **Service role key** is never imported in app source
+- [ ] Single shared client instance
 
 **Test Plan:**
-- **Unit:** Verify factory returns objects implementing all interface methods
+
+- **Unit:** Factory returns objects with expected methods (mock client)
 
 ---
 
@@ -343,54 +370,54 @@ Create `src/repositories/index.ts` that instantiates all Dexie repositories with
 
 ---
 
-### TASK-015: Implement AuthService
+### TASK-015: Implement Supabase Auth session helpers
+
 **Phase:** backend
 **Effort:** M
 **Status:** ⬜ Pending
 **Implements:** REQ-001, REQ-002
-**Depends on:** TASK-009, TASK-006
+**Depends on:** TASK-009, TASK-014
 
 **Description:**
-Create `src/services/authService.ts`. Functions: `decodeGoogleCredential(credential: string)` → decode the Google ID token JWT to extract `{email, name, picture}` (base64 decode, no server-side verification needed for client-only MVP), `loginOrCreateUser(repos, googleProfile)` → find or create user in repository, `getSession()` / `setSession(user)` / `clearSession()` → manage auth state in localStorage. Create co-located test file.
+Create `src/services/authService.ts` (or split `supabaseAuth.ts`): `signInWithGoogle()` → `supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } })` (and/or magic link if enabled); `signOut()` → `supabase.auth.signOut()`; `getSession()`; `onAuthStateChange` subscription helper; **`ensureProfile(supabase, user)`** → upsert `profiles` from `user.user_metadata` / email after sign-in. **Remove** Google JWT decode in the app — Supabase handles OAuth. Co-located tests with mocked client.
 
 **Acceptance Criteria:**
-- [ ] `decodeGoogleCredential` extracts email, name, and picture from a Google ID token
-- [ ] `loginOrCreateUser` creates a new user on first login, returns existing on subsequent
-- [ ] `setSession` persists user ID to localStorage
-- [ ] `getSession` retrieves persisted user ID
-- [ ] `clearSession` removes the session
+
+- [ ] Sign-in and sign-out delegate to Supabase Auth
+- [ ] Profile upsert runs after first sign-in
+- [ ] No `@react-oauth/google` dependency
 
 **Test Plan:**
-- **Unit:** Test JWT decode with a mock token payload
-- **Unit:** Test loginOrCreateUser with mock repository (new user + returning user)
-- **Unit:** Test session get/set/clear with mock localStorage
+
+- **Unit:** Mock `supabase.auth` methods and profile upsert
 
 ---
 
 ### TASK-016: Implement InviteCodeService
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
-**Implements:** REQ-003, REQ-004
+**Implements:** REQ-003, REQ-004, REQ-029
 **Depends on:** TASK-010
 
 **Description:**
-Create `src/services/inviteCodeService.ts`. Function: `generateUniqueCode(groupRepo)` → generate a human-readable alphanumeric code (format: `XXXX-XXXX`, 8 chars + hyphen), check uniqueness against repository, retry on collision (max 10 attempts). `normalizeCode(input)` → uppercase, trim, strip spaces. Create co-located test file.
+Create `src/services/inviteCodeService.ts`. **`generateCode()`** → human-readable pattern (e.g. `XXXX-XXXX`, uppercase alphanumeric). **`normalizeCode(input)`** → uppercase, trim, strip spaces. **No HTTP calls to `/api/invite`.** Registration is **implicit** when `GroupRepository.create` inserts a row; on unique constraint failure on `invite_code`, caller regenerates and retries. Optional: thin `resolveGroupByCode` wrapper that calls `groupsRepository.findByInviteCode`.
 
 **Acceptance Criteria:**
-- [ ] Generated codes match pattern `/^[A-Z0-9]{4}-[A-Z0-9]{4}$/`
-- [ ] Codes are checked for uniqueness against the group repository
-- [ ] Collisions trigger regeneration (up to 10 attempts)
-- [ ] `normalizeCode` uppercases and trims input
+
+- [ ] Generated codes match agreed regex pattern
+- [ ] `normalizeCode` handles lowercase and spaces
+- [ ] No Vercel KV or Next API usage
 
 **Test Plan:**
-- **Unit:** Test code format validation (regex match)
-- **Unit:** Test collision handling with mock repo returning existing code
-- **Unit:** Test normalizeCode with various inputs (lowercase, spaces, mixed)
+
+- **Unit:** Regex and normalization tests
 
 ---
 
 ### TASK-017: Implement BalanceService
+
 **Phase:** backend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -398,24 +425,22 @@ Create `src/services/inviteCodeService.ts`. Function: `generateUniqueCode(groupR
 **Depends on:** TASK-004, TASK-006
 
 **Description:**
-Create `src/services/balanceService.ts`. Pure functions (no repo dependency — receive data as arguments): `calculateGroupBalances(expenses, payers, splits, settlements)` → returns `Map<userId, netBalanceCents>` where positive = owed to user, negative = user owes. `calculateOverallBalances(groupBalanceMaps[])` → aggregate cross-group. `calculatePairwiseBalances(expenses, payers, splits, settlements)` → returns array of `{fromUserId, toUserId, amount}` raw debts. All calculations use integer cents. Create co-located test file.
+Same as prior spec: pure functions `calculateGroupBalances`, `calculateOverallBalances`, `calculatePairwiseBalances` — integer cents, no repo imports. Co-located tests.
 
 **Acceptance Criteria:**
-- [ ] Given expenses with payers and splits, net balances are correct (paid - owed)
-- [ ] Settlements reduce the balance between the two involved users
-- [ ] Cross-group aggregation sums balances per user across multiple groups
-- [ ] Pairwise balances correctly track who owes whom
-- [ ] All calculations use integer arithmetic (no floating point)
+
+- [ ] Net balances correct including settlements
+- [ ] Cross-group aggregation correct
+- [ ] No floating-point money math
 
 **Test Plan:**
-- **Unit:** Test with single expense, single payer, equal split
-- **Unit:** Test with multiple expenses and settlements
-- **Unit:** Test cross-group aggregation
-- **Unit:** Test edge cases: zero expenses, self-payment, single member group
+
+- **Unit:** Matrix of expense/settlement scenarios
 
 ---
 
 ### TASK-018: Implement DebtSimplificationService
+
 **Phase:** backend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -423,25 +448,21 @@ Create `src/services/balanceService.ts`. Pure functions (no repo dependency — 
 **Depends on:** TASK-017
 
 **Description:**
-Create `src/services/debtSimplificationService.ts`. Function: `simplifyDebts(netBalances: Map<string, number>)` → returns minimal `Array<{from, to, amount}>` using the greedy net-balance algorithm from design.md section 12. Separate into creditors/debtors, sort, match largest pairs, emit settlements until all balanced. Create co-located test file with extensive edge cases.
+`debtSimplificationService.ts` — greedy net-balance algorithm per design.md §13. Co-located tests.
 
 **Acceptance Criteria:**
-- [ ] A→B $10, B→C $10 simplifies to A→C $10 (1 transaction instead of 2)
-- [ ] Circular debts (A→B→C→A) resolve to net transfers
-- [ ] All-zero balances produce empty result
-- [ ] Sum of simplified settlements equals sum of input balances
-- [ ] Result has fewer or equal transactions compared to pairwise debts
+
+- [ ] Chain and circular cases simplified correctly
+- [ ] All-zero → empty result
 
 **Test Plan:**
-- **Unit:** Test trivial case (2 users, 1 debt)
-- **Unit:** Test chain simplification (A→B→C)
-- **Unit:** Test circular debts
-- **Unit:** Test large group (10 members with random balances)
-- **Unit:** Test all-zero / already-settled scenarios
+
+- **Unit:** Extensive edge cases
 
 ---
 
 ### TASK-019: Implement ExportService
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -449,22 +470,21 @@ Create `src/services/debtSimplificationService.ts`. Function: `simplifyDebts(net
 **Depends on:** TASK-004, TASK-006
 
 **Description:**
-Create `src/services/exportService.ts`. Function: `exportAllData(repos)` → read all data from all repositories, assemble into the JSON export schema `{version, exportedAt, users, groups, groupMembers, expenses, expensePayers, expenseSplits, settlements}`, return as a JSON string. `downloadJson(jsonString, filename)` → trigger browser download using Blob + anchor click. Create co-located test file.
+`exportService.ts`: `exportAllData(repos, userId)` fetches via repositories (Supabase-backed), builds JSON `{ version, exportedAt, users, groups, ... }`. `downloadJson` via Blob. Co-located tests with **mock repos**.
 
 **Acceptance Criteria:**
-- [ ] Exported JSON includes all entities from all tables
-- [ ] Export includes a `version` field (e.g., "1.0") and `exportedAt` timestamp
-- [ ] Empty database exports valid JSON with empty arrays
-- [ ] `downloadJson` creates and clicks a download link
+
+- [ ] Schema includes `version` and `exportedAt`
+- [ ] Empty data exports valid minimal JSON
 
 **Test Plan:**
-- **Unit:** Test export with mock repos returning sample data, verify JSON structure
-- **Unit:** Test export with empty repos
-- **Unit:** Test downloadJson creates blob URL (mock DOM)
+
+- **Unit:** Mock repos return fixtures; assert JSON shape
 
 ---
 
 ### TASK-020: Implement ImportService
+
 **Phase:** backend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -472,24 +492,21 @@ Create `src/services/exportService.ts`. Function: `exportAllData(repos)` → rea
 **Depends on:** TASK-004, TASK-006, TASK-019
 
 **Description:**
-Create `src/services/importService.ts`. Functions: `validateImportJson(jsonString)` → parse JSON, validate against expected schema (check version, required fields, type checks), return typed data or list of validation errors. `importData(repos, data, strategy: 'overwrite' | 'skip')` → write all entities to repositories, handling ID conflicts per strategy. Create co-located test file.
+`importService.ts`: `validateImportJson`, `importData(repos, data, strategy)` — writes through repositories to Supabase; handle conflicts per strategy. Co-located tests.
 
 **Acceptance Criteria:**
-- [ ] Valid JSON passes validation and returns typed data
-- [ ] Invalid JSON returns descriptive error messages
-- [ ] Missing required fields are caught with field-specific errors
-- [ ] 'overwrite' strategy replaces existing records with matching IDs
-- [ ] 'skip' strategy ignores records with matching IDs
+
+- [ ] Invalid JSON fails with descriptive errors
+- [ ] Overwrite/skip strategies respected (mock repos)
 
 **Test Plan:**
-- **Unit:** Test validation with valid export JSON
-- **Unit:** Test validation with malformed JSON, missing fields, wrong types
-- **Unit:** Test import with overwrite strategy (mock repos)
-- **Unit:** Test import with skip strategy (mock repos)
+
+- **Unit:** Validation and import with mocks
 
 ---
 
 ### TASK-021: Implement ActivityService
+
 **Phase:** backend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -497,17 +514,16 @@ Create `src/services/importService.ts`. Functions: `validateImportJson(jsonStrin
 **Depends on:** TASK-013, TASK-006
 
 **Description:**
-Create `src/services/activityService.ts`. Functions: `logActivity(activityRepo, entry)` → log an activity entry. `getActivityFeed(activityRepo, userId, limit?)` → retrieve recent activity for the user. Helper: `buildActivityDescription(type, metadata)` → generate human-readable descriptions like "Alice added 'Dinner' ($50.00) in Weekend Trip". Create co-located test file.
+`activityService.ts`: `logActivity`, `getActivityFeed`, `buildActivityDescription` — unchanged intent; uses `IActivityRepository`. Co-located tests.
 
 **Acceptance Criteria:**
-- [ ] `logActivity` creates an entry with auto-generated ID and timestamp
-- [ ] `getActivityFeed` returns entries sorted by timestamp descending
-- [ ] Activity descriptions are human-readable for all 6 activity types
-- [ ] Limit parameter restricts result count
+
+- [ ] Descriptions cover all activity types
+- [ ] Limit honored
 
 **Test Plan:**
-- **Unit:** Test log and retrieval with mock repository
-- **Unit:** Test description generation for each activity type
+
+- **Unit:** Mock repository
 
 ---
 
@@ -516,6 +532,7 @@ Create `src/services/activityService.ts`. Functions: `logActivity(activityRepo, 
 ---
 
 ### TASK-022: Implement AuthContext and useAuth hook
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -523,23 +540,22 @@ Create `src/services/activityService.ts`. Functions: `logActivity(activityRepo, 
 **Depends on:** TASK-015
 
 **Description:**
-Create `src/contexts/AuthContext.tsx` providing: `currentUser: User | null`, `isAuthenticated: boolean`, `isLoading: boolean`, `login(credential: string)`, `logout()`. On mount, check localStorage session and hydrate user from repository. Create `src/hooks/useAuth.ts` as convenience hook wrapping `useContext(AuthContext)`. Create test files for both.
+Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`, `signOut`. Subscribe to **`supabase.auth.onAuthStateChange`**. On session, load/ensure profile via TASK-015 helpers and `UserRepository`. Create `src/hooks/useAuth.ts`. Tests with mocked Supabase.
 
 **Acceptance Criteria:**
-- [ ] On app load, if session exists in localStorage, user is hydrated from IndexedDB
-- [ ] `login()` calls AuthService, sets session, updates context
-- [ ] `logout()` clears session, resets user to null
-- [ ] `isLoading` is true during initial hydration, false after
-- [ ] Components re-render when auth state changes
+
+- [ ] On load, session restores from Supabase (persisted by client)
+- [ ] `signIn` / `signOut` update context
+- [ ] No `localStorage` user-id hack as sole source of truth (session from Supabase)
 
 **Test Plan:**
-- **Unit:** Test AuthContext with mock AuthService and mock repo
-- **Unit:** Test useAuth hook returns context values
-- **Unit:** Test login/logout flow state transitions
+
+- **Unit:** Mock auth state transitions
 
 ---
 
 ### TASK-023: Implement RepositoryContext
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -547,20 +563,21 @@ Create `src/contexts/AuthContext.tsx` providing: `currentUser: User | null`, `is
 **Depends on:** TASK-014
 
 **Description:**
-Create `src/contexts/RepositoryContext.tsx` that provides the repository instances to the component tree via React Context. Create `useRepositories()` hook. The provider initializes the repository factory from `src/repositories/index.ts`. Create test file.
+`RepositoryContext.tsx` + `useRepositories()` hook providing the factory from `src/repositories/index.ts`. Tests.
 
 **Acceptance Criteria:**
-- [ ] `useRepositories()` returns all 5 repository instances
-- [ ] Throws helpful error if used outside provider
-- [ ] Provider initializes once on mount
+
+- [ ] Returns all five repositories
+- [ ] Throws outside provider
 
 **Test Plan:**
-- **Unit:** Test hook returns repositories when inside provider
-- **Unit:** Test hook throws when outside provider
+
+- **Unit:** Provider/hook tests
 
 ---
 
 ### TASK-024: Implement useGroups hook
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -568,21 +585,22 @@ Create `src/contexts/RepositoryContext.tsx` that provides the repository instanc
 **Depends on:** TASK-023, TASK-016
 
 **Description:**
-Create `src/hooks/useGroups.ts`. Provides: `groups` (live query of user's groups), `createGroup(name)`, `joinGroup(inviteCode)`, `getGroupById(id)`, `getGroupMembers(groupId)`, `updateGroup(id, updates)`. Uses Dexie's `useLiveQuery` for reactive data. Create test file.
+`useGroups.ts`: `groups`, `isLoading`, `error`, `refetch`, `createGroup`, `joinGroup`, `getGroupById`, `getGroupMembers`, `updateGroup`. Use **`useEffect` + `useState`** or **TanStack Query** (recommended in design) — **not** Dexie `useLiveQuery`. After mutations, refetch or invalidate queries.
 
 **Acceptance Criteria:**
-- [ ] `groups` updates reactively when groups change in IndexedDB
-- [ ] `createGroup` generates invite code and adds creator as admin
-- [ ] `joinGroup` validates code, adds user as member
-- [ ] Error states are returned (invalid code, already member)
+
+- [ ] `createGroup` generates code, inserts via repository, handles invite unique retry
+- [ ] `joinGroup` uses `findByInviteCode` + `addMember`
+- [ ] Errors surfaced for invalid code / duplicate member / network
 
 **Test Plan:**
-- **Unit:** Test with mock repositories, verify CRUD operations
-- **Unit:** Test error handling for invalid invite code, duplicate join
+
+- **Unit:** Mock repositories / query client
 
 ---
 
 ### TASK-025: Implement useExpenses hook
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -590,21 +608,21 @@ Create `src/hooks/useGroups.ts`. Provides: `groups` (live query of user's groups
 **Depends on:** TASK-023, TASK-021
 
 **Description:**
-Create `src/hooks/useExpenses.ts`. Provides: `getExpensesByGroup(groupId)` (live query), `addExpense(expense, payers, splits)`, `updateExpense(id, expense, payers, splits)`, `deleteExpense(id)`. All mutations also log an activity entry. Create test file.
+`useExpenses.ts`: fetch by group, `addExpense`, `updateExpense`, `deleteExpense`, activity logging. Refetch after mutations.
 
 **Acceptance Criteria:**
-- [ ] Expense list updates reactively when expenses change
-- [ ] `addExpense` creates expense + payers + splits and logs activity
-- [ ] `deleteExpense` removes expense and logs activity
-- [ ] `updateExpense` replaces payers/splits and logs activity
+
+- [ ] CRUD goes through repositories
+- [ ] Activity logged on mutations
 
 **Test Plan:**
-- **Unit:** Test CRUD operations with mock repositories
-- **Unit:** Verify activity logging on each mutation
+
+- **Unit:** Mock repos
 
 ---
 
 ### TASK-026: Implement useBalances hook
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -612,21 +630,21 @@ Create `src/hooks/useExpenses.ts`. Provides: `getExpensesByGroup(groupId)` (live
 **Depends on:** TASK-023, TASK-017, TASK-018
 
 **Description:**
-Create `src/hooks/useBalances.ts`. Provides: `getGroupBalances(groupId)` → computed per-member net balances, `getOverallBalances()` → cross-group "You Owe" / "Owed to You", `getSimplifiedDebts(groupId)` → minimal settlement list. Uses live queries on expenses and settlements, recomputes via BalanceService/DebtSimplificationService. Create test file.
+`useBalances.ts`: compute group and overall balances and simplified debts from fetched expense/settlement data + BalanceService / DebtSimplificationService.
 
 **Acceptance Criteria:**
-- [ ] Group balances recompute when expenses or settlements change
-- [ ] Overall balances aggregate across all user's groups
-- [ ] Simplified debts reflect the minimized transaction set
-- [ ] All values are in integer cents
+
+- [ ] Values in integer cents
+- [ ] Updates when underlying data refetches
 
 **Test Plan:**
-- **Unit:** Test with mock data, verify balance calculations
-- **Unit:** Test reactivity on data change
+
+- **Unit:** Mock data fixtures
 
 ---
 
 ### TASK-027: Implement useSettlements hook
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -634,16 +652,16 @@ Create `src/hooks/useBalances.ts`. Provides: `getGroupBalances(groupId)` → com
 **Depends on:** TASK-023, TASK-021
 
 **Description:**
-Create `src/hooks/useSettlements.ts`. Provides: `getSettlementsByGroup(groupId)` (live query), `addSettlement(groupId, fromUserId, toUserId, amount, date)`, `deleteSettlement(id)`. Mutations log activity. Create test file.
+`useSettlements.ts`: list by group, `addSettlement`, `deleteSettlement`, activity logging.
 
 **Acceptance Criteria:**
-- [ ] Settlement list updates reactively
-- [ ] `addSettlement` validates amount > 0, creates record, logs activity
-- [ ] `deleteSettlement` removes record and logs activity
+
+- [ ] Validation for amount > 0
+- [ ] Refetch after write
 
 **Test Plan:**
-- **Unit:** Test CRUD with mock repositories
-- **Unit:** Test validation (zero/negative amount)
+
+- **Unit:** Mock repos
 
 ---
 
@@ -652,6 +670,7 @@ Create `src/hooks/useSettlements.ts`. Provides: `getSettlementsByGroup(groupId)`
 ---
 
 ### TASK-028: Implement Header component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -659,21 +678,21 @@ Create `src/hooks/useSettlements.ts`. Provides: `getSettlementsByGroup(groupId)`
 **Depends on:** TASK-005, TASK-022
 
 **Description:**
-Create `src/components/Header/Header.tsx`. Displays: ShareSquare logo/icon, app name, Google avatar of current user (from AuthContext), and a search icon button. Uses `primary-dark` background. Mobile-first layout. Add `data-testid` attributes. Create `types.ts` and test file.
+`Header.tsx`: logo, app name, **user avatar from AuthContext** (profile image URL or initials), search icon placeholder. `primary-dark` background. `data-testid` attributes. Tests.
 
 **Acceptance Criteria:**
-- [ ] Header renders logo, app name, user avatar, and search icon
-- [ ] User avatar shows Google profile picture or initials fallback
-- [ ] Responsive: full width, fixed height ~56px
-- [ ] `data-testid="header"` is present
+
+- [ ] Avatar uses profile/session data (not hardcoded Google-only copy)
+- [ ] `data-testid="header"`
 
 **Test Plan:**
-- **Unit:** Renders with mock auth context (with avatar, without avatar)
-- **Unit:** Verify testid attributes
+
+- **Unit:** RTL with mock auth
 
 ---
 
 ### TASK-029: Implement BottomNav component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -681,23 +700,21 @@ Create `src/components/Header/Header.tsx`. Displays: ShareSquare logo/icon, app 
 **Depends on:** TASK-005
 
 **Description:**
-Create `src/components/BottomNav/BottomNav.tsx`. Five tabs: Dashboard, Groups, Add Expense (+), Activity, Settings. Center button is a prominent green circle (56px). Active tab highlighted with white icon/text, inactive muted. Uses `primary-dark` background. Reads current route to set active state. Create `constants.ts` with nav items, `types.ts`, and test file.
+`BottomNav.tsx`: five items; use **`react-router-dom`** `NavLink` or `useNavigate` + `useLocation` for active state. Center FAB for Add Expense. Tests with **memory router**.
 
 **Acceptance Criteria:**
-- [ ] Renders 5 nav items with icons and labels
-- [ ] Center "Add Expense" button is visually elevated green circle
-- [ ] Active tab is highlighted (white icon + label)
-- [ ] Tapping a tab navigates to the correct route
-- [ ] `data-testid="bottom-nav"` and per-item testids present
+
+- [ ] Navigation targets match `ROUTES`
+- [ ] Active tab styling correct
 
 **Test Plan:**
-- **Unit:** Renders all 5 items
-- **Unit:** Active state matches mock route
-- **Unit:** Click triggers navigation (mock router)
+
+- **Unit:** RTL + `createMemoryRouter`
 
 ---
 
 ### TASK-030: Implement AppLayout with auth guard
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -705,23 +722,21 @@ Create `src/components/BottomNav/BottomNav.tsx`. Five tabs: Dashboard, Groups, A
 **Depends on:** TASK-028, TASK-029, TASK-022
 
 **Description:**
-Create `src/layouts/AppLayout/AppLayout.tsx`. Wraps authenticated pages with: Header (top), main content area (scrollable, padded, with bottom margin for nav), BottomNav (fixed bottom). Includes auth guard: if `!isAuthenticated && !isLoading`, redirect to `/`. Show loading spinner during `isLoading`. Create test file.
+`AppLayout.tsx`: Header, scrollable main, BottomNav. **`<Navigate to="/" replace />`** when unauthenticated (after loading). Loading spinner during auth init.
 
 **Acceptance Criteria:**
-- [ ] Authenticated user sees Header + content + BottomNav
-- [ ] Unauthenticated user is redirected to `/` (login page)
-- [ ] Loading state shows a spinner
-- [ ] Content area scrolls independently with bottom padding for nav
-- [ ] Max-width container centers content on desktop viewports
+
+- [ ] Redirect unauthenticated users to `/`
+- [ ] Max-width container on desktop
 
 **Test Plan:**
-- **Unit:** Test redirect when unauthenticated (mock useAuth)
-- **Unit:** Test loading state renders spinner
-- **Unit:** Test authenticated state renders children with Header + BottomNav
+
+- **Unit:** Mock `useAuth`
 
 ---
 
 ### TASK-031: Implement MemberAvatar component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -729,23 +744,20 @@ Create `src/layouts/AppLayout/AppLayout.tsx`. Wraps authenticated pages with: He
 **Depends on:** TASK-004
 
 **Description:**
-Create `src/components/MemberAvatar/MemberAvatar.tsx`. Renders a circular avatar with: Google profile image if available, initials fallback (first letter of name on a green-tinted background), optional green border. Supports sizes: sm (24px), md (32px), lg (48px). Also create an `AvatarGroup` variant that renders overlapping avatars for group cards. Create `types.ts` and test file.
+Same as before: image + initials fallback, `AvatarGroup`, broken image handling. Tests.
 
 **Acceptance Criteria:**
-- [ ] Shows profile image when `avatarUrl` is provided
-- [ ] Shows initials on green background when no image
-- [ ] Handles broken image URLs (falls back to initials)
-- [ ] `AvatarGroup` renders up to 4 avatars overlapping, with "+N" overflow
-- [ ] `data-testid="member-avatar-{userId}"` present
+
+- [ ] Fallback when `avatarUrl` missing or broken
 
 **Test Plan:**
-- **Unit:** Renders image when URL provided
-- **Unit:** Renders initials when no URL
-- **Unit:** AvatarGroup shows overflow count for >4 members
+
+- **Unit:** RTL
 
 ---
 
 ### TASK-032: Implement BalanceCard component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -753,23 +765,20 @@ Create `src/components/MemberAvatar/MemberAvatar.tsx`. Renders a circular avatar
 **Depends on:** TASK-006
 
 **Description:**
-Create `src/components/BalanceCard/BalanceCard.tsx`. Renders the green dashboard balance card showing: "Overall Balance" label, large dollar amount, "OWED" sub-label, and "You Owe" / "Owed to You" sub-sections with amounts. Uses `primary` green background with white text. Accepts `overallBalance`, `youOwe`, `owedToYou` props (all in cents). Create `types.ts` and test file.
+Balance card with cents props; integrate **`useCurrency`** when TASK-059 lands (or hardcode `$` until then; update in TASK-059).
 
 **Acceptance Criteria:**
-- [ ] Displays formatted dollar amounts from cent values
-- [ ] Large central balance amount is prominent (text-3xl+)
-- [ ] "You Owe" and "Owed to You" sub-sections show correct values
-- [ ] Green background with white text matches design
-- [ ] `data-testid="balance-card"` present
+
+- [ ] Correct formatting from cents
 
 **Test Plan:**
-- **Unit:** Renders correct dollar formatting from cent inputs
-- **Unit:** Handles zero balance (shows "$0.00")
-- **Unit:** Handles large amounts
+
+- **Unit:** RTL
 
 ---
 
 ### TASK-033: Implement GroupCard component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -777,23 +786,20 @@ Create `src/components/BalanceCard/BalanceCard.tsx`. Renders the green dashboard
 **Depends on:** TASK-031, TASK-006
 
 **Description:**
-Create `src/components/GroupCard/GroupCard.tsx`. Renders a group list item card showing: group icon (based on category/name), group name, member avatar row (AvatarGroup), member count, total expenses, user's balance badge ("YOU OWE $X" or "YOU ARE OWED $X" with appropriate styling), and last activity relative time. White card with subtle border/shadow. Create `types.ts` and test file.
+Group list card + navigation to `/groups/:id` via React Router.
 
 **Acceptance Criteria:**
-- [ ] Displays group name, member avatars, total expenses, and user balance
-- [ ] Balance badge uses distinct styling for "owe" vs "owed" states
-- [ ] Relative time shows "Active 2h ago" format
-- [ ] Card is clickable, navigating to group detail
-- [ ] `data-testid="group-card-{groupId}"` present
+
+- [ ] `data-testid` per group id
 
 **Test Plan:**
-- **Unit:** Renders all group info correctly
-- **Unit:** "Owe" vs "owed" badge styling distinction
-- **Unit:** Click handler fires with correct group ID
+
+- **Unit:** RTL + router
 
 ---
 
 ### TASK-034: Implement EmptyState component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -801,20 +807,12 @@ Create `src/components/GroupCard/GroupCard.tsx`. Renders a group list item card 
 **Depends on:** none
 
 **Description:**
-Create `src/components/EmptyState/EmptyState.tsx`. Reusable component accepting: `icon` (React node), `title`, `description`, and optional `actionLabel` + `onAction` for a CTA button. Used on Dashboard (no groups), Group Detail (no expenses), Activity (no activity). Create test file.
-
-**Acceptance Criteria:**
-- [ ] Renders icon, title, and description centered
-- [ ] CTA button renders only when `actionLabel` and `onAction` provided
-- [ ] `data-testid="empty-state"` present
-
-**Test Plan:**
-- **Unit:** Renders with and without CTA
-- **Unit:** CTA click fires onAction
+Unchanged reusable empty state. Tests.
 
 ---
 
 ### TASK-035: Implement ConfirmDialog component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -822,23 +820,12 @@ Create `src/components/EmptyState/EmptyState.tsx`. Reusable component accepting:
 **Depends on:** none
 
 **Description:**
-Create `src/components/ConfirmDialog/ConfirmDialog.tsx`. Modal dialog with: title, message, "Cancel" button, and "Confirm" button (destructive styling for delete actions). Uses backdrop overlay. Props: `isOpen`, `title`, `message`, `confirmLabel`, `onConfirm`, `onCancel`, `variant: 'default' | 'destructive'`. Create test file.
-
-**Acceptance Criteria:**
-- [ ] Dialog renders when `isOpen` is true, hidden when false
-- [ ] "Confirm" button calls `onConfirm`, "Cancel" calls `onCancel`
-- [ ] Destructive variant shows red confirm button
-- [ ] Clicking backdrop calls `onCancel`
-- [ ] `data-testid="confirm-dialog"` present
-
-**Test Plan:**
-- **Unit:** Open/close state rendering
-- **Unit:** Button click handlers
-- **Unit:** Backdrop click fires onCancel
+Unchanged modal dialog. Tests.
 
 ---
 
 ### TASK-036: Implement Toast notification component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -846,19 +833,7 @@ Create `src/components/ConfirmDialog/ConfirmDialog.tsx`. Modal dialog with: titl
 **Depends on:** none
 
 **Description:**
-Create `src/components/Toast/Toast.tsx` and a `ToastProvider` context. Supports: `success`, `error`, `info` variants. Auto-dismisses after 4 seconds. Positioned at top center of screen. Provides `useToast()` hook with `showToast(message, variant)`. Create test file.
-
-**Acceptance Criteria:**
-- [ ] Toast appears with correct variant styling (green/red/blue)
-- [ ] Auto-dismisses after 4 seconds
-- [ ] Multiple toasts stack
-- [ ] `showToast` is callable from any component via hook
-- [ ] `data-testid="toast"` present
-
-**Test Plan:**
-- **Unit:** Toast renders with message and variant
-- **Unit:** Auto-dismiss timer (use fake timers)
-- **Unit:** useToast hook works within provider
+Toast provider + `useToast`. Tests.
 
 ---
 
@@ -867,6 +842,7 @@ Create `src/components/Toast/Toast.tsx` and a `ToastProvider` context. Supports:
 ---
 
 ### TASK-037: Implement ExpenseForm with SplitSelector
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -874,30 +850,21 @@ Create `src/components/Toast/Toast.tsx` and a `ToastProvider` context. Supports:
 **Depends on:** TASK-031, TASK-005, TASK-006
 
 **Description:**
-Create `src/components/ExpenseForm/ExpenseForm.tsx` and `src/components/SplitSelector/SplitSelector.tsx`. The form includes: Description input, Date picker (defaults to today), Amount input (dollar format with $ prefix, converts to cents on submit), Category dropdown (from constants), "Who Paid" selector (group members + "Group" option), and the split section. SplitSelector provides: "Split Equally" checkbox (checked = auto-calculate equal shares, unchecked = manual), per-member row with avatar, name, amount input, and % toggle. Real-time validation: splits must sum to total. Create `constants.ts`, `types.ts`, and test files for both components.
+Unchanged functional spec; ensure submit payloads use cents and UUID ids from server where applicable.
 
 **Acceptance Criteria:**
-- [ ] All form fields render with correct defaults (date = today)
-- [ ] Category dropdown shows all 9 categories
-- [ ] "Split Equally" auto-distributes amount with remainder-cent handling
-- [ ] Unchecking "Split Equally" enables manual amount editing
-- [ ] "%" toggle switches between dollar and percentage input mode
-- [ ] Validation error shown when splits don't sum to total
-- [ ] "Save Expense" disabled until form is valid
-- [ ] Form calls `onSubmit` with correctly structured data (cents)
-- [ ] `data-testid` attributes on all interactive elements
+
+- [ ] Split validation and equal-split remainder logic
+- [ ] `data-testid` on interactive controls
 
 **Test Plan:**
-- **Unit:** Default values (date = today, empty fields)
-- **Unit:** Equal split calculation with various member counts and amounts
-- **Unit:** Remainder cent distribution (e.g., $100 / 3)
-- **Unit:** Validation: splits sum mismatch, missing required fields
-- **Unit:** Percentage mode calculation
-- **Unit:** Form submission data structure
+
+- **Unit:** Form and split math tests
 
 ---
 
 ### TASK-038: Implement ExpenseList component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -905,23 +872,12 @@ Create `src/components/ExpenseForm/ExpenseForm.tsx` and `src/components/SplitSel
 **Depends on:** TASK-031, TASK-006
 
 **Description:**
-Create `src/components/ExpenseList/ExpenseList.tsx`. Renders a table/list of expenses with columns: Date, Payer description, Total, and current user's Split amount. Each row shows formatted date, "Paid by [Name] ([total])" description, total amount, and the user's share. Sorted by date descending. Create `types.ts` and test file.
-
-**Acceptance Criteria:**
-- [ ] Renders expense rows with date, payer, total, and user split
-- [ ] Dates formatted as "Jan 10" short format
-- [ ] Amounts formatted as dollars from cents
-- [ ] Sorted by date descending
-- [ ] `data-testid="expense-list"` and per-row testids
-
-**Test Plan:**
-- **Unit:** Renders correct number of rows
-- **Unit:** Date and amount formatting
-- **Unit:** Sort order verification
+Unchanged list/table. Tests.
 
 ---
 
 ### TASK-039: Implement ExpenseFilters component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -929,23 +885,12 @@ Create `src/components/ExpenseList/ExpenseList.tsx`. Renders a table/list of exp
 **Depends on:** TASK-005
 
 **Description:**
-Create `src/components/ExpenseFilters/ExpenseFilters.tsx`. Filter bar with: category dropdown (multi-select), date range picker (from/to), sort selector (date asc/desc, amount asc/desc). Emits `onFilterChange` with current filter state. "Clear filters" button resets all. Create `types.ts` and test file.
-
-**Acceptance Criteria:**
-- [ ] Category filter shows all categories as checkable options
-- [ ] Date range filter accepts from/to dates
-- [ ] Sort selector offers date and amount in both directions
-- [ ] "Clear filters" resets to default state
-- [ ] `onFilterChange` emits on every change
-
-**Test Plan:**
-- **Unit:** Filter state changes on selection
-- **Unit:** Clear filters resets all values
-- **Unit:** onFilterChange called with correct filter object
+Unchanged filters. Tests.
 
 ---
 
 ### TASK-040: Implement MemberBalanceList component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -953,22 +898,12 @@ Create `src/components/ExpenseFilters/ExpenseFilters.tsx`. Filter bar with: cate
 **Depends on:** TASK-031, TASK-006
 
 **Description:**
-Create `src/components/MemberBalanceList/MemberBalanceList.tsx`. Renders a vertical list of group members with: avatar, name, and balance status ("Owed $50.00" in green for positive, "Owes $70.00" in warm/red for negative, "Owed $0" in neutral for zero). Create `types.ts` and test file.
-
-**Acceptance Criteria:**
-- [ ] Each member row shows avatar, name, and formatted balance
-- [ ] Positive balance styled green ("Owed $X")
-- [ ] Negative balance styled warm/red ("Owes $X")
-- [ ] Zero balance shows "Owed $0" in neutral
-- [ ] `data-testid="member-balance-{userId}"` per row
-
-**Test Plan:**
-- **Unit:** Correct styling for positive, negative, zero balances
-- **Unit:** Correct dollar formatting
+Unchanged. Tests.
 
 ---
 
 ### TASK-041: Implement GroupCreateForm component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -976,23 +911,12 @@ Create `src/components/MemberBalanceList/MemberBalanceList.tsx`. Renders a verti
 **Depends on:** TASK-024, TASK-036
 
 **Description:**
-Create `src/components/GroupCreateForm/GroupCreateForm.tsx`. Simple form with: group name input (required, max 100 chars), "Create Group" button. On success, shows the generated invite code with a "Copy" button and navigates to the new group. Can be rendered as a modal or inline section. Create test file.
-
-**Acceptance Criteria:**
-- [ ] Name input with validation (required, max 100 chars)
-- [ ] Submit calls `createGroup` and shows the invite code on success
-- [ ] "Copy" button copies invite code to clipboard
-- [ ] Error state displayed on failure
-- [ ] `data-testid="group-create-form"` present
-
-**Test Plan:**
-- **Unit:** Validation: empty name, too-long name
-- **Unit:** Success flow renders invite code
-- **Unit:** Copy button interaction
+Calls `createGroup` from hook; surfaces **network/Supabase errors**. Tests.
 
 ---
 
 ### TASK-042: Implement InviteCodeInput component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -1000,23 +924,12 @@ Create `src/components/GroupCreateForm/GroupCreateForm.tsx`. Simple form with: g
 **Depends on:** TASK-024, TASK-036
 
 **Description:**
-Create `src/components/InviteCodeInput/InviteCodeInput.tsx`. Input field for entering an invite code with auto-uppercase formatting and a "Join" button. Shows success (redirect to group) or error ("Code not found" / "Already a member"). Create test file.
-
-**Acceptance Criteria:**
-- [ ] Input auto-uppercases as user types
-- [ ] "Join" button calls `joinGroup` with normalized code
-- [ ] Success navigates to the group detail page
-- [ ] Error messages display inline for invalid/duplicate codes
-- [ ] `data-testid="invite-code-input"` present
-
-**Test Plan:**
-- **Unit:** Auto-uppercase behavior
-- **Unit:** Success and error state rendering
-- **Unit:** Join button calls handler with correct code
+Join flow via `joinGroup`; show offline message when appropriate. Tests.
 
 ---
 
 ### TASK-043: Implement SettlementForm component
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -1024,19 +937,7 @@ Create `src/components/InviteCodeInput/InviteCodeInput.tsx`. Input field for ent
 **Depends on:** TASK-031, TASK-027, TASK-006
 
 **Description:**
-Create `src/components/SettlementForm/SettlementForm.tsx`. Form for recording a settlement: "From" member dropdown, "To" member dropdown, amount input, date picker. Validates: from !== to, amount > 0, amount <= outstanding balance. On submit, calls `addSettlement`. Create `types.ts` and test file.
-
-**Acceptance Criteria:**
-- [ ] "From" and "To" dropdowns list group members
-- [ ] Cannot select same member for both from and to
-- [ ] Amount validates > 0
-- [ ] Submit creates settlement and shows success toast
-- [ ] `data-testid="settlement-form"` present
-
-**Test Plan:**
-- **Unit:** Validation: same from/to, zero amount
-- **Unit:** Submit calls handler with correct data
-- **Unit:** Success toast shown after submission
+Unchanged validation rules. Tests.
 
 ---
 
@@ -1044,7 +945,8 @@ Create `src/components/SettlementForm/SettlementForm.tsx`. Form for recording a 
 
 ---
 
-### TASK-044: Implement Landing/Login page
+### TASK-044: Implement Landing / Login page
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -1052,24 +954,21 @@ Create `src/components/SettlementForm/SettlementForm.tsx`. Form for recording a 
 **Depends on:** TASK-022, TASK-003
 
 **Description:**
-Create `src/app/page.tsx`. The unauthenticated landing page with: ShareSquare logo and name, tagline, "Sign in with Google" button using `@react-oauth/google`'s `GoogleLogin` component. On successful credential callback, call `login()` from AuthContext. If already authenticated, redirect to `/home`. Mint-green and white aesthetic matching the brand. Install and configure `@react-oauth/google` with `GoogleOAuthProvider` in root layout.
+Create **`src/pages/LandingPage.tsx`**. Sign-in buttons call **`AuthContext.signIn`** (Supabase OAuth / magic link per configuration). **Remove** `@react-oauth/google` and `GoogleLogin`. If session exists, **`<Navigate to="/home" />`**. Brand styling. `data-testid="login-page"`, `data-testid="sign-in-button"` (or provider-specific ids).
 
 **Acceptance Criteria:**
-- [ ] Google Sign-In button renders and initiates OAuth flow
-- [ ] Successful sign-in redirects to `/home`
-- [ ] Already authenticated users are redirected to `/home` immediately
-- [ ] Error state shows retry message
-- [ ] Page is visually appealing with ShareSquare branding
-- [ ] `data-testid="login-page"` and `data-testid="google-signin-button"` present
+
+- [ ] No Google Identity Services direct integration
+- [ ] Redirect authenticated users to `/home`
 
 **Test Plan:**
-- **Unit:** Renders sign-in button when unauthenticated
-- **Unit:** Redirects when authenticated (mock useAuth)
-- **Unit:** Calls login on credential callback
+
+- **Unit:** RTL + mock auth
 
 ---
 
-### TASK-045: Implement Dashboard/Home page
+### TASK-045: Implement Dashboard / Home page
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -1077,25 +976,20 @@ Create `src/app/page.tsx`. The unauthenticated landing page with: ShareSquare lo
 **Depends on:** TASK-030, TASK-032, TASK-033, TASK-034, TASK-026, TASK-024
 
 **Description:**
-Create `src/app/home/page.tsx`. Wrapped in AppLayout. Displays: BalanceCard (overall balance, you owe, owed to you), "+" FAB button (links to /expenses/new), "Recent Groups" heading, and list of GroupCards. Uses `useGroups` and `useBalances` hooks. Empty state when no groups. FAB is a green circular button floating above the group list.
+Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`. Uses hooks.
 
 **Acceptance Criteria:**
-- [ ] BalanceCard shows correct aggregated balances
-- [ ] Recent Groups list renders GroupCards with correct data
-- [ ] FAB button navigates to /expenses/new
-- [ ] Empty state shown when user has no groups
-- [ ] Page layout matches the Home screen design
-- [ ] `data-testid="dashboard-page"` present
+
+- [ ] `data-testid="dashboard-page"`
 
 **Test Plan:**
-- **Unit:** Renders balance card with mock balance data
-- **Unit:** Renders group cards list with mock groups
-- **Unit:** Empty state when no groups
-- **Unit:** FAB click navigates to /expenses/new
+
+- **Unit:** RTL with mock hooks
 
 ---
 
 ### TASK-046: Implement Groups list page
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -1103,51 +997,41 @@ Create `src/app/home/page.tsx`. Wrapped in AppLayout. Displays: BalanceCard (ove
 **Depends on:** TASK-033, TASK-041, TASK-042, TASK-024, TASK-030
 
 **Description:**
-Create `src/app/groups/page.tsx`. Wrapped in AppLayout. Two sections: "Create Group" (GroupCreateForm) and "Join Group" (InviteCodeInput), followed by a list of all user's groups (GroupCards). Accessible from bottom nav "Groups" tab.
+**`src/pages/GroupsPage.tsx`**, route `/groups`.
 
 **Acceptance Criteria:**
-- [ ] Create Group section allows creating a new group
-- [ ] Join Group section allows joining via invite code
-- [ ] Groups list shows all user's groups
-- [ ] After creating/joining, group appears in list reactively
-- [ ] `data-testid="groups-page"` present
+
+- [ ] `data-testid="groups-page"`
 
 **Test Plan:**
-- **Unit:** Renders create and join sections
-- **Unit:** Renders groups list with mock data
-- **Unit:** Empty state when no groups
+
+- **Unit:** RTL
 
 ---
 
 ### TASK-047: Implement Group detail page
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
-**Implements:** REQ-016, REQ-012, REQ-015, REQ-017
+**Implements:** REQ-016, REQ-012, REQ-015, REQ-017, REQ-030
 **Depends on:** TASK-040, TASK-038, TASK-039, TASK-043, TASK-035, TASK-026, TASK-025, TASK-027
 
 **Description:**
-Create `src/app/groups/[id]/page.tsx`. Wrapped in AppLayout. Displays: back arrow, group name with edit pencil (admin only), group total expenses card, member balances summary, member balance list, "Record Settlement" button (opens SettlementForm), "Recent Expenses" section with ExpenseList and ExpenseFilters. Expense rows are clickable to edit. Delete button on expenses (with ConfirmDialog) for creator/admin.
+**`src/pages/GroupDetailPage.tsx`**, route `/groups/:id`. Use **`useParams`**. Invite section for REQ-030 (TASK-057 may extend).
 
 **Acceptance Criteria:**
-- [ ] Back arrow navigates to /groups or /home
-- [ ] Group name is editable by admin (inline edit with pencil icon)
-- [ ] Total expenses card shows sum of all group expenses
-- [ ] Member balances show each member's net owed/owing
-- [ ] Expense list shows recent expenses with filter/sort support
-- [ ] Settlement button opens form and records settlements
-- [ ] Delete expense shows confirmation dialog
-- [ ] `data-testid="group-detail-page"` present
+
+- [ ] `data-testid="group-detail-page"`
 
 **Test Plan:**
-- **Unit:** Renders group info with mock data
-- **Unit:** Admin can edit group name, non-admin cannot
-- **Unit:** Expense delete flow with confirmation
-- **Unit:** Settlement recording flow
+
+- **Unit:** RTL + router params
 
 ---
 
 ### TASK-048: Implement Add Expense page
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -1155,25 +1039,20 @@ Create `src/app/groups/[id]/page.tsx`. Wrapped in AppLayout. Displays: back arro
 **Depends on:** TASK-037, TASK-025, TASK-024, TASK-036
 
 **Description:**
-Create `src/app/expenses/new/page.tsx`. Top bar with back arrow and "Cancel" button. Renders ExpenseForm. Accepts optional `groupId` query parameter to pre-select the group. On save, calls `addExpense` from useExpenses hook, shows success toast, navigates to the group detail page. If no groupId, shows a group selector as the first step.
+**`src/pages/NewExpensePage.tsx`**, route `/expenses/new`. Read **`groupId`** from `useSearchParams`.
 
 **Acceptance Criteria:**
-- [ ] ExpenseForm renders with all fields
-- [ ] Pre-selects group when `groupId` query param is present
-- [ ] Group selector shown when no groupId
-- [ ] On save, expense is created and user navigates to group detail
-- [ ] Cancel navigates back without saving
-- [ ] `data-testid="add-expense-page"` present
+
+- [ ] Pre-select group from query; read-only when shortcut used
 
 **Test Plan:**
-- **Unit:** Renders form with default values
-- **Unit:** Pre-selects group from query param
-- **Unit:** Save flow: create + navigate
-- **Unit:** Cancel flow: navigate back
+
+- **Unit:** RTL + search params
 
 ---
 
 ### TASK-049: Implement Edit Expense page
+
 **Phase:** frontend
 **Effort:** S
 **Status:** ⬜ Pending
@@ -1181,23 +1060,16 @@ Create `src/app/expenses/new/page.tsx`. Top bar with back arrow and "Cancel" but
 **Depends on:** TASK-037, TASK-025
 
 **Description:**
-Create `src/app/expenses/[id]/edit/page.tsx`. Loads the existing expense data and renders ExpenseForm pre-populated. On save, calls `updateExpense`. Only accessible by expense creator or group admin (redirect others to group detail). Top bar with back arrow and "Cancel".
-
-**Acceptance Criteria:**
-- [ ] Form loads pre-populated with existing expense data
-- [ ] On save, expense is updated and user navigates to group detail
-- [ ] Non-creator/non-admin is redirected away
-- [ ] Cancel navigates back without saving
-- [ ] `data-testid="edit-expense-page"` present
+**`src/pages/EditExpensePage.tsx`**, route `/expenses/:id/edit`.
 
 **Test Plan:**
-- **Unit:** Form pre-populates with mock expense data
-- **Unit:** Save calls updateExpense with correct data
-- **Unit:** Access control redirect for unauthorized users
+
+- **Unit:** RTL
 
 ---
 
 ### TASK-050: Implement Activity feed page
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -1205,23 +1077,16 @@ Create `src/app/expenses/[id]/edit/page.tsx`. Loads the existing expense data an
 **Depends on:** TASK-031, TASK-034, TASK-021
 
 **Description:**
-Create `src/app/activity/page.tsx`. Wrapped in AppLayout. Displays a chronological feed of activity entries across all user's groups. Each entry shows: timestamp (relative), activity type icon, description (e.g., "Alice added 'Dinner' ($50.00) in Weekend Trip"), and group name badge. Empty state when no activity. Uses `useActivity` or direct repository queries.
-
-**Acceptance Criteria:**
-- [ ] Activity entries render in reverse chronological order
-- [ ] Each entry shows timestamp, type icon, description, and group
-- [ ] Empty state shown when no activity exists
-- [ ] Scrollable list handles many entries
-- [ ] `data-testid="activity-page"` present
+**`src/pages/ActivityPage.tsx`**, route `/activity`.
 
 **Test Plan:**
-- **Unit:** Renders entries from mock data
-- **Unit:** Empty state rendering
-- **Unit:** Correct chronological ordering
+
+- **Unit:** RTL
 
 ---
 
 ### TASK-051: Implement Settings page with export/import
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -1229,21 +1094,15 @@ Create `src/app/activity/page.tsx`. Wrapped in AppLayout. Displays a chronologic
 **Depends on:** TASK-019, TASK-020, TASK-022, TASK-036, TASK-035
 
 **Description:**
-Create `src/app/settings/page.tsx`. Wrapped in AppLayout. Sections: Profile display (name, email, avatar from auth context), "Export Data" button (calls ExportService, downloads JSON), "Import Data" file picker (calls ImportService with validation + conflict handling), "Sign Out" button (calls logout). Shows import progress/results. Conflict handling UI: radio for "Overwrite" vs "Skip".
+**`src/pages/SettingsPage.tsx`**, route `/settings`. Sign out via Supabase.
 
 **Acceptance Criteria:**
-- [ ] Profile section shows user name, email, and avatar
-- [ ] "Export Data" downloads a valid JSON file
-- [ ] "Import Data" accepts a file, validates, and shows results/errors
-- [ ] Import conflict UI shows overwrite/skip options
-- [ ] "Sign Out" clears session and redirects to login
-- [ ] `data-testid="settings-page"` present
+
+- [ ] Sign out clears Supabase session and navigates to `/`
 
 **Test Plan:**
-- **Unit:** Profile renders from mock auth context
-- **Unit:** Export button triggers download (mock ExportService)
-- **Unit:** Import flow: valid file, invalid file, conflict handling
-- **Unit:** Sign out calls logout
+
+- **Unit:** RTL
 
 ---
 
@@ -1251,30 +1110,32 @@ Create `src/app/settings/page.tsx`. Wrapped in AppLayout. Sections: Profile disp
 
 ---
 
-### TASK-052: Wire root layout with providers and global configuration
+### TASK-052: Wire React Router, providers, and global configuration
+
 **Phase:** frontend
-**Effort:** S
+**Effort:** M
 **Status:** ⬜ Pending
 **Implements:** REQ-001, REQ-024, REQ-025
 **Depends on:** TASK-022, TASK-023, TASK-036, TASK-003
 
 **Description:**
-Create `src/app/layout.tsx`. Wrap the entire app with: `GoogleOAuthProvider` (with client ID from env), `RepositoryContext.Provider`, `AuthContext.Provider`, `ToastProvider`. Import globals.css. Add PWA meta tags, viewport meta, theme-color meta. Set page title "ShareSquare".
+**`src/main.tsx`**: `BrowserRouter`. **`src/App.tsx`**: `Routes` / `Route` definitions for all pages; wrap public vs authenticated layouts. Providers nested: **Supabase client** (if using a thin `SupabaseProvider` optional), **`RepositoryContext`**, **`AuthContext`**, **`ToastProvider`**. Import `globals.css`. PWA meta tags in `index.html`. Title "ShareSquare". **Do not** wrap `GoogleOAuthProvider`.
 
 **Acceptance Criteria:**
-- [ ] All providers are correctly nested in root layout
-- [ ] Google OAuth provider has client ID from environment variable
-- [ ] Global CSS is imported and Tailwind classes work
-- [ ] PWA meta tags are present in the HTML head
-- [ ] `<title>` is "ShareSquare"
+
+- [ ] All routes from design.md resolve to page components
+- [ ] Protected routes use auth guard layout
+- [ ] Env vars `VITE_SUPABASE_*` documented
 
 **Test Plan:**
-- **Unit:** Verify providers render around children (shallow render)
-- **Manual:** Full app loads without provider errors
+
+- **Unit:** Smoke render with memory router
+- **Manual:** Full app load
 
 ---
 
 ### TASK-053: Implement SVG data visualizations
+
 **Phase:** frontend
 **Effort:** M
 **Status:** ⬜ Pending
@@ -1282,18 +1143,159 @@ Create `src/app/layout.tsx`. Wrap the entire app with: `GoogleOAuthProvider` (wi
 **Depends on:** TASK-026
 
 **Description:**
-Create `src/components/CategoryChart/CategoryChart.tsx` — segmented bar chart showing expense breakdown by category using raw SVG elements. Create `src/components/FlowDiagram/FlowDiagram.tsx` — flow diagram mapping payment distribution between members using SVG paths. Both are interactive (hover shows details). Integrated into the Group Detail page as an optional visualization tab.
-
-**Acceptance Criteria:**
-- [ ] Bar chart segments are proportional to category spend
-- [ ] Flow diagram shows directional arrows between members with amounts
-- [ ] Hover/tap on segments shows category name and amount
-- [ ] Empty state when no data
-- [ ] Responsive: scales to container width
+`CategoryChart` and `FlowDiagram` components; integrate into Group Detail. Unchanged product intent.
 
 **Test Plan:**
-- **Unit:** Chart renders correct number of segments for mock data
-- **Unit:** Flow diagram renders arrows between correct member pairs
-- **Unit:** Empty state when no expenses
+
+- **Unit:** RTL with mock data
+
+---
+
+### SUPABASE AUTH & POLICY HARDENING
+
+---
+
+### TASK-054: Configure Supabase Auth providers and redirect URLs
+
+**Phase:** infra
+**Effort:** S
+**Status:** ⬜ Pending
+**Implements:** REQ-001
+**Depends on:** TASK-007
+
+**Description:**
+In the Supabase dashboard: enable desired providers (e.g. Google OAuth with client id/secret **stored in Supabase**), set **Site URL** and **redirect allow list** for local dev and production (Vite app origins). Document steps in README. Ensure email confirmation settings match product choice (magic link on/off).
+
+**Acceptance Criteria:**
+
+- [ ] OAuth redirect completes back to the SPA with session established
+- [ ] README documents env vars and dashboard steps
+
+**Test Plan:**
+
+- **Manual:** Sign-in flow on localhost and staging URL
+
+---
+
+### TASK-055: Add profile row sync on new user (trigger or documented upsert)
+
+**Phase:** backend
+**Effort:** S
+**Status:** ⬜ Pending
+**Implements:** REQ-002
+**Depends on:** TASK-007, TASK-015
+
+**Description:**
+Either a SQL **`on auth.users` insert trigger** to create `profiles`, or rely on app **`ensureProfile` upsert** in TASK-015 — pick one approach and document. Migrations must match.
+
+**Acceptance Criteria:**
+
+- [ ] Every new auth user has a readable `profiles` row before first data operation
+- [ ] No duplicate profile PK violations
+
+**Test Plan:**
+
+- **Manual:** Sign up new test user; query `profiles` in SQL editor
+
+---
+
+### TASK-056: Review RLS for invite-code lookup and group join
+
+**Phase:** backend
+**Effort:** S
+**Status:** ⬜ Pending
+**Implements:** REQ-004, REQ-029
+**Depends on:** TASK-007, TASK-010
+
+**Description:**
+Audit policies so an **authenticated** user can **select** minimal group fields by **`invite_code`** to join, without exposing all groups. Tighten `SELECT` on `groups` / `group_members` as needed. Document policy intent in `agentdocs` or `supabase/README.md`.
+
+**Acceptance Criteria:**
+
+- [ ] Join flow works for valid code
+- [ ] Arbitrary enumeration of other users' groups is not possible
+
+**Test Plan:**
+
+- **Manual:** Attempt forbidden reads with second test user
+
+---
+
+### TASK-057: Show invite code on Group Detail page with copy button
+
+**Phase:** frontend
+**Effort:** S
+**Status:** ⬜ Pending
+**Implements:** REQ-030
+**Depends on:** TASK-047
+
+**Description:**
+Add "Invite Members" section to **`GroupDetailPage`** (path `src/pages/GroupDetailPage.tsx`): monospace code, Copy button, 2s confirmation. Same acceptance as before.
+
+**Test Plan:**
+
+- **Unit:** Mock `navigator.clipboard`
+
+---
+
+### TASK-058: Implement Delete Group (admin only) via Supabase
+
+**Phase:** frontend + backend
+**Effort:** M
+**Status:** ⬜ Pending
+**Implements:** REQ-031
+**Depends on:** TASK-047, TASK-035, TASK-010, TASK-011, TASK-012, TASK-013
+
+**Description:**
+Admin-only delete with `ConfirmDialog`. Implement **`IGroupRepository.delete`** using **CASCADE** schema and/or a **`delete_group` RPC** that removes dependent rows in order. **Remove** IndexedDB cascade ordering language. Navigate to `/groups` + toast on success.
+
+**Acceptance Criteria:**
+
+- [ ] No orphaned rows in Postgres after delete
+- [ ] Non-admins never see delete
+
+**Test Plan:**
+
+- **Unit:** Mock repository delete called
+- **Integration:** Dev project — create group with expenses, delete, verify tables empty
+
+---
+
+### TASK-059: Add currency selection to Settings page
+
+**Phase:** frontend
+**Effort:** S
+**Status:** ⬜ Pending
+**Implements:** REQ-032
+**Depends on:** TASK-051, TASK-004, TASK-005
+
+**Description:**
+Store preference in **`localStorage`** or **`profiles` column** (document choice). Implement **`useCurrency`** hook. Update **`currency.ts`** for multi-currency display. Update monetary components to use hook. **Remove** Dexie `settings` table references.
+
+**Acceptance Criteria:**
+
+- [ ] Persists across reloads
+- [ ] JPY formatting without decimals
+
+**Test Plan:**
+
+- **Unit:** `formatAmount` per currency
+
+---
+
+### TASK-060: Add "Add Expense" shortcut button on Group Detail page
+
+**Phase:** frontend
+**Effort:** S
+**Status:** ⬜ Pending
+**Implements:** REQ-033
+**Depends on:** TASK-047, TASK-048
+
+**Description:**
+Button navigates to **`/expenses/new?groupId=<id>`** using React Router. Same acceptance as before.
+
+**Test Plan:**
+
+- **Unit:** Router navigation assertion
 
 ---

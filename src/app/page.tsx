@@ -2,21 +2,21 @@
 // Implements: TASK-044
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useRepositories } from "@/contexts/RepositoryContext";
 import { loginOrCreateUser, setSession } from "@/services/authService";
 
 export default function LoginPage() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { isAuthenticated, isLoading } = useAuth();
   const repos = useRepositories();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      router.push("/home");
+      navigate("/home");
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   const handleDemoLogin = async () => {
     const user = await loginOrCreateUser(repos.users, {

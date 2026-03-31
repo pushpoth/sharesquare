@@ -2,7 +2,7 @@
 // Implements: TASK-049
 
 import { useCallback } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useExpenses } from "@/hooks/useExpenses";
 import { useRepositories } from "@/contexts/RepositoryContext";
@@ -14,7 +14,7 @@ import { useToast } from "@/components/Toast/Toast";
 const GROUP_PAYER_ID = "__group__";
 
 export default function EditExpenseClient() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const params = useParams();
   const expenseId = params.id as string;
   const repos = useRepositories();
@@ -93,21 +93,21 @@ export default function EditExpenseClient() {
       );
       showToast("Expense updated successfully");
       if (groupId) {
-        router.push(ROUTES.GROUP_DETAIL(groupId));
+        navigate(ROUTES.GROUP_DETAIL(groupId));
       } else {
-        router.back();
+        navigate(-1);
       }
     },
-    [expenseId, groupId, updateExpense, showToast, router],
+    [expenseId, groupId, updateExpense, showToast, navigate],
   );
 
   const handleCancel = useCallback(() => {
     if (groupId) {
-      router.push(ROUTES.GROUP_DETAIL(groupId));
+      navigate(ROUTES.GROUP_DETAIL(groupId));
     } else {
-      router.back();
+      navigate(-1);
     }
-  }, [groupId, router]);
+  }, [groupId, navigate]);
 
   if (!expense) {
     return (

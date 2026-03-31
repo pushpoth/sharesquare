@@ -12,8 +12,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRepositories } from "@/contexts/RepositoryContext";
 
 export function useBalances(groupId?: string) {
-  const auth = useAuth();
-
   const result = useLiveQuery(
     async () => {
       if (!groupId) return null;

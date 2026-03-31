@@ -2,7 +2,7 @@
 // Implements: TASK-030
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Header } from "@/components/Header/Header";
 import { BottomNav } from "@/components/BottomNav/BottomNav";
@@ -13,14 +13,14 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.replace(ROUTES.LANDING);
+      navigate(ROUTES.LANDING, { replace: true });
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   if (isLoading) {
     return (

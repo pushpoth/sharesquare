@@ -2,6 +2,7 @@ import type { Config } from "jest";
 
 const config: Config = {
   testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",
@@ -13,7 +14,7 @@ const config: Config = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
-  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/dist/"],
   coverageDirectory: "coverage",
   coverageThreshold: {
     global: {

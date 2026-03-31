@@ -1,28 +1,27 @@
 "use client";
 // Implements: TASK-046
 
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useGroups } from "@/hooks/useGroups";
 import { AppLayout } from "@/layouts/AppLayout/AppLayout";
 import { GroupCreateForm } from "@/components/GroupCreateForm/GroupCreateForm";
 import { InviteCodeInput } from "@/components/InviteCodeInput/InviteCodeInput";
-import { GroupCard } from "@/components/GroupCard/GroupCard";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { ROUTES } from "@/constants/routes";
 import { GroupCardWithData } from "@/app/home/GroupCardWithData";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function GroupsPage() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { groups } = useGroups();
   const { currentUser } = useAuth();
 
   const handleGroupCreated = (_group: { id: string }, _inviteCode: string) => {
-    router.push(ROUTES.GROUP_DETAIL(_group.id));
+    navigate(ROUTES.GROUP_DETAIL(_group.id));
   };
 
   const handleJoinSuccess = (groupId: string) => {
-    router.push(ROUTES.GROUP_DETAIL(groupId));
+    navigate(ROUTES.GROUP_DETAIL(groupId));
   };
 
   return (

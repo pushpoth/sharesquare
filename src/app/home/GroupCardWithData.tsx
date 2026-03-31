@@ -24,7 +24,7 @@ export function GroupCardWithData({ group, currentUserId }: GroupCardWithDataPro
       const users = await Promise.all(
         groupMembers.map((m) => repos.users.findById(m.userId))
       );
-      return groupMembers.map((m, i) => ({
+      return groupMembers.map((_, i) => ({
         name: users[i]?.name ?? "Unknown",
         avatarUrl: users[i]?.avatarUrl,
       }));

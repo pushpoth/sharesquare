@@ -1,7 +1,7 @@
 "use client";
 // Implements: TASK-033
 
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import type { Group } from "@/types";
 import { ROUTES } from "@/constants/routes";
 import { formatCurrency } from "@/utils/currency";
@@ -38,7 +38,7 @@ export function GroupCard({
 
   return (
     <Link
-      href={ROUTES.GROUP_DETAIL(group.id)}
+      to={ROUTES.GROUP_DETAIL(group.id)}
       className="block rounded-xl border border-border bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
       data-testid={`group-card-${group.id}`}
     >

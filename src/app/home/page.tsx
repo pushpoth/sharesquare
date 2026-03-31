@@ -1,13 +1,12 @@
 "use client";
 // Implements: TASK-045
 
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useGroups } from "@/hooks/useGroups";
 import { useOverallBalances } from "@/hooks/useBalances";
 import { useAuth } from "@/hooks/useAuth";
 import { AppLayout } from "@/layouts/AppLayout/AppLayout";
 import { BalanceCard } from "@/components/BalanceCard/BalanceCard";
-import { GroupCard } from "@/components/GroupCard/GroupCard";
 import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { ROUTES } from "@/constants/routes";
 import { GroupCardWithData } from "./GroupCardWithData";
@@ -29,7 +28,7 @@ export default function HomePage() {
         />
 
         <Link
-          href={ROUTES.ADD_EXPENSE}
+          to={ROUTES.ADD_EXPENSE}
           className="fixed bottom-24 right-6 flex h-14 w-14 items-center justify-center rounded-full bg-accent text-2xl font-bold text-white shadow-lg transition-transform hover:scale-105"
           aria-label="Add expense"
         >

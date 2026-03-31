@@ -2,7 +2,7 @@
 // Implements: TASK-051
 
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { AppLayout } from "@/layouts/AppLayout/AppLayout";
 import { MemberAvatar } from "@/components/MemberAvatar/MemberAvatar";
@@ -20,7 +20,7 @@ import {
 import { useToast } from "@/components/Toast/Toast";
 
 export default function SettingsPage() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
   const { showToast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,7 +51,7 @@ export default function SettingsPage() {
       const filename = generateExportFilename();
       downloadJson(jsonString, filename);
       showToast("Data exported successfully");
-    } catch (err) {
+    } catch {
       showToast("Export failed", "error");
     }
   };
@@ -69,8 +69,8 @@ export default function SettingsPage() {
       }
       const { imported, skipped } = await importData(db, result.data, "overwrite");
       showToast(`Imported ${imported} records, skipped ${skipped} existing`);
-      router.refresh();
-    } catch (err) {
+      window.location.reload();
+    } catch {
       showToast("Import failed", "error");
     } finally {
       setImporting(false);
@@ -80,7 +80,7 @@ export default function SettingsPage() {
 
   const handleSignOut = () => {
     logout();
-    router.replace(ROUTES.LANDING);
+    navigate(ROUTES.LANDING, { replace: true });
   };
 
   return (

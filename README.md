@@ -1,36 +1,40 @@
 # ShareSquare
 
-A simplified, browser-first expense tracking application designed for friends, roommates, and families. Inspired by the core utility of Splitwise, ShareSquare provides a frictionless way to record shared expenses, calculate owed balances, and settle debts — all without a backend server.
+A browser-first expense tracking PWA for friends, roommates, and families. ShareSquare records shared expenses, calculates “who owes whom,” and supports settlements — with **Supabase** for auth and data, and a **Vite + React** SPA.
 
-## Features
+## Target architecture (living docs)
 
-- **Google OAuth Sign-In** — Zero-password onboarding (+ demo mode for local testing)
-- **Group Management** — Create groups, invite members via shareable codes, manage membership
-- **Expense Tracking** — Add, edit, and delete expenses with flexible split options (equal, custom amounts, percentages)
-- **Balance Calculation** — Real-time "who owes whom" balances per group and overall
-- **Debt Simplification** — Greedy net-balance algorithm minimises the number of settlements needed
-- **Settlements** — Record payments between members to clear debts
-- **Activity Feed** — Chronological log of all group actions
-- **Data Export/Import** — Full JSON export and import for data portability
-- **Offline-First** — All data stored locally in IndexedDB via Dexie.js
+The **source of truth** is [`agentdocs/`](agentdocs/): `spec.md` (v0.2), `design.md` (v0.3), `requirements.md`, `tasks.md` (v0.3), and [`agentdocs/context.json`](agentdocs/context.json).
 
-## Tech Stack
+| Layer        | Technology (target) |
+| ------------ | ------------------- |
+| Build / app  | Vite 6, React 19, TypeScript 5, react-router-dom 7 |
+| Styling      | Tailwind CSS 4 |
+| Backend / DB | Supabase (Postgres + Auth + RLS) |
+| Client       | `@supabase/supabase-js` |
+| PWA          | vite-plugin-pwa (Workbox); **online-first** data, precached shell/assets |
+| Testing      | Jest + React Testing Library |
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router) |
-| UI | React 19 + TypeScript 5 |
-| Styling | Tailwind CSS 4 |
-| Data Storage | Dexie.js 4 (IndexedDB) |
-| Testing | Jest 30 + React Testing Library |
-| Linting/Formatting | ESLint 9 + Prettier |
+**Implementation note:** The Git tree may still contain a **Next.js + Dexie (IndexedDB)** scaffold until migration tasks in [`agentdocs/tasks.md`](agentdocs/tasks.md) are executed. Treat `agentdocs` as canonical for the intended stack.
 
-## Getting Started
+## Features (product)
+
+- **Supabase Auth** — Sign-in via providers and/or magic link configured in the Supabase project (no separate client-only Google OAuth SDK requirement)
+- **Group management** — Create groups, share **invite codes** stored in Postgres (`groups.invite_code`)
+- **Expense tracking** — Equal, exact, and percentage splits; integer **cents** in the data layer
+- **Balances & debt simplification** — Per-group and cross-group views; greedy net-balance simplification
+- **Settlements** — Record payments between members
+- **Activity feed** — Chronological actions across groups
+- **JSON export/import** — Portability via repositories
+- **PWA** — Installable; core data operations require network for MVP
+
+## Getting started
 
 ### Prerequisites
 
 - Node.js 18+
 - npm 9+
+- A Supabase project (URL + anon key) once the stack migration is applied
 
 ### Installation
 
@@ -42,93 +46,73 @@ npm install
 
 ### Development
 
+After the repo matches **Vite** (TASK-001):
+
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Use the **Quick Start (Demo Mode)** button on the landing page to explore without Google OAuth.
+Default dev URL is typically **http://localhost:5173** (Vite). If the scaffold is still Next.js, `npm run dev` may use **http://localhost:3000** until migration.
 
-### Available Scripts
+### Environment
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start development server |
-| `npm run build` | Production build |
-| `npm start` | Serve production build |
-| `npm test` | Run all tests |
-| `npm run test:watch` | Run tests in watch mode |
-| `npm run test:coverage` | Run tests with coverage report |
-| `npm run typecheck` | TypeScript type checking |
-| `npm run lint` | ESLint |
-| `npm run format` | Format with Prettier |
+Copy `.env.example` when provided and set:
 
-## Project Structure
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+Never commit secrets or the **service role** key.
+
+### Common scripts
+
+| Command                 | Description              |
+| ----------------------- | ------------------------ |
+| `npm run dev`           | Development server       |
+| `npm run build`         | Production build         |
+| `npm test`              | Unit tests               |
+| `npm run typecheck`     | TypeScript check         |
+| `npm run lint`          | ESLint                   |
+| `npm run format`        | Prettier (write)         |
+
+## Project structure (target)
+
+Aligned with [`agentdocs/design.md`](agentdocs/design.md) §8:
 
 ```
+index.html
 src/
-├── app/                  # Next.js pages and layouts
-│   ├── page.tsx          # Landing / login page
-│   ├── home/             # Dashboard
-│   ├── groups/           # Groups list + [id] detail
-│   ├── expenses/         # Add new + [id]/edit
-│   ├── activity/         # Activity feed
-│   └── settings/         # Settings, export/import
-├── components/           # Reusable UI components
-├── constants/            # App constants (categories, routes)
-├── contexts/             # React contexts (Auth, Repository)
-├── hooks/                # Custom hooks (useGroups, useExpenses, etc.)
-├── layouts/              # Page layout wrappers
-├── repositories/         # Data access layer (interfaces + Dexie implementations)
-├── services/             # Business logic (auth, balance, debt simplification, etc.)
-├── types/                # TypeScript entity types
-└── utils/                # Utility functions (currency, dates, validation)
+  main.tsx, App.tsx       # Vite entry + React Router
+  pages/                  # Route-level screens
+  components/
+  layouts/
+  repositories/
+    interfaces/
+    supabase/             # Supabase-backed implementations + client.ts
+  services/
+  contexts/
+  hooks/
+  types/
+  utils/
+  constants/
+supabase/migrations/      # SQL + RLS (TASK-007)
 ```
 
 ## Architecture
 
-ShareSquare follows a **repository pattern** with a clean separation between the data layer (IndexedDB/Dexie.js) and the UI. This design allows for future migration to a backend database without touching the UI layer.
-
 ```
-Pages → Hooks → Repositories (interfaces) → Dexie (IndexedDB)
-             → Services (pure business logic)
+Pages → Hooks → Repository interfaces → Supabase repositories → Postgres (RLS)
+             → Services (pure logic: balances, debt simplification, import/export)
 ```
 
-All monetary values are stored as **integer cents** to avoid floating-point precision issues.
+## Spec-driven development
 
-## Implementation Progress
-
-### Completed (v0.1.0)
-
-- [x] Project infrastructure (Next.js, Tailwind, Jest, ESLint, Prettier)
-- [x] TypeScript entity types and data model (6 entities, 8 DB tables)
-- [x] Dexie.js database schema with indexed queries
-- [x] Repository pattern — 5 interfaces + 5 Dexie implementations + factory
-- [x] Services — Auth, InviteCode, Balance, DebtSimplification, Export, Import, Activity
-- [x] React contexts (Auth, Repository) and 5 custom hooks
-- [x] 16 UI components (Header, BottomNav, AppLayout, BalanceCard, GroupCard, ExpenseForm, ExpenseList, ExpenseFilters, MemberBalanceList, GroupCreateForm, InviteCodeInput, SettlementForm, ConfirmDialog, Toast, EmptyState, MemberAvatar)
-- [x] 8 pages (Landing, Dashboard, Groups, Group Detail, Add Expense, Edit Expense, Activity, Settings)
-- [x] 97 unit tests across 13 test suites
-
-### Roadmap
-
-- [ ] **PWA / Service Worker** (TASK-003) — Serwist integration for offline caching and install prompt
-- [ ] **SVG Data Visualizations** (TASK-053) — Expense breakdowns by category and spending-over-time charts
-- [ ] **Google OAuth production setup** — Replace demo mode with real `@react-oauth/google` integration
-- [ ] **Multi-currency support** — Currency selection per group
-- [ ] **Backend migration** — Supabase or Firebase for real-time sync across devices
-- [ ] **Receipt scanning** — OCR-based expense entry
-
-## Spec-Driven Development
-
-This project follows a spec-driven workflow. All living documentation lives in `agentdocs/`:
-
-| Document | Purpose |
-|---|---|
-| `spec.md` | Product spec — problem, goals, features, data model, business rules |
-| `requirements.md` | 28 granular requirements with acceptance criteria |
-| `design.md` | Technical architecture, sequence diagrams, UI specs |
-| `tasks.md` | 53 implementation tasks with dependencies and test plans |
-| `context.json` | Machine-readable project state |
+| Document            | Purpose                                              |
+| ------------------- | ---------------------------------------------------- |
+| `agentdocs/spec.md` | Product spec, goals, features, data model            |
+| `agentdocs/requirements.md` | 33 requirements with acceptance criteria   |
+| `agentdocs/design.md` | Technical design, stack, sequences, RLS intent |
+| `agentdocs/tasks.md`| 60 implementation tasks with dependencies          |
+| `agentdocs/context.json` | Machine-readable stack + task index           |
 
 ## License
 

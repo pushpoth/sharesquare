@@ -1,2 +1,5 @@
 // Global test setup
-// @testing-library/jest-dom matchers are imported directly in test files that need them
+import { TextDecoder, TextEncoder } from "util";
+
+globalThis.TextEncoder = TextEncoder;
+globalThis.TextDecoder = TextDecoder as typeof globalThis.TextDecoder;
