@@ -996,16 +996,16 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-003, REQ-004, REQ-005
 **Depends on:** TASK-033, TASK-041, TASK-042, TASK-024, TASK-030
 
 **Description:**
-**`src/pages/GroupsPage.tsx`**, route `/groups`.
+**`src/pages/GroupsPage.tsx`**, route `/groups`. **Implemented:** **`src/app/groups/page.tsx`** (+ **`src/app/groups/page.test.tsx`**); EmptyState action scrolls to create section (`id="groups-create-section"`).
 
 **Acceptance Criteria:**
 
-- [ ] `data-testid="groups-page"`
+- [x] `data-testid="groups-page"`
 
 **Test Plan:**
 
@@ -1017,16 +1017,16 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-016, REQ-012, REQ-015, REQ-017, REQ-030
 **Depends on:** TASK-040, TASK-038, TASK-039, TASK-043, TASK-035, TASK-026, TASK-025, TASK-027
 
 **Description:**
-**`src/pages/GroupDetailPage.tsx`**, route `/groups/:id`. Use **`useParams`**. Invite section for REQ-030 (TASK-057 may extend).
+**`src/pages/GroupDetailPage.tsx`**, route `/groups/:id`. Use **`useParams`**. Invite section for REQ-030 (TASK-057 may extend). **Implemented:** **`src/app/groups/[id]/page.tsx`**, **`GroupDetailClient.tsx`** (+ **`GroupDetailClient.test.tsx`**); invite code + copy (`group-invite-code`, `group-invite-copy`).
 
 **Acceptance Criteria:**
 
-- [ ] `data-testid="group-detail-page"`
+- [x] `data-testid="group-detail-page"`
 
 **Test Plan:**
 

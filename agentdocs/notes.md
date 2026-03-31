@@ -28,3 +28,4 @@
 - [2026-03-31 TASK-037] `SplitSelector` `readOnly` must not disable the “Split equally” checkbox when `ExpenseForm` passes `readOnly={splitEqually}` — otherwise users cannot switch to custom splits (amount inputs stay read-only only while equal mode is on).
 - [2026-03-31 TASK-042] `InviteCodeInput` checks `navigator.onLine` before `joinGroup`; in Jest restore `navigator.onLine` after tests that set it to `false`.
 - [2026-03-31 TASK-044] Unauthenticated landing is `src/app/page.tsx` (`/`); when `isAuthenticated`, render `<Navigate to={ROUTES.HOME} replace />` instead of an empty fragment after `useEffect` redirect.
+- [2026-03-31 TASK-047] For Jest + a client page under test: avoid top-level `import` of the SUT if mocks need stable objects defined in the same file — use post-mock `require("./Component").default` and self-contained `jest.mock` factories; for `navigator.clipboard.writeText`, prefer `jest.spyOn(navigator.clipboard, "writeText")` when jsdom exposes it.

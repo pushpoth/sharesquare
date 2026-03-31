@@ -126,7 +126,7 @@ TASK-044, TASK-045
 
 ---
 
-## Batch 16 — Groups + group detail pages
+## ~~Batch 16 — Groups + group detail pages~~
 
 Focus: **`TASK-046`**, **`TASK-047`** (heavy integration).
 

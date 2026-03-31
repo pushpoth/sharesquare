@@ -1,6 +1,7 @@
 "use client";
-// Implements: TASK-046
+// Implements: TASK-046 (REQ-003, REQ-004, REQ-005)
 
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGroups } from "@/hooks/useGroups";
 import { AppLayout } from "@/layouts/AppLayout/AppLayout";
@@ -10,14 +11,19 @@ import { EmptyState } from "@/components/EmptyState/EmptyState";
 import { ROUTES } from "@/constants/routes";
 import { GroupCardWithData } from "@/app/home/GroupCardWithData";
 import { useAuth } from "@/hooks/useAuth";
+import type { Group } from "@/types";
 
 export default function GroupsPage() {
   const navigate = useNavigate();
   const { groups, isLoading: groupsLoading } = useGroups();
   const { currentUser } = useAuth();
 
-  const handleGroupCreated = (_group: { id: string }, _inviteCode: string) => {
-    navigate(ROUTES.GROUP_DETAIL(_group.id));
+  const scrollToCreate = useCallback(() => {
+    document.getElementById("groups-create-section")?.scrollIntoView({ behavior: "smooth" });
+  }, []);
+
+  const handleGroupCreated = (group: Group, _inviteCode: string) => {
+    navigate(ROUTES.GROUP_DETAIL(group.id));
   };
 
   const handleJoinSuccess = (groupId: string) => {
@@ -29,7 +35,7 @@ export default function GroupsPage() {
       <div className="space-y-8 px-4 py-6" data-testid="groups-page">
         <h1 className="text-2xl font-bold text-text-primary">Groups</h1>
 
-        <section>
+        <section id="groups-create-section">
           <h2 className="mb-3 text-lg font-semibold text-text-primary">Create a Group</h2>
           <div className="rounded-xl border border-border bg-white p-4">
             <GroupCreateForm onSuccess={handleGroupCreated} />
@@ -56,7 +62,7 @@ export default function GroupsPage() {
               title="No groups yet"
               description="Create or join a group to get started."
               actionLabel="Create Group"
-              onAction={() => {}}
+              onAction={scrollToCreate}
             />
           ) : (
             <div className="space-y-3">

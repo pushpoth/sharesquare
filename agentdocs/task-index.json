@@ -492,7 +492,7 @@
       "title": "Implement Groups list page",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-033",
         "TASK-041",
@@ -506,7 +506,7 @@
       "title": "Implement Group detail page",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-040",
         "TASK-038",

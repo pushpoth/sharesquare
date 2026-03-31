@@ -403,6 +403,71 @@
       "./GroupCardWithData"
     ]
   },
+  "src/app/groups/page.tsx": {
+    "task": "TASK-046",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": ["GroupsPage(): JSX.Element"],
+    "imports": [
+      "react",
+      "@/layouts/AppLayout/AppLayout",
+      "@/components/GroupCreateForm/GroupCreateForm",
+      "@/components/InviteCodeInput/InviteCodeInput",
+      "@/components/EmptyState/EmptyState",
+      "@/hooks/useGroups",
+      "@/hooks/useAuth",
+      "@/constants/routes",
+      "@/app/home/GroupCardWithData",
+      "@/types"
+    ]
+  },
+  "src/app/groups/page.test.tsx": {
+    "task": "TASK-046",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "react-router-dom", "./page"]
+  },
+  "src/app/groups/[id]/page.tsx": {
+    "task": "TASK-047",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": ["GroupDetailRoutePage(): JSX.Element"],
+    "imports": ["./GroupDetailClient"]
+  },
+  "src/app/groups/[id]/GroupDetailClient.tsx": {
+    "task": "TASK-047",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": ["GroupDetailClient(): JSX.Element"],
+    "imports": [
+      "react",
+      "react-router-dom",
+      "dexie-react-hooks",
+      "@/hooks/useGroups",
+      "@/hooks/useExpenses",
+      "@/hooks/useBalances",
+      "@/hooks/useSettlements",
+      "@/hooks/useAuth",
+      "@/contexts/RepositoryContext",
+      "@/layouts/AppLayout/AppLayout",
+      "@/components/MemberBalanceList/MemberBalanceList",
+      "@/components/SettlementForm/SettlementForm",
+      "@/components/ExpenseFilters/ExpenseFilters",
+      "@/components/ExpenseList/ExpenseList",
+      "@/components/ConfirmDialog/ConfirmDialog",
+      "@/constants/routes",
+      "@/utils/currency",
+      "@/constants/categories"
+    ]
+  },
+  "src/app/groups/[id]/GroupDetailClient.test.tsx": {
+    "task": "TASK-047",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "react-router-dom", "post-mock require(./GroupDetailClient)"]
+  },
   "src/app/settings/page.tsx": {
     "task": "TASK-051,T019-T020",
     "status": "complete",

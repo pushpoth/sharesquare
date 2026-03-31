@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-047
+// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030)
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -226,6 +226,33 @@ export default function GroupDetailClient() {
           <p className="text-sm text-text-secondary">Group Total Expenses</p>
           <p className="text-2xl font-bold text-text-primary">{formatCurrency(totalExpenses)}</p>
         </div>
+
+        <section aria-labelledby="group-invite-heading">
+          <h2 id="group-invite-heading" className="mb-2 text-lg font-semibold text-text-primary">
+            Invite friends
+          </h2>
+          <p className="mb-3 text-sm text-text-secondary">
+            Share this code so others can join this group from the Groups tab.
+          </p>
+          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-border bg-surface-muted/50 p-3">
+            <code
+              className="flex-1 min-w-[8rem] font-mono text-lg font-medium text-text-primary"
+              data-testid="group-invite-code"
+            >
+              {group.inviteCode}
+            </code>
+            <button
+              type="button"
+              data-testid="group-invite-copy"
+              onClick={() => {
+                void navigator.clipboard.writeText(group.inviteCode).catch(() => {});
+              }}
+              className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white"
+            >
+              Copy code
+            </button>
+          </div>
+        </section>
 
         <section>
           <h2 className="mb-3 text-lg font-semibold text-text-primary">Member Balances</h2>
