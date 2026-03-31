@@ -695,7 +695,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-019, REQ-027
 **Depends on:** TASK-005
 
@@ -802,7 +802,7 @@ Group list card + navigation to `/groups/:id` via React Router.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-005, REQ-016
 **Depends on:** none
 
@@ -815,7 +815,7 @@ Unchanged reusable empty state. Tests.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-012
 **Depends on:** none
 
@@ -828,7 +828,7 @@ Unchanged modal dialog. Tests.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-006, REQ-015
 **Depends on:** none
 

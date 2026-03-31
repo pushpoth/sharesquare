@@ -23,3 +23,4 @@
 - [2026-04-01 TASK-024] `useGroups` uses `useEffect` + `refetch` (not `useLiveQuery`) per tasks.md; `createGroup` retries on `DuplicateError` or Postgres-style unique messages after `generateUniqueCode`.
 - [2026-04-01 TASK-026] `useBalances` / `useOverallBalances` load expenses/settlements/payers/splits through `RepositoryBundle`, not `db`, so Supabase-backed repos work; list hooks still use `useLiveQuery` for Dexie reactivity.
 - [2026-04-01 TASK-025-T027] Hook tests that mock only repositories jest-mock `dexie-react-hooks` `useLiveQuery` to resolve async callbacks (real hook waits on Dexie observation).
+- [2026-04-02 TASK-029] BottomNav uses `NavLink` with `end={false}` only for `ROUTES.GROUPS` so `/groups/:id` keeps Groups active; other tabs use `end` for exact segment match.

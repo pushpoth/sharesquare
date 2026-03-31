@@ -260,6 +260,34 @@
     "signatures": [],
     "imports": ["@/contexts/RepositoryContext", "@/services/activityService"]
   },
+  "src/components/BottomNav/BottomNav.tsx": {
+    "task": "TASK-029",
+    "status": "complete",
+    "exports": ["BottomNav"],
+    "signatures": [],
+    "imports": ["react-router-dom", "@/constants/routes"]
+  },
+  "src/components/EmptyState/EmptyState.tsx": {
+    "task": "TASK-034",
+    "status": "complete",
+    "exports": ["EmptyState"],
+    "signatures": [],
+    "imports": []
+  },
+  "src/components/ConfirmDialog/ConfirmDialog.tsx": {
+    "task": "TASK-035",
+    "status": "complete",
+    "exports": ["ConfirmDialog"],
+    "signatures": [],
+    "imports": []
+  },
+  "src/components/Toast/Toast.tsx": {
+    "task": "TASK-036",
+    "status": "complete",
+    "exports": ["ToastProvider", "useToast"],
+    "signatures": [],
+    "imports": []
+  },
   "src/app/page.tsx": {
     "task": "TASK-044,T015",
     "status": "complete",

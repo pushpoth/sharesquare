@@ -60,6 +60,7 @@ export function ConfirmDialog({
             type="button"
             onClick={onCancel}
             className="rounded-lg px-4 py-2 text-text-secondary hover:bg-surface-muted"
+            data-testid="confirm-dialog-cancel"
           >
             Cancel
           </button>
@@ -67,6 +68,7 @@ export function ConfirmDialog({
             type="button"
             onClick={onConfirm}
             className={`rounded-lg px-4 py-2 font-medium transition-colors ${confirmClass}`}
+            data-testid="confirm-dialog-confirm"
           >
             {confirmLabel}
           </button>

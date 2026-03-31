@@ -44,6 +44,7 @@ export function EmptyState({ icon, title, description, actionLabel, onAction }: 
           type="button"
           onClick={onAction}
           className="rounded-lg bg-accent px-6 py-2 font-medium text-white transition-colors hover:bg-accent/90"
+          data-testid="empty-state-action"
         >
           {actionLabel}
         </button>

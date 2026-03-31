@@ -311,7 +311,7 @@
       "title": "Implement BottomNav component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-005"
       ]
@@ -364,7 +364,7 @@
       "title": "Implement EmptyState component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": []
     },
     {
@@ -372,7 +372,7 @@
       "title": "Implement ConfirmDialog component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": []
     },
     {
@@ -380,7 +380,7 @@
       "title": "Implement Toast notification component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": []
     },
     {

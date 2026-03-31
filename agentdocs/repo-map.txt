@@ -4,7 +4,7 @@ src/main.tsx [✅T001] createRoot, BrowserRouter
 src/AppRoutes.tsx [✅T001] Routes, page mapping
 src/styles/globals.css [✅T001] @theme tokens
 src/app/ [✅T001] page components (RR, was Next)
-src/components/ [⬜] UI library
+src/components/ [✅T029,T034-T036+tests] BottomNav (NavLink); EmptyState; ConfirmDialog; Toast provider+useToast
 src/layouts/AppLayout/ [✅T001] auth shell + navigate
 supabase/migrations/ [✅T007,T055] initial schema + RLS + RPC + profile-on-signup trigger
 src/repositories/ [✅T008-T014,T056] interfaces + errors; Dexie default OR Supabase bundle via VITE_USE_SUPABASE_REPOS; factory + env-shim
