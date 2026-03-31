@@ -1,13 +1,13 @@
 {
   "src/main.tsx": {
-    "task": "TASK-001",
+    "task": "TASK-001,T052",
     "status": "complete",
     "exports": ["default"],
     "signatures": [],
     "imports": ["react", "react-dom/client", "react-router-dom", "@/app/providers", "@/AppRoutes", "@/styles/globals.css"]
   },
   "src/AppRoutes.tsx": {
-    "task": "TASK-001",
+    "task": "TASK-001,T052",
     "status": "complete",
     "exports": ["AppRoutes"],
     "signatures": ["AppRoutes(): JSX.Element"],
@@ -436,7 +436,7 @@
     "imports": ["./GroupDetailClient"]
   },
   "src/app/groups/[id]/GroupDetailClient.tsx": {
-    "task": "TASK-047",
+    "task": "TASK-047,T053",
     "status": "complete",
     "exports": ["default"],
     "signatures": ["GroupDetailClient(): JSX.Element"],
@@ -458,7 +458,9 @@
       "@/components/ConfirmDialog/ConfirmDialog",
       "@/constants/routes",
       "@/utils/currency",
-      "@/constants/categories"
+      "@/constants/categories",
+      "@/components/CategoryChart/CategoryChart",
+      "@/components/FlowDiagram/FlowDiagram"
     ]
   },
   "src/app/groups/[id]/GroupDetailClient.test.tsx": {
@@ -558,9 +560,70 @@
   "src/app/settings/page.tsx": {
     "task": "TASK-051,T019-T020",
     "status": "complete",
+    "exports": ["default"],
+    "signatures": ["SettingsPage(): JSX.Element"],
+    "imports": [
+      "react",
+      "react-router-dom",
+      "@/hooks/useAuth",
+      "@/layouts/AppLayout/AppLayout",
+      "@/components/MemberAvatar/MemberAvatar",
+      "@/constants/routes",
+      "@/repositories/indexeddb/database",
+      "@/repositories",
+      "@/services/exportService",
+      "@/services/importService",
+      "@/components/Toast/Toast"
+    ]
+  },
+  "src/app/settings/page.test.tsx": {
+    "task": "TASK-051",
+    "status": "complete",
     "exports": [],
     "signatures": [],
-    "imports": ["@/repositories", "@/services/exportService", "@/services/importService"]
+    "imports": ["@testing-library/react", "react-router-dom", "./page"]
+  },
+  "src/app/providers.tsx": {
+    "task": "TASK-052",
+    "status": "complete",
+    "exports": ["Providers"],
+    "signatures": ["Providers({ children }): JSX.Element"],
+    "imports": ["@/contexts/AuthContext", "@/contexts/RepositoryContext", "@/components/Toast/Toast"]
+  },
+  "src/AppRoutes.test.tsx": {
+    "task": "TASK-052",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "react-router-dom", "./AppRoutes"]
+  },
+  "src/components/CategoryChart/CategoryChart.tsx": {
+    "task": "TASK-053",
+    "status": "complete",
+    "exports": ["CategoryChart"],
+    "signatures": ["CategoryChart(props): JSX.Element"],
+    "imports": ["react", "./types", "./constants"]
+  },
+  "src/components/CategoryChart/CategoryChart.test.tsx": {
+    "task": "TASK-053",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "./CategoryChart"]
+  },
+  "src/components/FlowDiagram/FlowDiagram.tsx": {
+    "task": "TASK-053",
+    "status": "complete",
+    "exports": ["FlowDiagram"],
+    "signatures": ["FlowDiagram(props): JSX.Element"],
+    "imports": ["react", "@/utils/currency", "@/constants/colors", "./types"]
+  },
+  "src/components/FlowDiagram/FlowDiagram.test.tsx": {
+    "task": "TASK-053",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "./FlowDiagram"]
   },
   "supabase/README.md": {
     "task": "TASK-054,T055",

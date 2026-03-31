@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-051
+// Implements: TASK-051 (REQ-002, REQ-021, REQ-022)
 
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -62,8 +62,8 @@ export default function SettingsPage() {
     }
   };
 
-  const handleSignOut = () => {
-    void logout();
+  const handleSignOut = async () => {
+    await logout();
     navigate(ROUTES.LANDING, { replace: true });
   };
 
@@ -92,6 +92,7 @@ export default function SettingsPage() {
           <div className="space-y-3">
             <button
               type="button"
+              data-testid="settings-export"
               onClick={handleExport}
               className="w-full rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-surface-muted"
             >
@@ -107,6 +108,7 @@ export default function SettingsPage() {
               />
               <button
                 type="button"
+                data-testid="settings-import-trigger"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={importing}
                 className="w-full rounded-lg border border-border px-4 py-2 text-sm font-medium hover:bg-surface-muted disabled:opacity-50"
@@ -120,6 +122,7 @@ export default function SettingsPage() {
         <section>
           <button
             type="button"
+            data-testid="settings-sign-out"
             onClick={handleSignOut}
             className="w-full rounded-lg bg-owing-badge px-4 py-2 font-medium text-white hover:bg-owing-badge/90"
           >

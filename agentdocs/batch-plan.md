@@ -142,7 +142,7 @@ TASK-048, TASK-049, TASK-050
 
 ---
 
-## Batch 18 — Settings + router hardening + charts
+## ~~Batch 18 — Settings + router hardening + charts~~
 
 Focus: **`TASK-051`** (export/import); **`TASK-052`** completes provider/router checklist; **`TASK-053`** needs **`TASK-026`**.
 

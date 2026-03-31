@@ -5,13 +5,13 @@
   "status": "in_progress",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
-  "last_updated": "2026-03-31T23:59:00Z",
+  "last_updated": "2026-04-01T00:30:00Z",
   "tasks_total": 60,
-  "tasks_done": 53,
+  "tasks_done": 56,
   "session": {
     "current_batch": [],
-    "session_count": 18,
-    "last_session_date": "2026-03-31"
+    "session_count": 19,
+    "last_session_date": "2026-04-01"
   },
   "documentation": {
     "spec_version": "0.2",
@@ -58,7 +58,8 @@
     "Batch 14 complete (TASK-041–043): GroupCreateForm showToast(error) + testids + tests; InviteCodeInput offline guard (navigator.onLine) + join error toasts + tests; SettlementForm testids + validation tests.",
     "Batch 15 complete (TASK-044–045): Login at src/app/page.tsx uses Navigate to /home when authenticated; ROUTES.HOME; sign-in-button on demo CTA; page.test + home page.test with mocked hooks/AppLayout.",
     "Batch 16 complete (TASK-046–047): src/app/groups/page.tsx (EmptyState scroll-to-create, page.test); src/app/groups/[id]/GroupDetailClient + page route; invite block + copy testids; GroupDetailClient.test uses post-mock require(SUT) + self-contained jest.mock factories (hoist-safe) and fireEvent + clipboard spy.",
-    "Batch 17 complete (TASK-048–050): AddExpenseClient `groupLockedFromQuery` + read-only group banner (`add-expense-group-readonly`) when `?groupId=`; AddExpenseClient.test / EditExpenseClient.test / activity/page.test (dexie useLiveQuery shim + require page); Activity rows `data-testid=\"activity-entry\"`."
+    "Batch 17 complete (TASK-048–050): AddExpenseClient `groupLockedFromQuery` + read-only group banner (`add-expense-group-readonly`) when `?groupId=`; AddExpenseClient.test / EditExpenseClient.test / activity/page.test (dexie useLiveQuery shim + require page); Activity rows `data-testid=\"activity-entry\"`.",
+    "Batch 18 complete (TASK-051–053): Settings sign-out `await logout()` + `settings-sign-out` test; `settings/page.test.tsx`; `AppRoutes.test.tsx` (`__esModule` page stubs); README + `.env.example` pointer; `CategoryChart` + `FlowDiagram` SVG + GroupDetail Insights; `main`/`providers`/`AppRoutes` task comments."
   ],
   "req_sequence": 33,
   "task_sequence": 60,
@@ -115,9 +116,9 @@
     { "id": "TASK-048", "title": "Implement Add Expense page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-006", "REQ-007", "REQ-008", "REQ-009", "REQ-010", "REQ-028"], "depends_on": ["TASK-037", "TASK-025", "TASK-024", "TASK-036"] },
     { "id": "TASK-049", "title": "Implement Edit Expense page", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-011"], "depends_on": ["TASK-037", "TASK-025"] },
     { "id": "TASK-050", "title": "Implement Activity feed page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-020"], "depends_on": ["TASK-031", "TASK-034", "TASK-021"] },
-    { "id": "TASK-051", "title": "Implement Settings page with export/import", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-002", "REQ-021", "REQ-022"], "depends_on": ["TASK-019", "TASK-020", "TASK-022", "TASK-036", "TASK-035"] },
-    { "id": "TASK-052", "title": "Wire React Router, providers, and global configuration", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-001", "REQ-024", "REQ-025"], "depends_on": ["TASK-022", "TASK-023", "TASK-036", "TASK-003"] },
-    { "id": "TASK-053", "title": "Implement SVG data visualizations", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-018"], "depends_on": ["TASK-026"] },
+    { "id": "TASK-051", "title": "Implement Settings page with export/import", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-002", "REQ-021", "REQ-022"], "depends_on": ["TASK-019", "TASK-020", "TASK-022", "TASK-036", "TASK-035"] },
+    { "id": "TASK-052", "title": "Wire React Router, providers, and global configuration", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-001", "REQ-024", "REQ-025"], "depends_on": ["TASK-022", "TASK-023", "TASK-036", "TASK-003"] },
+    { "id": "TASK-053", "title": "Implement SVG data visualizations", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-018"], "depends_on": ["TASK-026"] },
     { "id": "TASK-054", "title": "Configure Supabase Auth providers and redirect URLs", "phase": "infra", "effort": "S", "status": "done", "implements": ["REQ-001"], "depends_on": ["TASK-007"] },
     { "id": "TASK-055", "title": "Add profile row sync on new user (trigger or documented upsert)", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-002"], "depends_on": ["TASK-007", "TASK-015"] },
     { "id": "TASK-056", "title": "Review RLS for invite-code lookup and group join", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-004", "REQ-029"], "depends_on": ["TASK-007", "TASK-010"] },

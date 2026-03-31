@@ -60,7 +60,7 @@ Default dev URL is typically **http://localhost:5173** (Vite). If the scaffold i
 
 ### Environment
 
-Copy `.env.example` when provided and set:
+Canonical variable names and placeholders live in **[`.env.example`](.env.example)** (TASK-052). Copy it to `.env.local` (or `.env`) and set:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`

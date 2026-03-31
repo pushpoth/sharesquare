@@ -1093,16 +1093,16 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-002, REQ-021, REQ-022
 **Depends on:** TASK-019, TASK-020, TASK-022, TASK-036, TASK-035
 
 **Description:**
-**`src/pages/SettingsPage.tsx`**, route `/settings`. Sign out via Supabase.
+**`src/pages/SettingsPage.tsx`**, route `/settings`. Sign out via Supabase. **Implemented:** **`src/app/settings/page.tsx`** + **`page.test.tsx`**; `handleSignOut` **`await logout()`** then **`navigate(ROUTES.LANDING, { replace: true })`**; testids `settings-sign-out`, `settings-export`, `settings-import-trigger`.
 
 **Acceptance Criteria:**
 
-- [ ] Sign out clears Supabase session and navigates to `/`
+- [x] Sign out clears Supabase session and navigates to `/`
 
 **Test Plan:**
 
@@ -1118,18 +1118,18 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-001, REQ-024, REQ-025
 **Depends on:** TASK-022, TASK-023, TASK-036, TASK-003
 
 **Description:**
-**`src/main.tsx`**: `BrowserRouter`. **`src/App.tsx`**: `Routes` / `Route` definitions for all pages; wrap public vs authenticated layouts. Providers nested: **Supabase client** (if using a thin `SupabaseProvider` optional), **`RepositoryContext`**, **`AuthContext`**, **`ToastProvider`**. Import `globals.css`. PWA meta tags in `index.html`. Title "ShareSquare". **Do not** wrap `GoogleOAuthProvider`.
+**`src/main.tsx`**: `BrowserRouter`. **`src/App.tsx`**: `Routes` / `Route` definitions for all pages; wrap public vs authenticated layouts. Providers nested: **Supabase client** (if using a thin `SupabaseProvider` optional), **`RepositoryContext`**, **`AuthContext`**, **`ToastProvider`**. Import `globals.css`. PWA meta tags in `index.html`. Title "ShareSquare". **Do not** wrap `GoogleOAuthProvider`. **Implemented:** Vite layout uses **`src/AppRoutes.tsx`** + **`src/app/providers.tsx`** (Repository → Auth → Toast); **`AppRoutes.test.tsx`** smoke paths; README links **`.env.example`** for **`VITE_*`**.
 
 **Acceptance Criteria:**
 
-- [ ] All routes from design.md resolve to page components
-- [ ] Protected routes use auth guard layout
-- [ ] Env vars `VITE_SUPABASE_*` documented
+- [x] All routes from design.md resolve to page components
+- [x] Protected routes use auth guard layout
+- [x] Env vars `VITE_SUPABASE_*` documented
 
 **Test Plan:**
 
@@ -1142,12 +1142,12 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-018
 **Depends on:** TASK-026
 
 **Description:**
-`CategoryChart` and `FlowDiagram` components; integrate into Group Detail. Unchanged product intent.
+`CategoryChart` and `FlowDiagram` components; integrate into Group Detail. Unchanged product intent. **Implemented:** **`src/components/CategoryChart/*`**, **`src/components/FlowDiagram/*`** (+ tests); **Group detail** “Insights” section uses **`simplifiedDebts`** from **`useBalances`** and expense category totals.
 
 **Test Plan:**
 

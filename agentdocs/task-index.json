@@ -559,7 +559,7 @@
       "title": "Implement Settings page with export/import",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-019",
         "TASK-020",
@@ -573,7 +573,7 @@
       "title": "Wire React Router, providers, and global configuration",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-022",
         "TASK-023",
@@ -586,7 +586,7 @@
       "title": "Implement SVG data visualizations",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-026"
       ]

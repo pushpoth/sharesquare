@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030)
+// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030), TASK-053 (REQ-018)
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +18,9 @@ import { ExpenseList } from "@/components/ExpenseList/ExpenseList";
 import { ConfirmDialog } from "@/components/ConfirmDialog/ConfirmDialog";
 import { ROUTES } from "@/constants/routes";
 import { formatCurrency } from "@/utils/currency";
-import { EXPENSE_CATEGORIES } from "@/constants/categories";
+import { CATEGORY_MAP, EXPENSE_CATEGORIES } from "@/constants/categories";
+import { CategoryChart } from "@/components/CategoryChart/CategoryChart";
+import { FlowDiagram } from "@/components/FlowDiagram/FlowDiagram";
 import type { ExpenseFiltersState } from "@/components/ExpenseFilters/ExpenseFilters";
 import type { ExpensePayer, ExpenseSplit } from "@/types";
 
@@ -28,7 +30,7 @@ export default function GroupDetailClient() {
   const groupId = params.id as string;
   const { getGroupById, updateGroup, getGroupMembers } = useGroups();
   const { expenses, deleteExpense } = useExpenses(groupId);
-  const { memberBalances } = useBalances(groupId);
+  const { memberBalances, simplifiedDebts } = useBalances(groupId);
   const { addSettlement } = useSettlements(groupId);
   const { currentUser } = useAuth();
   const repos = useRepositories();
@@ -126,6 +128,33 @@ export default function GroupDetailClient() {
 
   const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
   const isAdmin = group?.createdBy === currentUser?.id;
+
+  const categoryChartSegments = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const e of expenses) {
+      m.set(e.category, (m.get(e.category) ?? 0) + e.amount);
+    }
+    return Array.from(m.entries()).map(([categoryKey, amountCents]) => ({
+      categoryKey,
+      label: CATEGORY_MAP[categoryKey]?.label ?? categoryKey,
+      amountCents,
+    }));
+  }, [expenses]);
+
+  const debtFlows = useMemo(
+    () =>
+      simplifiedDebts.map((d) => ({
+        fromUserId: d.from,
+        toUserId: d.to,
+        amountCents: d.amount,
+      })),
+    [simplifiedDebts],
+  );
+
+  const resolveMemberName = useCallback(
+    (userId: string) => effectiveMembersMap.get(userId)?.name ?? userId,
+    [effectiveMembersMap],
+  );
 
   const handleNameSave = useCallback(
     async (newName: string) => {
@@ -257,6 +286,22 @@ export default function GroupDetailClient() {
         <section>
           <h2 className="mb-3 text-lg font-semibold text-text-primary">Member Balances</h2>
           <MemberBalanceList members={memberBalanceList} />
+        </section>
+
+        <section aria-labelledby="group-insights-heading">
+          <h2 id="group-insights-heading" className="mb-3 text-lg font-semibold text-text-primary">
+            Insights
+          </h2>
+          <div className="space-y-6 rounded-xl border border-border bg-white p-4">
+            <div>
+              <h3 className="mb-2 text-sm font-medium text-text-secondary">Spending by category</h3>
+              <CategoryChart segments={categoryChartSegments} />
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-medium text-text-secondary">Simplified settlements</h3>
+              <FlowDiagram flows={debtFlows} resolveName={resolveMemberName} />
+            </div>
+          </div>
         </section>
 
         <section>

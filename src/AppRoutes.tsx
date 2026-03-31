@@ -1,4 +1,4 @@
-// Implements: TASK-001 (REQ-026, REQ-027)
+// Implements: TASK-001 (REQ-026, REQ-027), TASK-052 (REQ-001, REQ-024, REQ-025)
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "@/app/page";

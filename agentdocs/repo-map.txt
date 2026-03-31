@@ -3,8 +3,8 @@ vite.config.ts [✅T001,T003] vite, react, tailwind, VitePWA
 src/main.tsx [✅T001] createRoot, BrowserRouter
 src/AppRoutes.tsx [✅T001] Routes, page mapping
 src/styles/globals.css [✅T001] @theme tokens
-src/app/ [✅T001,T044-T050+tests] `/` login; `/home`; `/groups`; `/expenses/new` + `/expenses/:id/edit`; `/activity`; `/settings`; etc.
-src/components/ [✅T028-T043+tests] GroupCreateForm; InviteCodeInput; SettlementForm; Header; MemberAvatar; BalanceCard; GroupCard; ExpenseForm; ExpenseList; ExpenseFilters; MemberBalanceList; SplitSelector; BottomNav; EmptyState; ConfirmDialog; Toast
+src/app/ [✅T001,T044-T051+tests] `/` login; `/home`; `/groups`; expenses; `/activity`; `/settings`; etc.
+src/components/ [✅T028-T043,T053+tests] GroupCreateForm; InviteCodeInput; SettlementForm; Header; MemberAvatar; BalanceCard; GroupCard; ExpenseForm; ExpenseList; ExpenseFilters; MemberBalanceList; SplitSelector; BottomNav; EmptyState; ConfirmDialog; Toast; CategoryChart; FlowDiagram
 src/layouts/AppLayout/ [✅T030+test] Header; main max-w-lg; BottomNav; Navigate to / when unauthenticated after load
 supabase/migrations/ [✅T007,T055] initial schema + RLS + RPC + profile-on-signup trigger
 src/repositories/ [✅T008-T014,T056] interfaces + errors; Dexie default OR Supabase bundle via VITE_USE_SUPABASE_REPOS; factory + env-shim
