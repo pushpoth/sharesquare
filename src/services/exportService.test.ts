@@ -1,10 +1,97 @@
 // Implements: TASK-019 (REQ-021)
 
-import { buildExportPayload, downloadJson, generateExportFilename } from "./exportService";
+import {
+  buildExportPayload,
+  downloadJson,
+  exportAllData,
+  generateExportFilename,
+} from "./exportService";
+import type { RepositoryBundle } from "@/repositories/supabase/factory";
 import type { User } from "@/types/user";
 import type { Group } from "@/types/group";
 
 describe("exportService", () => {
+  describe("exportAllData", () => {
+    function mockRepos(overrides: Partial<RepositoryBundle> = {}): RepositoryBundle {
+      const user: User = {
+        id: "u1",
+        email: "a@b.com",
+        name: "Alice",
+        avatarUrl: "",
+        createdAt: "2025-01-01T00:00:00Z",
+      };
+      const group: Group = {
+        id: "g1",
+        name: "Trip",
+        inviteCode: "ABC",
+        createdBy: "u1",
+        createdAt: "2025-01-01T00:00:00Z",
+      };
+      const base: RepositoryBundle = {
+        users: {
+          findById: jest.fn().mockImplementation((id: string) => Promise.resolve(id === "u1" ? user : undefined)),
+          findByEmail: jest.fn(),
+          create: jest.fn(),
+          getAll: jest.fn(),
+        },
+        groups: {
+          findById: jest.fn(),
+          findByInviteCode: jest.fn(),
+          getByUserId: jest.fn().mockResolvedValue([group]),
+          create: jest.fn(),
+          update: jest.fn(),
+          delete: jest.fn(),
+          addMember: jest.fn(),
+          getMembers: jest.fn().mockResolvedValue([]),
+          isMember: jest.fn(),
+        },
+        expenses: {
+          findById: jest.fn(),
+          getByGroupId: jest.fn().mockResolvedValue([]),
+          create: jest.fn(),
+          update: jest.fn(),
+          delete: jest.fn(),
+          getPayers: jest.fn(),
+          getSplits: jest.fn(),
+        },
+        settlements: {
+          findById: jest.fn(),
+          getByGroupId: jest.fn().mockResolvedValue([]),
+          create: jest.fn(),
+          delete: jest.fn(),
+        },
+        activity: {
+          log: jest.fn(),
+          getByUserId: jest.fn(),
+        },
+      };
+      return { ...base, ...overrides };
+    }
+
+    it("aggregates repos for the given userId", async () => {
+      const repos = mockRepos();
+      const payload = await exportAllData(repos, "u1");
+
+      expect(repos.groups.getByUserId).toHaveBeenCalledWith("u1");
+      expect(payload.version).toBe("1.0");
+      expect(payload.users).toHaveLength(1);
+      expect(payload.users[0].id).toBe("u1");
+      expect(payload.groups).toHaveLength(1);
+      expect(payload.groups[0].id).toBe("g1");
+    });
+
+    it("returns empty arrays when user has no groups", async () => {
+      const repos = mockRepos();
+      (repos.groups.getByUserId as jest.Mock).mockResolvedValue([]);
+
+      const payload = await exportAllData(repos, "u1");
+
+      expect(payload.groups).toEqual([]);
+      expect(payload.users).toHaveLength(1);
+      expect(payload.expenses).toEqual([]);
+    });
+  });
+
   describe("buildExportPayload", () => {
     it("returns correct structure with version and exportedAt", () => {
       const before = new Date().toISOString();

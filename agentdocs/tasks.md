@@ -465,7 +465,7 @@ Same as prior spec: pure functions `calculateGroupBalances`, `calculateOverallBa
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-021
 **Depends on:** TASK-004, TASK-006
 
@@ -487,7 +487,7 @@ Same as prior spec: pure functions `calculateGroupBalances`, `calculateOverallBa
 
 **Phase:** backend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-022
 **Depends on:** TASK-004, TASK-006, TASK-019
 
@@ -509,7 +509,7 @@ Same as prior spec: pure functions `calculateGroupBalances`, `calculateOverallBa
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-020
 **Depends on:** TASK-013, TASK-006
 

@@ -176,6 +176,27 @@
     "signatures": [],
     "imports": []
   },
+  "src/services/exportService.ts": {
+    "task": "TASK-019",
+    "status": "complete",
+    "exports": ["exportAllData", "buildExportPayload", "downloadJson", "generateExportFilename"],
+    "signatures": [],
+    "imports": ["@/repositories/supabase/factory", "@/types/*"]
+  },
+  "src/services/importService.ts": {
+    "task": "TASK-020",
+    "status": "complete",
+    "exports": ["validateImportJson", "importData", "createDexieImportWriter", "ImportDataWriter"],
+    "signatures": [],
+    "imports": ["./exportService", "@/repositories/indexeddb/database", "@/types/*"]
+  },
+  "src/services/activityService.ts": {
+    "task": "TASK-021",
+    "status": "complete",
+    "exports": ["logActivity", "getActivityFeed", "buildActivityDescription"],
+    "signatures": [],
+    "imports": ["@/repositories/interfaces/IActivityRepository", "@/utils"]
+  },
   "src/contexts/AuthContext.tsx": {
     "task": "TASK-015",
     "status": "complete",
@@ -189,6 +210,13 @@
     "exports": [],
     "signatures": [],
     "imports": []
+  },
+  "src/app/settings/page.tsx": {
+    "task": "TASK-051,T019-T020",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@/repositories", "@/services/exportService", "@/services/importService"]
   },
   "supabase/README.md": {
     "task": "TASK-054,T055",

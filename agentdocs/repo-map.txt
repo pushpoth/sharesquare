@@ -8,7 +8,7 @@ src/components/ [⬜] UI library
 src/layouts/AppLayout/ [✅T001] auth shell + navigate
 supabase/migrations/ [✅T007,T055] initial schema + RLS + RPC + profile-on-signup trigger
 src/repositories/ [✅T008-T014,T056] interfaces + errors; Dexie default OR Supabase bundle via VITE_USE_SUPABASE_REPOS; factory + env-shim
-src/services/ [✅T015-T018,T054] authService; inviteCodeService; balanceService; debtSimplificationService
+src/services/ [✅T015-T021,T054] auth; invite; balance; debt simplify; export (exportAllData); import (ImportDataWriter + Dexie); activity
 src/contexts/AuthContext.tsx [✅T015] Supabase session + demo path
 src/hooks/ [⬜]
 src/types/ [✅T004-T006] entities + ACTIVITY_TYPES

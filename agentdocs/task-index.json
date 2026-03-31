@@ -201,7 +201,7 @@
       "title": "Implement ExportService",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-004",
         "TASK-006"
@@ -212,7 +212,7 @@
       "title": "Implement ImportService",
       "phase": "backend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-004",
         "TASK-006",
@@ -224,7 +224,7 @@
       "title": "Implement ActivityService",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-013",
         "TASK-006"

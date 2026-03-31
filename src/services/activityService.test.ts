@@ -2,7 +2,7 @@
 
 import { logActivity, getActivityFeed, buildActivityDescription } from "./activityService";
 import type { IActivityRepository } from "@/repositories/interfaces/IActivityRepository";
-import type { ActivityEntry } from "@/types/activity";
+import type { ActivityEntry, ActivityType } from "@/types/activity";
 
 describe("activityService", () => {
   describe("logActivity", () => {
@@ -112,6 +112,14 @@ describe("activityService", () => {
         groupName: "Vacation",
       });
       expect(desc).toBe("Diana created Vacation");
+    });
+
+    it("default branch: generic message for non-union runtime type", () => {
+      const desc = buildActivityDescription("not_a_real_type" as ActivityType, {
+        userName: "Eve",
+        groupName: "Other",
+      });
+      expect(desc).toBe("Eve performed an action in Other");
     });
   });
 });

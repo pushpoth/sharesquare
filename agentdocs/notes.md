@@ -17,3 +17,5 @@
 - [2026-04-01 TASK-015] Supabase Auth UI only when `isSupabaseAuthConfigured()` is true (not the Jest default `https://test.supabase.co` URL).
 - [2026-04-01 TASK-016] `normalizeCode` inserts a hyphen for exactly 8 alphanumeric characters so `ABCD1234` matches stored `ABCD-1234`.
 - [2026-04-01 TASK-055] `on_auth_user_created` + `handle_new_user()` inserts into `public.profiles` with `ON CONFLICT (id) DO NOTHING`; client `ensureProfile()` remains the idempotent upsert for OAuth name/avatar refresh.
+- [2026-04-01 TASK-019] Settings **export** uses `exportAllData(repositories, currentUser.id)` so Supabase mode exports RLS-visible data, not a raw Dexie dump.
+- [2026-04-01 TASK-020] **Import** uses `ImportDataWriter`; `createDexieImportWriter(db)` backs the Settings page — a Supabase-backed writer is not wired yet when `VITE_USE_SUPABASE_REPOS=true`.

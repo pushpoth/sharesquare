@@ -1,7 +1,8 @@
 // Implements: TASK-020 (REQ-022)
 
-import { validateImportJson } from "./importService";
+import { importData, validateImportJson, type ImportDataWriter } from "./importService";
 import type { ShareSquareExport } from "./exportService";
+import type { User } from "@/types/user";
 
 describe("importService", () => {
   const validExport: ShareSquareExport = {
@@ -88,6 +89,74 @@ describe("importService", () => {
       if (!result.valid) {
         expect(result.errors.some((e) => e.includes("users[0]"))).toBe(true);
       }
+    });
+  });
+
+  describe("importData", () => {
+    const user: User = {
+      id: "u1",
+      email: "a@b.com",
+      name: "Alice",
+      avatarUrl: "",
+      createdAt: "2025-01-01T00:00:00Z",
+    };
+
+    function emptyWriter(): ImportDataWriter {
+      return {
+        findUserById: jest.fn().mockResolvedValue(undefined),
+        putUser: jest.fn().mockResolvedValue(undefined),
+        findGroupById: jest.fn().mockResolvedValue(undefined),
+        putGroup: jest.fn().mockResolvedValue(undefined),
+        findGroupMemberById: jest.fn().mockResolvedValue(undefined),
+        putGroupMember: jest.fn().mockResolvedValue(undefined),
+        findExpenseById: jest.fn().mockResolvedValue(undefined),
+        putExpense: jest.fn().mockResolvedValue(undefined),
+        findExpensePayerById: jest.fn().mockResolvedValue(undefined),
+        putExpensePayer: jest.fn().mockResolvedValue(undefined),
+        findExpenseSplitById: jest.fn().mockResolvedValue(undefined),
+        putExpenseSplit: jest.fn().mockResolvedValue(undefined),
+        findSettlementById: jest.fn().mockResolvedValue(undefined),
+        putSettlement: jest.fn().mockResolvedValue(undefined),
+      };
+    }
+
+    it("overwrite calls put for every record", async () => {
+      const writer = emptyWriter();
+      const data: ShareSquareExport = {
+        ...validExport,
+        users: [user],
+      };
+      const result = await importData(writer, data, "overwrite");
+
+      expect(writer.putUser).toHaveBeenCalledWith(user);
+      expect(result.imported).toBeGreaterThan(0);
+      expect(result.skipped).toBe(0);
+    });
+
+    it("skip increments skipped when row exists", async () => {
+      const writer = emptyWriter();
+      (writer.findUserById as jest.Mock).mockResolvedValue(user);
+      const data: ShareSquareExport = {
+        ...validExport,
+        users: [user],
+      };
+      const result = await importData(writer, data, "skip");
+
+      expect(writer.putUser).not.toHaveBeenCalled();
+      expect(result.skipped).toBeGreaterThanOrEqual(1);
+      expect(result.imported).toBe(0);
+    });
+
+    it("skip puts when row is missing", async () => {
+      const writer = emptyWriter();
+      const data: ShareSquareExport = {
+        ...validExport,
+        users: [user],
+      };
+      const result = await importData(writer, data, "skip");
+
+      expect(writer.putUser).toHaveBeenCalledWith(user);
+      expect(result.imported).toBeGreaterThanOrEqual(1);
     });
   });
 });

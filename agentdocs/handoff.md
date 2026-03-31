@@ -1,12 +1,12 @@
-session: 8 | 2026-04-01 | completed: TASK-055, TASK-017, TASK-018
+session: 9 | 2026-04-01 | completed: TASK-019, TASK-020, TASK-021
 
 decisions:
-  - Marked TASK-017/TASK-018 done in agentdocs only: implementations and tests already existed in repo; Batch 7 scope was alignment + TASK-055 migration.
+  - Import persistence abstracted as `ImportDataWriter` with `createDexieImportWriter(db)` so tests mock writes; Supabase import adapter deferred (see notes.md).
 
 discoveries:
-  - other: `git push origin main` completed (`2ed2b73..1a7810b`).
+  - api: Supabase `IUserRepository.create` is tied to current auth user — bulk user import via repos would need a separate adapter, not the existing create path.
 
 next session:
-  - start with: Batch 8 — TASK-019, TASK-020, TASK-021 (ExportService, ImportService, ActivityService)
-  - check first: `src/services/` patterns from `authService` / `inviteCodeService`; `IActivityRepository` for TASK-021
-  - watch out: TASK-020 depends on TASK-019; validate import edge cases and file formats per tasks.md AC
+  - start with: Batch 9 — TASK-022, TASK-023 (AuthContext may already exist in code; reconcile task-index vs implementation)
+  - check first: `src/contexts/AuthContext.tsx`, `src/hooks/useAuth.ts`, planned `RepositoryContext`
+  - watch out: TASK-022 AC vs current AuthContext; avoid duplicating providers

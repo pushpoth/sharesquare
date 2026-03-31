@@ -5,12 +5,12 @@
   "status": "in_progress",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
-  "last_updated": "2026-04-01T18:00:00Z",
+  "last_updated": "2026-04-01T20:00:00Z",
   "tasks_total": 60,
-  "tasks_done": 21,
+  "tasks_done": 24,
   "session": {
     "current_batch": [],
-    "session_count": 8,
+    "session_count": 9,
     "last_session_date": "2026-04-01"
   },
   "documentation": {
@@ -48,7 +48,8 @@
     "Batch 4 complete (TASK-009–011): src/repositories/supabase/* User/Group/Expense repos; createBrowserSupabaseClient + readEnv; expense atomic RPCs in migration 20260331150000_expense_write_rpcs.sql; Jest env VITE_* in jest.setup.ts.",
     "Batch 5 complete (TASK-012–014, TASK-056): Settlement + Activity Supabase repos; getSharedSupabaseBrowserClient + createSupabaseRepositories; index.ts switches on VITE_USE_SUPABASE_REPOS; src/env-shim.ts mirrors import.meta.env for Jest-safe readEnv; agentdocs/rls-invite-join.md + supabase/README RLS section.",
     "Batch 6 complete (TASK-015–016, TASK-054): authService Supabase OAuth/magic/signOut/getSession/subscribe/ensureProfile; AuthContext + login page; no JWT decode; isSupabaseAuthConfigured excludes test.supabase.co; inviteCodeService generateCode + resolveGroupByCode + normalizeCode hyphenates 8-char input; README + supabase/README Auth dashboard steps.",
-    "Batch 7 complete (TASK-055, TASK-017, TASK-018): migration 20260331160000_profile_on_auth_user.sql — handle_new_user + on_auth_user_created; supabase/README Profile sync section; BalanceService + DebtSimplificationService were already implemented with tests — task docs aligned."
+    "Batch 7 complete (TASK-055, TASK-017, TASK-018): migration 20260331160000_profile_on_auth_user.sql — handle_new_user + on_auth_user_created; supabase/README Profile sync section; BalanceService + DebtSimplificationService were already implemented with tests — task docs aligned.",
+    "Batch 8 complete (TASK-019–021): exportAllData(repos, userId); ImportDataWriter + createDexieImportWriter + importData(writer); Settings export uses repositories; import tests for overwrite/skip; activityService default-branch test."
   ],
   "req_sequence": 33,
   "task_sequence": 60,
@@ -73,9 +74,9 @@
     { "id": "TASK-016", "title": "Implement InviteCodeService", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-003", "REQ-004", "REQ-029"], "depends_on": ["TASK-010"] },
     { "id": "TASK-017", "title": "Implement BalanceService", "phase": "backend", "effort": "M", "status": "done", "implements": ["REQ-013"], "depends_on": ["TASK-004", "TASK-006"] },
     { "id": "TASK-018", "title": "Implement DebtSimplificationService", "phase": "backend", "effort": "M", "status": "done", "implements": ["REQ-014"], "depends_on": ["TASK-017"] },
-    { "id": "TASK-019", "title": "Implement ExportService", "phase": "backend", "effort": "S", "status": "pending", "implements": ["REQ-021"], "depends_on": ["TASK-004", "TASK-006"] },
-    { "id": "TASK-020", "title": "Implement ImportService", "phase": "backend", "effort": "M", "status": "pending", "implements": ["REQ-022"], "depends_on": ["TASK-004", "TASK-006", "TASK-019"] },
-    { "id": "TASK-021", "title": "Implement ActivityService", "phase": "backend", "effort": "S", "status": "pending", "implements": ["REQ-020"], "depends_on": ["TASK-013", "TASK-006"] },
+    { "id": "TASK-019", "title": "Implement ExportService", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-021"], "depends_on": ["TASK-004", "TASK-006"] },
+    { "id": "TASK-020", "title": "Implement ImportService", "phase": "backend", "effort": "M", "status": "done", "implements": ["REQ-022"], "depends_on": ["TASK-004", "TASK-006", "TASK-019"] },
+    { "id": "TASK-021", "title": "Implement ActivityService", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-020"], "depends_on": ["TASK-013", "TASK-006"] },
     { "id": "TASK-022", "title": "Implement AuthContext and useAuth hook", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-001", "REQ-002"], "depends_on": ["TASK-015"] },
     { "id": "TASK-023", "title": "Implement RepositoryContext", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-024"], "depends_on": ["TASK-014"] },
     { "id": "TASK-024", "title": "Implement useGroups hook", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-003", "REQ-004", "REQ-005"], "depends_on": ["TASK-023", "TASK-016"] },

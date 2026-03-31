@@ -8,8 +8,9 @@ import { AppLayout } from "@/layouts/AppLayout/AppLayout";
 import { MemberAvatar } from "@/components/MemberAvatar/MemberAvatar";
 import { ROUTES } from "@/constants/routes";
 import { db } from "@/repositories/indexeddb/database";
-import { buildExportPayload, downloadJson, generateExportFilename } from "@/services/exportService";
-import { validateImportJson, importData } from "@/services/importService";
+import { repositories } from "@/repositories";
+import { exportAllData, downloadJson, generateExportFilename } from "@/services/exportService";
+import { validateImportJson, importData, createDexieImportWriter } from "@/services/importService";
 import { useToast } from "@/components/Toast/Toast";
 
 export default function SettingsPage() {
@@ -20,26 +21,12 @@ export default function SettingsPage() {
   const [importing, setImporting] = useState(false);
 
   const handleExport = async () => {
+    if (!currentUser?.id) {
+      showToast("Sign in to export your data", "error");
+      return;
+    }
     try {
-      const [users, groups, groupMembers, expenses, expensePayers, expenseSplits, settlements] =
-        await Promise.all([
-          db.users.toArray(),
-          db.groups.toArray(),
-          db.groupMembers.toArray(),
-          db.expenses.toArray(),
-          db.expensePayers.toArray(),
-          db.expenseSplits.toArray(),
-          db.settlements.toArray(),
-        ]);
-      const payload = buildExportPayload({
-        users,
-        groups,
-        groupMembers,
-        expenses,
-        expensePayers,
-        expenseSplits,
-        settlements,
-      });
+      const payload = await exportAllData(repositories, currentUser.id);
       const jsonString = JSON.stringify(payload);
       const filename = generateExportFilename();
       downloadJson(jsonString, filename);
@@ -60,7 +47,11 @@ export default function SettingsPage() {
         showToast(result.errors.join(". "), "error");
         return;
       }
-      const { imported, skipped } = await importData(db, result.data, "overwrite");
+      const { imported, skipped } = await importData(
+        createDexieImportWriter(db),
+        result.data,
+        "overwrite",
+      );
       showToast(`Imported ${imported} records, skipped ${skipped} existing`);
       window.location.reload();
     } catch {
