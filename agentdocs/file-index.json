@@ -198,11 +198,39 @@
     "imports": ["@/repositories/interfaces/IActivityRepository", "@/utils"]
   },
   "src/contexts/AuthContext.tsx": {
-    "task": "TASK-015",
+    "task": "TASK-015,T022",
     "status": "complete",
-    "exports": ["AuthProvider", "useAuthContext"],
+    "exports": ["AuthProvider", "useAuthContext", "AuthContextValue"],
     "signatures": [],
-    "imports": []
+    "imports": ["@supabase/supabase-js", "@/repositories", "@/services/authService"]
+  },
+  "src/contexts/AuthContext.test.tsx": {
+    "task": "TASK-022",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "@/hooks/useAuth"]
+  },
+  "src/contexts/RepositoryContext.tsx": {
+    "task": "TASK-023",
+    "status": "complete",
+    "exports": ["RepositoryProvider", "useRepositories", "RepositoryContextValue"],
+    "signatures": [],
+    "imports": ["@/repositories"]
+  },
+  "src/contexts/RepositoryContext.test.tsx": {
+    "task": "TASK-023",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react"]
+  },
+  "src/hooks/useAuth.ts": {
+    "task": "TASK-022",
+    "status": "complete",
+    "exports": ["useAuth"],
+    "signatures": [],
+    "imports": ["@/contexts/AuthContext"]
   },
   "src/app/page.tsx": {
     "task": "TASK-044,T015",

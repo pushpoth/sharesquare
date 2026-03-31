@@ -2,6 +2,7 @@
 // Implements: TASK-015, TASK-022 (REQ-001, REQ-002)
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import type { Session } from "@supabase/supabase-js";
 import type { User } from "@/types";
 import { repositories } from "@/repositories";
 import { getSharedSupabaseBrowserClient } from "@/repositories/supabase/client";
@@ -19,7 +20,12 @@ import {
 } from "@/services/authService";
 
 export interface AuthContextValue {
+  /** Domain profile from `UserRepository` after session is established. */
   currentUser: User | null;
+  /** Alias for `currentUser` (task naming). */
+  user: User | null;
+  /** Supabase Auth session when using Supabase; always `null` on demo / IndexedDB-only path. */
+  session: Session | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   /** True when Supabase OAuth / magic link is available (real project URL, not Jest placeholder). */
@@ -27,6 +33,8 @@ export interface AuthContextValue {
   signInWithGoogle: () => Promise<void>;
   signInWithDemoProfile: (profile: { email: string; name: string; picture: string }) => Promise<void>;
   logout: () => Promise<void>;
+  /** Alias for `logout` (task naming). */
+  signOut: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
@@ -45,6 +53,7 @@ function createSupabaseClientOrNull(): ReturnType<typeof getSharedSupabaseBrowse
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [supabase] = useState(createSupabaseClientOrNull);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [authSession, setAuthSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const supabaseAuthAvailable = supabase !== null;
@@ -56,6 +65,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!supabase) {
+      setAuthSession(null);
       const sessionId = getSession();
       if (!sessionId) {
         setIsLoading(false);
@@ -76,15 +86,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return;
         }
         if (session?.user) {
+          setAuthSession(session);
           await ensureProfile(supabase, session.user);
           setSession(session.user.id);
           await loadUserFromId(session.user.id);
         } else {
+          setAuthSession(null);
           clearSession();
           setCurrentUser(null);
         }
       } catch {
         if (!cancelled) {
+          setAuthSession(null);
           setCurrentUser(null);
         }
       } finally {
@@ -99,6 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { unsubscribe } = subscribeAuthState(supabase, (_event, session) => {
       void (async () => {
         if (session?.user) {
+          setAuthSession(session);
           try {
             await ensureProfile(supabase, session.user);
             setSession(session.user.id);
@@ -107,6 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setCurrentUser(null);
           }
         } else {
+          setAuthSession(null);
           clearSession();
           setCurrentUser(null);
         }
@@ -144,17 +159,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
     clearSession();
+    setAuthSession(null);
     setCurrentUser(null);
   }, [supabase]);
 
   const value: AuthContextValue = {
     currentUser,
+    user: currentUser,
+    session: authSession,
     isAuthenticated: currentUser !== null,
     isLoading,
     supabaseAuthAvailable,
     signInWithGoogle,
     signInWithDemoProfile,
     logout,
+    signOut: logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

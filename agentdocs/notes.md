@@ -19,3 +19,4 @@
 - [2026-04-01 TASK-055] `on_auth_user_created` + `handle_new_user()` inserts into `public.profiles` with `ON CONFLICT (id) DO NOTHING`; client `ensureProfile()` remains the idempotent upsert for OAuth name/avatar refresh.
 - [2026-04-01 TASK-019] Settings **export** uses `exportAllData(repositories, currentUser.id)` so Supabase mode exports RLS-visible data, not a raw Dexie dump.
 - [2026-04-01 TASK-020] **Import** uses `ImportDataWriter`; `createDexieImportWriter(db)` backs the Settings page — a Supabase-backed writer is not wired yet when `VITE_USE_SUPABASE_REPOS=true`.
+- [2026-04-01 TASK-022] With Supabase Auth, `AuthContext.session` tracks `Session | null` from `getSupabaseSession` / `onAuthStateChange`; `authService` still mirrors user id to `localStorage` for the demo/offline path, not as the only source when Supabase is active.

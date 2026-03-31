@@ -1,12 +1,9 @@
-session: 9 | 2026-04-01 | completed: TASK-019, TASK-020, TASK-021
+session: 10 | 2026-04-01 | completed: TASK-022, TASK-023
 
 decisions:
-  - Import persistence abstracted as `ImportDataWriter` with `createDexieImportWriter(db)` so tests mock writes; Supabase import adapter deferred (see notes.md).
-
-discoveries:
-  - api: Supabase `IUserRepository.create` is tied to current auth user — bulk user import via repos would need a separate adapter, not the existing create path.
+  - Extended `AuthContextValue` with task-aligned aliases `user`, `session` (Supabase `Session | null`), `signOut`; kept `currentUser` / `logout` for existing call sites.
 
 next session:
-  - start with: Batch 9 — TASK-022, TASK-023 (AuthContext may already exist in code; reconcile task-index vs implementation)
-  - check first: `src/contexts/AuthContext.tsx`, `src/hooks/useAuth.ts`, planned `RepositoryContext`
-  - watch out: TASK-022 AC vs current AuthContext; avoid duplicating providers
+  - start with: Batch 10 — TASK-024, TASK-025, TASK-026, TASK-027 (data hooks; verify existing `useGroups` / `useBalances` vs task AC)
+  - check first: `src/hooks/useGroups.ts`, `useBalances.ts`, `useExpenses.ts`, `useSettlements.ts`
+  - watch out: tasks specify refetch patterns and invite retry; align or mark partial in tasks if already sufficient

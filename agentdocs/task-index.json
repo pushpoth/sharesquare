@@ -235,7 +235,7 @@
       "title": "Implement AuthContext and useAuth hook",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-015"
       ]
@@ -245,7 +245,7 @@
       "title": "Implement RepositoryContext",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-014"
       ]

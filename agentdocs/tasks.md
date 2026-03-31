@@ -535,7 +535,7 @@ Same as prior spec: pure functions `calculateGroupBalances`, `calculateOverallBa
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-001, REQ-002
 **Depends on:** TASK-015
 
@@ -558,7 +558,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-024
 **Depends on:** TASK-014
 

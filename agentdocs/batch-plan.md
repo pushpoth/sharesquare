@@ -1,6 +1,6 @@
 # Batch Plan: sharesquare
 
-> **Updated:** 2026-04-01 · **Total tasks:** 60 · **Done:** TASK-001–021, TASK-054–056 (batches 1–8) · **App today:** Vite + PWA; Supabase Auth when real project URL; repos = Dexie unless `VITE_USE_SUPABASE_REPOS=true`.
+> **Updated:** 2026-04-01 · **Total tasks:** 60 · **Done:** TASK-001–023, TASK-054–056 (batches 1–9) · **App today:** Vite + PWA; Supabase Auth when real project URL; repos = Dexie unless `VITE_USE_SUPABASE_REPOS=true`.
 
 Batches follow `context.json` **`depends_on`**: a task appears only after all listed dependencies are **done**. Each batch targets **3–5 tasks**, **≤2 M-effort**, **no L** in one batch where possible.
 
@@ -70,7 +70,7 @@ TASK-019, TASK-020, TASK-021
 
 ---
 
-## Batch 9 — AuthContext + RepositoryContext
+## ~~Batch 9 — AuthContext + RepositoryContext~~
 
 Focus: **`TASK-022`** after **`TASK-015`**; **`TASK-023`** after **`TASK-014`**. *`AppRoutes` exists from TASK-001; full **`TASK-052`** waits on **`TASK-036`** (Toast).*
 

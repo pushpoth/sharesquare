@@ -9,8 +9,10 @@ src/layouts/AppLayout/ [✅T001] auth shell + navigate
 supabase/migrations/ [✅T007,T055] initial schema + RLS + RPC + profile-on-signup trigger
 src/repositories/ [✅T008-T014,T056] interfaces + errors; Dexie default OR Supabase bundle via VITE_USE_SUPABASE_REPOS; factory + env-shim
 src/services/ [✅T015-T021,T054] auth; invite; balance; debt simplify; export (exportAllData); import (ImportDataWriter + Dexie); activity
-src/contexts/AuthContext.tsx [✅T015] Supabase session + demo path
-src/hooks/ [⬜]
+src/contexts/AuthContext.tsx [✅T015,T022] Supabase session + demo path; user/session/signOut on value
+src/contexts/RepositoryContext.tsx [✅T023] useRepositories → factory bundle from index
+src/hooks/useAuth.ts [✅T022] thin wrapper over AuthContext
+src/hooks/ [⬜] data hooks pending
 src/types/ [✅T004-T006] entities + ACTIVITY_TYPES
 src/utils/ [✅T006] currency, dateUtils, validation + tests
 src/constants/ [✅T005] categories, routes, colors + tests

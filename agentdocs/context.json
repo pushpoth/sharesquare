@@ -5,12 +5,12 @@
   "status": "in_progress",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
-  "last_updated": "2026-04-01T20:00:00Z",
+  "last_updated": "2026-04-01T22:00:00Z",
   "tasks_total": 60,
-  "tasks_done": 24,
+  "tasks_done": 26,
   "session": {
     "current_batch": [],
-    "session_count": 9,
+    "session_count": 10,
     "last_session_date": "2026-04-01"
   },
   "documentation": {
@@ -49,7 +49,8 @@
     "Batch 5 complete (TASK-012–014, TASK-056): Settlement + Activity Supabase repos; getSharedSupabaseBrowserClient + createSupabaseRepositories; index.ts switches on VITE_USE_SUPABASE_REPOS; src/env-shim.ts mirrors import.meta.env for Jest-safe readEnv; agentdocs/rls-invite-join.md + supabase/README RLS section.",
     "Batch 6 complete (TASK-015–016, TASK-054): authService Supabase OAuth/magic/signOut/getSession/subscribe/ensureProfile; AuthContext + login page; no JWT decode; isSupabaseAuthConfigured excludes test.supabase.co; inviteCodeService generateCode + resolveGroupByCode + normalizeCode hyphenates 8-char input; README + supabase/README Auth dashboard steps.",
     "Batch 7 complete (TASK-055, TASK-017, TASK-018): migration 20260331160000_profile_on_auth_user.sql — handle_new_user + on_auth_user_created; supabase/README Profile sync section; BalanceService + DebtSimplificationService were already implemented with tests — task docs aligned.",
-    "Batch 8 complete (TASK-019–021): exportAllData(repos, userId); ImportDataWriter + createDexieImportWriter + importData(writer); Settings export uses repositories; import tests for overwrite/skip; activityService default-branch test."
+    "Batch 8 complete (TASK-019–021): exportAllData(repos, userId); ImportDataWriter + createDexieImportWriter + importData(writer); Settings export uses repositories; import tests for overwrite/skip; activityService default-branch test.",
+    "Batch 9 complete (TASK-022–023): AuthContext exposes user/session/signOut aliases + authSession state; useAuth tests (demo path, logout); RepositoryContext tests (five repos, throw outside provider)."
   ],
   "req_sequence": 33,
   "task_sequence": 60,
@@ -77,8 +78,8 @@
     { "id": "TASK-019", "title": "Implement ExportService", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-021"], "depends_on": ["TASK-004", "TASK-006"] },
     { "id": "TASK-020", "title": "Implement ImportService", "phase": "backend", "effort": "M", "status": "done", "implements": ["REQ-022"], "depends_on": ["TASK-004", "TASK-006", "TASK-019"] },
     { "id": "TASK-021", "title": "Implement ActivityService", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-020"], "depends_on": ["TASK-013", "TASK-006"] },
-    { "id": "TASK-022", "title": "Implement AuthContext and useAuth hook", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-001", "REQ-002"], "depends_on": ["TASK-015"] },
-    { "id": "TASK-023", "title": "Implement RepositoryContext", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-024"], "depends_on": ["TASK-014"] },
+    { "id": "TASK-022", "title": "Implement AuthContext and useAuth hook", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-001", "REQ-002"], "depends_on": ["TASK-015"] },
+    { "id": "TASK-023", "title": "Implement RepositoryContext", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-024"], "depends_on": ["TASK-014"] },
     { "id": "TASK-024", "title": "Implement useGroups hook", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-003", "REQ-004", "REQ-005"], "depends_on": ["TASK-023", "TASK-016"] },
     { "id": "TASK-025", "title": "Implement useExpenses hook", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-006", "REQ-011", "REQ-012"], "depends_on": ["TASK-023", "TASK-021"] },
     { "id": "TASK-026", "title": "Implement useBalances hook", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-013", "REQ-014"], "depends_on": ["TASK-023", "TASK-017", "TASK-018"] },
