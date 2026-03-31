@@ -1,9 +1,10 @@
-session: 13 | 2026-03-31 | completed: TASK-028, TASK-031, TASK-032, TASK-033
+session: 14 | 2026-03-31 | completed: TASK-030, TASK-037, TASK-038, TASK-039, TASK-040
 
 decisions:
-  - MemberAvatar image-error test uses `act` + `fireEvent.error` so React 19 applies `onError` state updates (raw `dispatchEvent` leaves `<img>` mounted).
+  - AppLayout: use `<Navigate to={ROUTES.LANDING} replace />` (same as `/`) after auth finishes loading instead of `useEffect` + `navigate`, matching tasks.md.
+  - SplitSelector: `readOnly` no longer disables the “Split equally” checkbox — ExpenseForm passes `readOnly={splitEqually}` so equal mode locks amount fields only; users can uncheck to enter custom splits.
 
 next session:
-  - start with: Batch 13 — TASK-030, TASK-037, TASK-038, TASK-039, TASK-040 (AppLayout auth guard + expense building blocks)
-  - check first: `AppLayout` vs tasks.md (redirect when unauthenticated, loading, max-width); TASK-030 deps: 028+029+022 all done
-  - watch out: TASK-037 is M-effort (ExpenseForm + SplitSelector)
+  - start with: Batch 14 — TASK-041, TASK-042, TASK-043 (GroupCreateForm, InviteCodeInput, SettlementForm)
+  - check first: existing group/join/settlement UI vs tasks.md + useGroups / useToast patterns
+  - watch out: TASK-043 needs TASK-027 settlements hook

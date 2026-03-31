@@ -1,4 +1,5 @@
 "use client";
+// Implements: TASK-038 (REQ-016)
 
 import type { Expense, ExpensePayer, ExpenseSplit } from "@/types";
 import { formatDate } from "@/utils/dateUtils";
@@ -59,6 +60,7 @@ export function ExpenseList({
             {expenses.map((expense) => (
               <tr
                 key={expense.id}
+                data-testid={`expense-row-${expense.id}`}
                 onClick={() => onEdit?.(expense.id)}
                 className={`cursor-pointer border-b border-border last:border-b-0 hover:bg-surface-muted/50 ${
                   onEdit ? "" : "cursor-default"
@@ -81,6 +83,7 @@ export function ExpenseList({
                         onDelete(expense.id);
                       }}
                       aria-label={`Delete ${expense.title}`}
+                      data-testid={`expense-delete-${expense.id}`}
                       className="rounded p-1 text-owing-text hover:bg-owing-text/10"
                     >
                       <TrashIcon />

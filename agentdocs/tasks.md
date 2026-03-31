@@ -717,7 +717,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-019, REQ-026
 **Depends on:** TASK-028, TASK-029, TASK-022
 
@@ -726,8 +726,8 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Acceptance Criteria:**
 
-- [ ] Redirect unauthenticated users to `/`
-- [ ] Max-width container on desktop
+- [x] Redirect unauthenticated users to `/`
+- [x] Max-width container on desktop
 
 **Test Plan:**
 
@@ -845,7 +845,7 @@ Toast provider + `useToast`. Tests.
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-028
 **Depends on:** TASK-031, TASK-005, TASK-006
 
@@ -854,8 +854,8 @@ Unchanged functional spec; ensure submit payloads use cents and UUID ids from se
 
 **Acceptance Criteria:**
 
-- [ ] Split validation and equal-split remainder logic
-- [ ] `data-testid` on interactive controls
+- [x] Split validation and equal-split remainder logic
+- [x] `data-testid` on interactive controls
 
 **Test Plan:**
 
@@ -867,7 +867,7 @@ Unchanged functional spec; ensure submit payloads use cents and UUID ids from se
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-016
 **Depends on:** TASK-031, TASK-006
 
@@ -880,7 +880,7 @@ Unchanged list/table. Tests.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-017
 **Depends on:** TASK-005
 
@@ -893,7 +893,7 @@ Unchanged filters. Tests.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-016
 **Depends on:** TASK-031, TASK-006
 

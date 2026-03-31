@@ -1,4 +1,5 @@
 "use client";
+// Implements: TASK-040 (REQ-016)
 
 import { MemberAvatar } from "@/components/MemberAvatar";
 import { formatCurrency } from "@/utils/currency";

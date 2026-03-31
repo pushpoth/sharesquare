@@ -1,4 +1,5 @@
 "use client";
+// Implements: TASK-039 (REQ-017)
 
 import { useState, useCallback } from "react";
 
@@ -61,6 +62,7 @@ export function ExpenseFilters({
             key={cat}
             type="button"
             onClick={() => toggleCategory(cat)}
+            data-testid={`expense-filter-category-${cat}`}
             className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
               selectedCategories.includes(cat)
                 ? "bg-accent text-white"
@@ -77,6 +79,7 @@ export function ExpenseFilters({
             key={opt.value}
             type="button"
             onClick={() => handleSortChange(opt.value)}
+            data-testid={`expense-filter-sort-${opt.value}`}
             className={`rounded-md px-2 py-1 text-xs font-medium ${
               sort === opt.value
                 ? "bg-accent text-white"
@@ -91,6 +94,7 @@ export function ExpenseFilters({
         type="button"
         onClick={handleClear}
         className="rounded px-2 py-1 text-sm text-text-secondary hover:text-text-primary"
+        data-testid="expense-filter-clear"
       >
         Clear
       </button>

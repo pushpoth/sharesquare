@@ -1,8 +1,7 @@
 "use client";
-// Implements: TASK-030
+// Implements: TASK-030 (REQ-019, REQ-026)
 
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Header } from "@/components/Header/Header";
 import { BottomNav } from "@/components/BottomNav/BottomNav";
@@ -13,14 +12,7 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const navigate = useNavigate();
   const { isAuthenticated, isLoading } = useAuth();
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      navigate(ROUTES.LANDING, { replace: true });
-    }
-  }, [isAuthenticated, isLoading, navigate]);
 
   if (isLoading) {
     return (
@@ -34,7 +26,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   }
 
   if (!isAuthenticated) {
-    return null;
+    return <Navigate to={ROUTES.LANDING} replace />;
   }
 
   return (

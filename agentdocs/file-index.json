@@ -316,6 +316,48 @@
     "signatures": [],
     "imports": ["react-router-dom", "@/types", "@/constants/routes", "@/utils/currency", "@/utils/dateUtils", "@/components/MemberAvatar/MemberAvatar"]
   },
+  "src/layouts/AppLayout/AppLayout.tsx": {
+    "task": "TASK-030",
+    "status": "complete",
+    "exports": ["AppLayout"],
+    "signatures": [],
+    "imports": ["react-router-dom", "@/hooks/useAuth", "@/components/Header/Header", "@/components/BottomNav/BottomNav", "@/constants/routes"]
+  },
+  "src/components/SplitSelector/SplitSelector.tsx": {
+    "task": "TASK-037",
+    "status": "complete",
+    "exports": ["SplitSelector"],
+    "signatures": [],
+    "imports": ["react", "@/components/MemberAvatar", "@/utils/currency", "@/utils/validation"]
+  },
+  "src/components/ExpenseForm/ExpenseForm.tsx": {
+    "task": "TASK-037",
+    "status": "complete",
+    "exports": ["ExpenseForm"],
+    "signatures": [],
+    "imports": ["react", "@/constants/categories", "@/utils/dateUtils", "@/utils/currency", "@/utils/validation", "@/components/SplitSelector"]
+  },
+  "src/components/ExpenseList/ExpenseList.tsx": {
+    "task": "TASK-038",
+    "status": "complete",
+    "exports": ["ExpenseList"],
+    "signatures": [],
+    "imports": ["@/types", "@/utils/dateUtils", "@/utils/currency"]
+  },
+  "src/components/ExpenseFilters/ExpenseFilters.tsx": {
+    "task": "TASK-039",
+    "status": "complete",
+    "exports": ["ExpenseFilters"],
+    "signatures": [],
+    "imports": ["react"]
+  },
+  "src/components/MemberBalanceList/MemberBalanceList.tsx": {
+    "task": "TASK-040",
+    "status": "complete",
+    "exports": ["MemberBalanceList"],
+    "signatures": [],
+    "imports": ["@/components/MemberAvatar", "@/utils/currency"]
+  },
   "src/app/page.tsx": {
     "task": "TASK-044,T015",
     "status": "complete",

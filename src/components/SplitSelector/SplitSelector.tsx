@@ -1,4 +1,5 @@
 "use client";
+// Implements: TASK-037 (split UI; used by ExpenseForm)
 
 import { useState, useCallback, useEffect } from "react";
 import { MemberAvatar } from "@/components/MemberAvatar";
@@ -80,8 +81,8 @@ export function SplitSelector({
           type="checkbox"
           checked={splitEqually}
           onChange={(e) => onSplitEquallyChange(e.target.checked)}
-          disabled={readOnly}
           className="rounded border-border"
+          data-testid="split-equally"
         />
         <span className="text-sm font-medium">Split Equally</span>
       </label>
@@ -101,6 +102,7 @@ export function SplitSelector({
             <div
               key={member.userId}
               className="flex items-center gap-3 rounded-lg border border-border bg-surface-muted/50 p-2"
+              data-testid={`split-row-${member.userId}`}
             >
               <MemberAvatar name={member.name} avatarUrl={member.avatarUrl} size="sm" />
               <span className="min-w-0 flex-1 truncate text-sm font-medium">{member.name}</span>
@@ -112,6 +114,7 @@ export function SplitSelector({
                   onChange={(e) => handleAmountChange(member.userId, e.target.value, isPercent)}
                   readOnly={readOnly}
                   className="w-20 rounded border border-border px-2 py-1 text-right text-sm"
+                  data-testid={`split-amount-${member.userId}`}
                 />
                 <button
                   type="button"

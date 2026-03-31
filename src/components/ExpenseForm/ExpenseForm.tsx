@@ -1,4 +1,5 @@
 "use client";
+// Implements: TASK-037 (REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-028)
 
 import { useState, useCallback } from "react";
 import { EXPENSE_CATEGORIES } from "@/constants/categories";
@@ -95,6 +96,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Dinner at Joe's"
           className="w-full rounded-lg border border-border px-3 py-2"
+          data-testid="expense-title"
           required
         />
         {titleError && <p className="mt-1 text-sm text-owing-text">{titleError.message}</p>}
@@ -110,6 +112,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
           value={date}
           onChange={(e) => setDate(e.target.value)}
           className="w-full rounded-lg border border-border px-3 py-2"
+          data-testid="expense-date"
         />
       </div>
 
@@ -129,6 +132,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
             onChange={(e) => setAmountDisplay(e.target.value)}
             placeholder="0.00"
             className="w-full rounded-r-lg border border-border px-3 py-2"
+            data-testid="expense-amount"
           />
         </div>
         {amountError && <p className="mt-1 text-sm text-owing-text">{amountError.message}</p>}
@@ -143,6 +147,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           className="w-full rounded-lg border border-border px-3 py-2"
+          data-testid="expense-category"
         >
           {EXPENSE_CATEGORIES.map((c) => (
             <option key={c.value} value={c.value}>
@@ -161,6 +166,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
           value={payerId}
           onChange={(e) => setPayerId(e.target.value)}
           className="w-full rounded-lg border border-border px-3 py-2"
+          data-testid="expense-payer"
         >
           <option value={GROUP_PAYER_ID}>Group</option>
           {groupMembers.map((m) => (
@@ -189,6 +195,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
           type="button"
           onClick={onCancel}
           className="flex-1 rounded-lg border border-border px-4 py-2 text-sm font-medium"
+          data-testid="expense-form-cancel"
         >
           Cancel
         </button>

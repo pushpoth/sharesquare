@@ -321,7 +321,7 @@
       "title": "Implement AppLayout with auth guard",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-028",
         "TASK-029",
@@ -388,7 +388,7 @@
       "title": "Implement ExpenseForm with SplitSelector",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-031",
         "TASK-005",
@@ -400,7 +400,7 @@
       "title": "Implement ExpenseList component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-031",
         "TASK-006"
@@ -411,7 +411,7 @@
       "title": "Implement ExpenseFilters component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-005"
       ]
@@ -421,7 +421,7 @@
       "title": "Implement MemberBalanceList component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-031",
         "TASK-006"

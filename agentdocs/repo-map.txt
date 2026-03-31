@@ -4,8 +4,8 @@ src/main.tsx [✅T001] createRoot, BrowserRouter
 src/AppRoutes.tsx [✅T001] Routes, page mapping
 src/styles/globals.css [✅T001] @theme tokens
 src/app/ [✅T001] page components (RR, was Next)
-src/components/ [✅T028-T033+tests] Header; MemberAvatar; BalanceCard; GroupCard; BottomNav (NavLink); EmptyState; ConfirmDialog; Toast provider+useToast
-src/layouts/AppLayout/ [✅T001] auth shell + navigate
+src/components/ [✅T028-T040+tests] Header; MemberAvatar; BalanceCard; GroupCard; ExpenseForm; ExpenseList; ExpenseFilters; MemberBalanceList; SplitSelector; BottomNav (NavLink); EmptyState; ConfirmDialog; Toast provider+useToast
+src/layouts/AppLayout/ [✅T030+test] Header; main max-w-lg; BottomNav; Navigate to / when unauthenticated after load
 supabase/migrations/ [✅T007,T055] initial schema + RLS + RPC + profile-on-signup trigger
 src/repositories/ [✅T008-T014,T056] interfaces + errors; Dexie default OR Supabase bundle via VITE_USE_SUPABASE_REPOS; factory + env-shim
 src/services/ [✅T015-T021,T054] auth; invite; balance; debt simplify; export (exportAllData); import (ImportDataWriter + Dexie); activity
