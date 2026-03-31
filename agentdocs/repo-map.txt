@@ -1,0 +1,14 @@
+index.html [📄] Vite entry
+vite.config.ts [✅T001] vite, react, tailwind aliases
+src/main.tsx [✅T001] createRoot, BrowserRouter
+src/AppRoutes.tsx [✅T001] Routes, page mapping
+src/styles/globals.css [✅T001] @theme tokens
+src/app/ [✅T001] page components (RR, was Next)
+src/components/ [⬜] UI library
+src/layouts/AppLayout/ [✅T001] auth shell + navigate
+src/repositories/ [⬜] IndexedDB (Supabase pending)
+src/hooks/ [⬜]
+src/services/ [⬜]
+src/types/ [⬜]
+src/utils/ [⬜]
+src/constants/ [⬜]

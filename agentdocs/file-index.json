@@ -1,0 +1,23 @@
+{
+  "src/main.tsx": {
+    "task": "TASK-001",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": [],
+    "imports": ["react", "react-dom/client", "react-router-dom", "@/app/providers", "@/AppRoutes", "@/styles/globals.css"]
+  },
+  "src/AppRoutes.tsx": {
+    "task": "TASK-001",
+    "status": "complete",
+    "exports": ["AppRoutes"],
+    "signatures": ["AppRoutes(): JSX.Element"],
+    "imports": ["react", "react-router-dom", "@/app/page", "@/app/home/page", "@/app/activity/page", "@/app/settings/page", "@/app/groups/page", "@/app/groups/[id]/page", "@/app/expenses/new/page", "@/app/expenses/[id]/edit/page"]
+  },
+  "vite.config.ts": {
+    "task": "TASK-001",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": [],
+    "imports": ["node:path", "@tailwindcss/vite", "@vitejs/plugin-react", "vite"]
+  }
+}

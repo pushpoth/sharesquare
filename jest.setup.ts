@@ -1,0 +1,5 @@
+// Global test setup
+import { TextDecoder, TextEncoder } from "util";
+
+globalThis.TextEncoder = TextEncoder;
+globalThis.TextDecoder = TextDecoder as typeof globalThis.TextDecoder;
