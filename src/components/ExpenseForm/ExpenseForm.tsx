@@ -1,12 +1,18 @@
 "use client";
-// Implements: TASK-037 (REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-028)
+// Implements: TASK-037 (REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-028), TASK-059 (REQ-032)
 
 import { useState, useCallback } from "react";
 import { EXPENSE_CATEGORIES } from "@/constants/categories";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { toISODate } from "@/utils/dateUtils";
-import { dollarsToCents } from "@/utils/currency";
+import {
+  displayInputToStoredAmount,
+  getCurrencySymbol,
+  storedAmountToDisplayInputString,
+} from "@/utils/currency";
 import { validateRequired, validateAmount, validateSplitsSum } from "@/utils/validation";
 import { SplitSelector } from "@/components/SplitSelector";
+import { usesWholeUnitStorage } from "@/constants/currency";
 
 const GROUP_PAYER_ID = "__group__";
 
@@ -32,10 +38,11 @@ export interface ExpenseFormProps {
 }
 
 export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: ExpenseFormProps) {
+  const { currencyCode } = useCurrency();
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [date, setDate] = useState(initialData?.date ?? toISODate());
   const [amountDisplay, setAmountDisplay] = useState(
-    initialData ? (initialData.amount / 100).toFixed(2) : "",
+    initialData ? storedAmountToDisplayInputString(initialData.amount, currencyCode) : "",
   );
   const [category, setCategory] = useState(initialData?.category ?? "other");
   const [payerId, setPayerId] = useState(initialData?.payerId ?? GROUP_PAYER_ID);
@@ -44,31 +51,34 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
     () => initialData?.splits ?? groupMembers.map((m) => ({ userId: m.userId, amountOwed: 0 })),
   );
 
-  const amountCents = amountDisplay ? dollarsToCents(parseFloat(amountDisplay) || 0) : 0;
+  const amountStored = amountDisplay
+    ? displayInputToStoredAmount(parseFloat(amountDisplay) || 0, currencyCode)
+    : 0;
 
   const titleError = validateRequired(title, "Description");
   const amountError = !amountDisplay.trim()
     ? validateRequired(amountDisplay, "Amount")
-    : validateAmount(amountCents);
-  const splitsError = amountCents > 0 ? validateSplitsSum(splits, amountCents) : null;
+    : validateAmount(amountStored, currencyCode);
+  const splitsError =
+    amountStored > 0 ? validateSplitsSum(splits, amountStored, currencyCode) : null;
 
   const isValid =
-    !titleError && !amountError && !splitsError && title.trim() !== "" && amountCents > 0;
+    !titleError && !amountError && !splitsError && title.trim() !== "" && amountStored > 0;
 
   const getPaidBy = useCallback((): Array<{ userId: string; amount: number }> => {
     if (payerId === GROUP_PAYER_ID && groupMembers.length > 0) {
-      const perPerson = Math.floor(amountCents / groupMembers.length);
-      const remainder = amountCents - perPerson * groupMembers.length;
+      const perPerson = Math.floor(amountStored / groupMembers.length);
+      const remainder = amountStored - perPerson * groupMembers.length;
       return groupMembers.map((m, i) => ({
         userId: m.userId,
         amount: perPerson + (i < remainder ? 1 : 0),
       }));
     }
     if (payerId && payerId !== GROUP_PAYER_ID) {
-      return [{ userId: payerId, amount: amountCents }];
+      return [{ userId: payerId, amount: amountStored }];
     }
     return [];
-  }, [payerId, amountCents, groupMembers]);
+  }, [payerId, amountStored, groupMembers]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +86,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
     onSubmit({
       title: title.trim(),
       date,
-      amount: amountCents,
+      amount: amountStored,
       category,
       paidBy: getPaidBy(),
       splits,
@@ -122,7 +132,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
         </label>
         <div className="flex">
           <span className="flex items-center rounded-l-lg border border-r-0 border-border bg-surface-muted px-3 text-text-secondary">
-            $
+            {getCurrencySymbol(currencyCode)}
           </span>
           <input
             id="expense-amount"
@@ -130,7 +140,7 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
             inputMode="decimal"
             value={amountDisplay}
             onChange={(e) => setAmountDisplay(e.target.value)}
-            placeholder="0.00"
+            placeholder={usesWholeUnitStorage(currencyCode) ? "0" : "0.00"}
             className="w-full rounded-r-lg border border-border px-3 py-2"
             data-testid="expense-amount"
           />
@@ -181,12 +191,13 @@ export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: E
         <h3 className="mb-2 text-sm font-medium">Split</h3>
         <SplitSelector
           members={groupMembers}
-          totalCents={amountCents}
+          totalCents={amountStored}
           splits={splits}
           onChange={setSplits}
           splitEqually={splitEqually}
           onSplitEquallyChange={setSplitEqually}
           readOnly={splitEqually}
+          currencyCode={currencyCode}
         />
       </div>
 

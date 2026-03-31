@@ -1,7 +1,7 @@
 "use client";
-// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030), TASK-053 (REQ-018), TASK-058 (REQ-031)
+// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030), TASK-053 (REQ-018), TASK-058 (REQ-031), TASK-057 (REQ-030), TASK-060 (REQ-033)
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useGroups } from "@/hooks/useGroups";
@@ -9,6 +9,7 @@ import { useExpenses } from "@/hooks/useExpenses";
 import { useBalances } from "@/hooks/useBalances";
 import { useSettlements } from "@/hooks/useSettlements";
 import { useAuth } from "@/hooks/useAuth";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { useRepositories } from "@/contexts/RepositoryContext";
 import { AppLayout } from "@/layouts/AppLayout/AppLayout";
 import { MemberBalanceList } from "@/components/MemberBalanceList/MemberBalanceList";
@@ -35,6 +36,7 @@ export default function GroupDetailClient() {
   const { memberBalances, simplifiedDebts } = useBalances(groupId);
   const { addSettlement } = useSettlements(groupId);
   const { currentUser } = useAuth();
+  const { currencyCode } = useCurrency();
   const repos = useRepositories();
 
   const [group, setGroup] = useState<Awaited<ReturnType<typeof getGroupById>>>(undefined);
@@ -49,6 +51,8 @@ export default function GroupDetailClient() {
   const [editingName, setEditingName] = useState(false);
   const [editNameValue, setEditNameValue] = useState("");
   const [confirmDeleteGroup, setConfirmDeleteGroup] = useState(false);
+  const [inviteCopied, setInviteCopied] = useState(false);
+  const inviteCopyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     getGroupById(groupId).then(setGroup);
@@ -198,6 +202,22 @@ export default function GroupDetailClient() {
     setDeleteTarget(null);
   }, [deleteTarget, deleteExpense]);
 
+  const handleCopyInviteCode = useCallback(() => {
+    if (!group) return;
+    void navigator.clipboard.writeText(group.inviteCode).then(() => {
+      showToast("Invite code copied", "success");
+      setInviteCopied(true);
+      if (inviteCopyTimeoutRef.current) clearTimeout(inviteCopyTimeoutRef.current);
+      inviteCopyTimeoutRef.current = setTimeout(() => setInviteCopied(false), 2000);
+    });
+  }, [group, showToast]);
+
+  useEffect(() => {
+    return () => {
+      if (inviteCopyTimeoutRef.current) clearTimeout(inviteCopyTimeoutRef.current);
+    };
+  }, []);
+
   const handleConfirmDeleteGroup = useCallback(async () => {
     if (!groupId) return;
     try {
@@ -271,12 +291,14 @@ export default function GroupDetailClient() {
 
         <div className="rounded-xl border border-border bg-white p-4">
           <p className="text-sm text-text-secondary">Group Total Expenses</p>
-          <p className="text-2xl font-bold text-text-primary">{formatCurrency(totalExpenses)}</p>
+          <p className="text-2xl font-bold text-text-primary">
+            {formatCurrency(totalExpenses, currencyCode)}
+          </p>
         </div>
 
         <section aria-labelledby="group-invite-heading">
           <h2 id="group-invite-heading" className="mb-2 text-lg font-semibold text-text-primary">
-            Invite friends
+            Invite members
           </h2>
           <p className="mb-3 text-sm text-text-secondary">
             Share this code so others can join this group from the Groups tab.
@@ -291,12 +313,10 @@ export default function GroupDetailClient() {
             <button
               type="button"
               data-testid="group-invite-copy"
-              onClick={() => {
-                void navigator.clipboard.writeText(group.inviteCode).catch(() => {});
-              }}
+              onClick={handleCopyInviteCode}
               className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white"
             >
-              Copy code
+              {inviteCopied ? "Copied!" : "Copy code"}
             </button>
           </div>
         </section>
@@ -323,13 +343,25 @@ export default function GroupDetailClient() {
         </section>
 
         <section>
-          <button
-            type="button"
-            onClick={() => setShowSettlement(true)}
-            className="w-full rounded-lg bg-accent px-4 py-2 font-medium text-white hover:bg-accent/90"
-          >
-            Record Settlement
-          </button>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button
+              type="button"
+              data-testid="group-add-expense"
+              onClick={() =>
+                navigate(`${ROUTES.ADD_EXPENSE}?groupId=${encodeURIComponent(groupId)}`)
+              }
+              className="flex-1 rounded-lg border border-border bg-white px-4 py-2 text-sm font-medium text-text-primary hover:bg-surface-muted"
+            >
+              Add expense
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowSettlement(true)}
+              className="flex-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent/90"
+            >
+              Record Settlement
+            </button>
+          </div>
           {showSettlement && (
             <div className="mt-4 rounded-xl border border-border bg-white p-4">
               <SettlementForm

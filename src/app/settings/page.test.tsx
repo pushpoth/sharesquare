@@ -1,9 +1,11 @@
-// Implements: TASK-051 (REQ-002, REQ-021, REQ-022)
+// Implements: TASK-051 (REQ-002, REQ-021, REQ-022), TASK-059 (REQ-032)
 
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
+import { CURRENCY_STORAGE_KEY } from "@/constants/currency";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import { ROUTES } from "@/constants/routes";
 import SettingsPage from "./page";
 
@@ -63,9 +65,18 @@ jest.mock("@/hooks/useAuth", () => ({
   useAuth: () => mockUseAuth(),
 }));
 
+function renderWithCurrency(ui: React.ReactElement) {
+  return render(
+    <MemoryRouter>
+      <CurrencyProvider>{ui}</CurrencyProvider>
+    </MemoryRouter>,
+  );
+}
+
 describe("SettingsPage (TASK-051)", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    localStorage.clear();
     mockUseAuth.mockReturnValue({
       currentUser: {
         id: "u1",
@@ -79,21 +90,20 @@ describe("SettingsPage (TASK-051)", () => {
   });
 
   it("exposes settings-page test id", () => {
-    render(
-      <MemoryRouter>
-        <SettingsPage />
-      </MemoryRouter>,
-    );
+    renderWithCurrency(<SettingsPage />);
     expect(screen.getByTestId("settings-page")).toBeInTheDocument();
+  });
+
+  it("persists currency selection to localStorage (TASK-059)", async () => {
+    const user = userEvent.setup();
+    renderWithCurrency(<SettingsPage />);
+    await user.selectOptions(screen.getByTestId("settings-currency-select"), "EUR");
+    expect(localStorage.getItem(CURRENCY_STORAGE_KEY)).toBe("EUR");
   });
 
   it("sign out awaits logout then navigates to landing with replace", async () => {
     const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <SettingsPage />
-      </MemoryRouter>,
-    );
+    renderWithCurrency(<SettingsPage />);
     await user.click(screen.getByTestId("settings-sign-out"));
     await waitFor(() => {
       expect(mockLogout).toHaveBeenCalledTimes(1);

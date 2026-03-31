@@ -1,16 +1,18 @@
 "use client";
-// Implements: TASK-025 (REQ-006, REQ-011, REQ-012)
+// Implements: TASK-025 (REQ-006, REQ-011, REQ-012), TASK-059 (REQ-032)
 
 import { useCallback } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import type { Expense, ExpensePayer, ExpenseSplit } from "@/types";
 import { useRepositories } from "@/contexts/RepositoryContext";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { useAuth } from "@/hooks/useAuth";
 import { logActivity, buildActivityDescription } from "@/services/activityService";
 
 export function useExpenses(groupId?: string) {
   const repos = useRepositories();
   const auth = useAuth();
+  const { currencyCode } = useCurrency();
 
   const expenses = useLiveQuery(async () => {
     if (!groupId) return [];
@@ -29,18 +31,22 @@ export function useExpenses(groupId?: string) {
           userId: auth.currentUser.id,
           groupId: created.groupId,
           type: "expense_added",
-          description: buildActivityDescription("expense_added", {
-            userName: auth.currentUser.name,
-            title: created.title,
-            amount: created.amount,
-            groupName: "",
-          }),
+          description: buildActivityDescription(
+            "expense_added",
+            {
+              userName: auth.currentUser.name,
+              title: created.title,
+              amount: created.amount,
+              groupName: "",
+            },
+            currencyCode,
+          ),
           referenceId: created.id,
         });
       }
       return created;
     },
-    [repos.expenses, repos.activity, auth.currentUser],
+    [repos.expenses, repos.activity, auth.currentUser, currencyCode],
   );
 
   const updateExpense = useCallback(

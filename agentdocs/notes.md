@@ -33,3 +33,5 @@
 - [2026-04-01 TASK-052] Jest mocks of Vite page modules used as default route elements need **`__esModule: true`** and **`default: Component`** or React receives an invalid `element.type` (object).
 - [2026-04-01 TASK-053] `FlowDiagram` arrow marker `id` is derived from **`useId()`** to avoid duplicate `url(#...)` refs when more than one diagram mounts.
 - [2026-03-31 TASK-058] Delete group UI is gated on **`group_members.role === 'admin'`**; name edit still uses **`createdBy === currentUser.id`** where applicable.
+- [2026-03-31 TASK-059] App display currency: **`localStorage`** key **`sharesquare_display_currency`** via **`CurrencyContext`**; **JPY** uses whole-integer stored amounts in **`formatCurrency`** / form parsers (no ÷100); other codes use cent semantics (no FX).
+- [2026-03-31 TASK-057] Invite copy: success **toast** + button label **Copied!** for **2s** (`setTimeout` cleared on unmount).

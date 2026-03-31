@@ -1,4 +1,4 @@
-// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030), TASK-058 (REQ-031)
+// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030), TASK-058 (REQ-031), TASK-057 (REQ-030), TASK-060 (REQ-033)
 
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
@@ -178,7 +178,7 @@ describe("GroupDetailClient (TASK-047)", () => {
     expect(screen.getByTestId("member-balance-list")).toBeInTheDocument();
   });
 
-  it("copies invite code via clipboard API", async () => {
+  it("copies invite code via clipboard API and confirms (TASK-057)", async () => {
     const writeText = jest.fn().mockResolvedValue(undefined);
     if (navigator.clipboard?.writeText) {
       jest.spyOn(navigator.clipboard, "writeText").mockImplementation(writeText);
@@ -191,8 +191,21 @@ describe("GroupDetailClient (TASK-047)", () => {
     }
     renderDetail();
     await waitFor(() => screen.getByTestId("group-invite-copy"));
+    expect(screen.getByRole("heading", { name: /invite members/i })).toBeInTheDocument();
     fireEvent.click(screen.getByTestId("group-invite-copy"));
     expect(writeText).toHaveBeenCalledWith("ABCD-1234");
+    await waitFor(() => {
+      expect(showToast).toHaveBeenCalledWith("Invite code copied", "success");
+    });
+    expect(screen.getByTestId("group-invite-copy")).toHaveTextContent("Copied!");
+  });
+
+  it("navigates to add expense with groupId query (TASK-060)", async () => {
+    const user = userEvent.setup();
+    renderDetail();
+    await waitFor(() => screen.getByText("Weekend Trip"));
+    await user.click(screen.getByTestId("group-add-expense"));
+    expect(mockNavigate).toHaveBeenCalledWith(`${ROUTES.ADD_EXPENSE}?groupId=g1`);
   });
 
   it("opens settlement form when Record Settlement is clicked", async () => {

@@ -1,8 +1,10 @@
 "use client";
-// Implements: TASK-051 (REQ-002, REQ-021, REQ-022)
+// Implements: TASK-051 (REQ-002, REQ-021, REQ-022), TASK-059 (REQ-032)
 
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { isSupportedCurrencyCode, SUPPORTED_CURRENCIES } from "@/constants/currency";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { useAuth } from "@/hooks/useAuth";
 import { AppLayout } from "@/layouts/AppLayout/AppLayout";
 import { MemberAvatar } from "@/components/MemberAvatar/MemberAvatar";
@@ -17,6 +19,7 @@ export default function SettingsPage() {
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
   const { showToast } = useToast();
+  const { currencyCode, setCurrencyCode } = useCurrency();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
 
@@ -85,6 +88,32 @@ export default function SettingsPage() {
               <p className="text-sm text-text-secondary">{currentUser?.email ?? ""}</p>
             </div>
           </div>
+        </section>
+
+        <section>
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">Preferences</h2>
+          <p className="mb-2 text-sm text-text-secondary">
+            Display currency (no exchange conversion — amounts keep the same numeric values).
+          </p>
+          <label htmlFor="settings-currency" className="sr-only">
+            Display currency
+          </label>
+          <select
+            id="settings-currency"
+            data-testid="settings-currency-select"
+            value={currencyCode}
+            onChange={(e) => {
+              const v = e.target.value;
+              if (isSupportedCurrencyCode(v)) setCurrencyCode(v);
+            }}
+            className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm font-medium text-text-primary"
+          >
+            {SUPPORTED_CURRENCIES.map((c) => (
+              <option key={c.code} value={c.code}>
+                {c.label}
+              </option>
+            ))}
+          </select>
         </section>
 
         <section>

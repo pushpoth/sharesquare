@@ -3,6 +3,7 @@
 
 import type { Expense, ExpensePayer, ExpenseSplit } from "@/types";
 import { formatDate } from "@/utils/dateUtils";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatCurrency } from "@/utils/currency";
 
 export interface ExpenseListProps {
@@ -24,22 +25,25 @@ export function ExpenseList({
   onEdit,
   onDelete,
 }: ExpenseListProps) {
+  const { currencyCode } = useCurrency();
   const getPayerDescription = (expenseId: string): string => {
     const expensePayers = payers.get(expenseId);
     if (!expensePayers || expensePayers.length === 0) return "Unknown";
     const total = expensePayers.reduce((sum, p) => sum + p.amount, 0);
     if (expensePayers.length === 1) {
       const name = members.get(expensePayers[0].userId)?.name ?? "Unknown";
-      return `Paid by ${name} (${formatCurrency(total)})`;
+      return `Paid by ${name} (${formatCurrency(total, currencyCode)})`;
     }
     const names = expensePayers.map((p) => members.get(p.userId)?.name ?? "Unknown").join(", ");
-    return `Paid by ${names} (${formatCurrency(total)})`;
+    return `Paid by ${names} (${formatCurrency(total, currencyCode)})`;
   };
 
   const getCurrentUserShare = (expenseId: string): string => {
     const expenseSplits = splits.get(expenseId);
     const mySplit = expenseSplits?.find((s) => s.userId === currentUserId);
-    return mySplit ? formatCurrency(mySplit.amountOwed) : formatCurrency(0);
+    return mySplit
+      ? formatCurrency(mySplit.amountOwed, currencyCode)
+      : formatCurrency(0, currencyCode);
   };
 
   return (
@@ -71,7 +75,7 @@ export function ExpenseList({
                 </td>
                 <td className="px-3 py-2 text-sm">{getPayerDescription(expense.id)}</td>
                 <td className="px-3 py-2 text-right text-sm font-medium">
-                  {formatCurrency(expense.amount)}
+                  {formatCurrency(expense.amount, currencyCode)}
                 </td>
                 <td className="px-3 py-2 text-right text-sm">{getCurrentUserShare(expense.id)}</td>
                 {onDelete && (

@@ -1,4 +1,7 @@
-// Implements: TASK-006 (REQ-008, REQ-009)
+// Implements: TASK-006 (REQ-008, REQ-009), TASK-059 (REQ-032)
+
+import { usesWholeUnitStorage } from "@/constants/currency";
+import { formatCurrency } from "@/utils/currency";
 
 /** UUID-shaped string (8-4-4-4-12 hex); does not validate version/variant bits. */
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -20,29 +23,34 @@ export function validateRequired(value: unknown, fieldName: string): ValidationE
   return null;
 }
 
-export function validateAmount(cents: number): ValidationError | null {
-  if (!Number.isInteger(cents)) {
-    return { field: "amount", message: "Amount must be a whole number of cents" };
+export function validateAmount(stored: number, currencyCode = "USD"): ValidationError | null {
+  if (!Number.isInteger(stored)) {
+    const unit = usesWholeUnitStorage(currencyCode) ? "yen" : "cents";
+    return { field: "amount", message: `Amount must be a whole number of ${unit}` };
   }
-  if (cents <= 0) {
+  if (stored <= 0) {
     return { field: "amount", message: "Amount must be greater than zero" };
   }
-  if (cents > 99999999) {
-    return { field: "amount", message: "Amount cannot exceed $999,999.99" };
+  if (stored > 99999999) {
+    return {
+      field: "amount",
+      message: `Amount cannot exceed ${formatCurrency(99999999, currencyCode)}`,
+    };
   }
   return null;
 }
 
 export function validateSplitsSum(
   splits: { amountOwed: number }[],
-  totalCents: number,
+  totalStored: number,
+  currencyCode = "USD",
 ): ValidationError | null {
   const sum = splits.reduce((acc, s) => acc + s.amountOwed, 0);
-  if (sum !== totalCents) {
-    const diff = totalCents - sum;
+  if (sum !== totalStored) {
+    const diff = totalStored - sum;
     return {
       field: "splits",
-      message: `Split amounts must equal ${formatCentsForError(totalCents)} (off by ${formatCentsForError(Math.abs(diff))})`,
+      message: `Split amounts must equal ${formatCurrency(totalStored, currencyCode)} (off by ${formatCurrency(Math.abs(diff), currencyCode)})`,
     };
   }
   return null;
@@ -59,6 +67,3 @@ export function validatePercentagesSum(percentages: number[]): ValidationError |
   return null;
 }
 
-function formatCentsForError(cents: number): string {
-  return `$${(cents / 100).toFixed(2)}`;
-}

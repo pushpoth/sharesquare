@@ -11,8 +11,8 @@ describe("BalanceCard", () => {
     const owed = 250;
     render(<BalanceCard overallBalance={overall} youOwe={owe} owedToYou={owed} />);
     expect(screen.getByTestId("balance-card")).toBeInTheDocument();
-    expect(screen.getByText(formatCurrency(overall))).toBeInTheDocument();
-    expect(screen.getByText(formatCurrency(owe))).toBeInTheDocument();
-    expect(screen.getByText(formatCurrency(owed))).toBeInTheDocument();
+    expect(screen.getByText(formatCurrency(overall, "USD"))).toBeInTheDocument();
+    expect(screen.getByText(formatCurrency(owe, "USD"))).toBeInTheDocument();
+    expect(screen.getByText(formatCurrency(owed, "USD"))).toBeInTheDocument();
   });
 });

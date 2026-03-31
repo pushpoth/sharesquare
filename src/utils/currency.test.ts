@@ -1,4 +1,11 @@
-import { centsToDollars, dollarsToCents, formatCurrency, splitEqually } from "./currency";
+import {
+  centsToDollars,
+  displayInputToStoredAmount,
+  dollarsToCents,
+  formatCurrency,
+  splitEqually,
+  storedAmountToDisplayInputString,
+} from "./currency";
 
 describe("centsToDollars", () => {
   it("converts cents to dollars", () => {
@@ -38,6 +45,23 @@ describe("formatCurrency", () => {
   it("formats with a non-default ISO currency code", () => {
     expect(formatCurrency(12500, "EUR")).toMatch(/125[.,]00/);
     expect(formatCurrency(12500, "EUR")).toContain("€");
+  });
+
+  it("JPY uses whole-yen storage: no decimals", () => {
+    expect(formatCurrency(1250, "JPY")).toBe("¥1,250");
+    expect(formatCurrency(0, "JPY")).toBe("¥0");
+  });
+});
+
+describe("displayInputToStoredAmount / storedAmountToDisplayInputString (TASK-059)", () => {
+  it("maps major units to cents for USD", () => {
+    expect(displayInputToStoredAmount(10.5, "USD")).toBe(1050);
+    expect(storedAmountToDisplayInputString(1050, "USD")).toBe("10.50");
+  });
+
+  it("maps whole units for JPY", () => {
+    expect(displayInputToStoredAmount(1250, "JPY")).toBe(1250);
+    expect(storedAmountToDisplayInputString(1250, "JPY")).toBe("1250");
   });
 });
 

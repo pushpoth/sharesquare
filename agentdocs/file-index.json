@@ -34,21 +34,35 @@
     "signatures": [],
     "imports": []
   },
-  "src/utils/currency.ts": {
-    "task": "TASK-006",
+  "src/constants/currency.ts": {
+    "task": "TASK-059",
     "status": "complete",
-    "exports": ["centsToDollars", "dollarsToCents", "formatCurrency", "splitEqually"],
-    "signatures": [
-      "formatCurrency(cents:number, currencyCode?:string):string"
-    ],
+    "exports": ["SUPPORTED_CURRENCIES", "CURRENCY_STORAGE_KEY", "DEFAULT_CURRENCY_CODE", "isSupportedCurrencyCode", "usesWholeUnitStorage"],
+    "signatures": [],
     "imports": []
   },
+  "src/utils/currency.ts": {
+    "task": "TASK-006,T059",
+    "status": "complete",
+    "exports": ["centsToDollars", "dollarsToCents", "formatCurrency", "getCurrencySymbol", "displayInputToStoredAmount", "storedAmountToDisplayInputString", "splitEqually"],
+    "signatures": [
+      "formatCurrency(amountStored:number, currencyCode?:string):string"
+    ],
+    "imports": ["@/constants/currency"]
+  },
   "src/utils/validation.ts": {
-    "task": "TASK-006",
+    "task": "TASK-006,T059",
     "status": "complete",
     "exports": ["isValidUuid", "validateRequired", "validateAmount", "validateSplitsSum", "validatePercentagesSum"],
     "signatures": ["isValidUuid(s:string):boolean"],
-    "imports": []
+    "imports": ["@/constants/currency", "@/utils/currency"]
+  },
+  "src/contexts/CurrencyContext.tsx": {
+    "task": "TASK-059",
+    "status": "complete",
+    "exports": ["CurrencyProvider", "useCurrency"],
+    "signatures": [],
+    "imports": ["react", "@/constants/currency"]
   },
   "supabase/migrations/20260331140000_initial_schema.sql": {
     "task": "TASK-007",
@@ -436,7 +450,7 @@
     "imports": ["./GroupDetailClient"]
   },
   "src/app/groups/[id]/GroupDetailClient.tsx": {
-    "task": "TASK-047,T053,T058",
+    "task": "TASK-047,T053,T057,T058,T060",
     "status": "complete",
     "exports": ["default"],
     "signatures": ["GroupDetailClient(): JSX.Element"],
@@ -449,6 +463,7 @@
       "@/hooks/useBalances",
       "@/hooks/useSettlements",
       "@/hooks/useAuth",
+      "@/contexts/CurrencyContext",
       "@/contexts/RepositoryContext",
       "@/layouts/AppLayout/AppLayout",
       "@/components/MemberBalanceList/MemberBalanceList",
@@ -465,7 +480,7 @@
     ]
   },
   "src/app/groups/[id]/GroupDetailClient.test.tsx": {
-    "task": "TASK-047,T058",
+    "task": "TASK-047,T057,T058,T060",
     "status": "complete",
     "exports": [],
     "signatures": [],
@@ -564,7 +579,7 @@
     "imports": ["@testing-library/react", "post-mock require(./page)"]
   },
   "src/app/settings/page.tsx": {
-    "task": "TASK-051,T019-T020",
+    "task": "TASK-051,T019-T020,T059",
     "status": "complete",
     "exports": ["default"],
     "signatures": ["SettingsPage(): JSX.Element"],
@@ -579,22 +594,24 @@
       "@/repositories",
       "@/services/exportService",
       "@/services/importService",
-      "@/components/Toast/Toast"
+      "@/components/Toast/Toast",
+      "@/constants/currency",
+      "@/contexts/CurrencyContext"
     ]
   },
   "src/app/settings/page.test.tsx": {
-    "task": "TASK-051",
+    "task": "TASK-051,T059",
     "status": "complete",
     "exports": [],
     "signatures": [],
-    "imports": ["@testing-library/react", "react-router-dom", "./page"]
+    "imports": ["@testing-library/react", "react-router-dom", "@/constants/currency", "@/contexts/CurrencyContext", "./page"]
   },
   "src/app/providers.tsx": {
-    "task": "TASK-052",
+    "task": "TASK-052,T059",
     "status": "complete",
     "exports": ["Providers"],
     "signatures": ["Providers({ children }): JSX.Element"],
-    "imports": ["@/contexts/AuthContext", "@/contexts/RepositoryContext", "@/components/Toast/Toast"]
+    "imports": ["@/contexts/AuthContext", "@/contexts/CurrencyContext", "@/contexts/RepositoryContext", "@/components/Toast/Toast"]
   },
   "src/AppRoutes.test.tsx": {
     "task": "TASK-052",

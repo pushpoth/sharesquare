@@ -628,7 +628,7 @@
       "title": "Show invite code on Group Detail page with copy button",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-047"
       ]
@@ -653,7 +653,7 @@
       "title": "Add currency selection to Settings page",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-051",
         "TASK-004",
@@ -665,7 +665,7 @@
       "title": "Add \"Add Expense\" shortcut button on Group Detail page",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-047",
         "TASK-048"

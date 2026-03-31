@@ -80,6 +80,11 @@ describe("activityService", () => {
       expect(desc).toBe("Alice added 'Dinner' ($25.00) in Trip");
     });
 
+    it("expense_added: respects display currency (JPY whole units)", () => {
+      const desc = buildActivityDescription("expense_added", { ...baseMeta, amount: 2500 }, "JPY");
+      expect(desc).toBe("Alice added 'Dinner' (¥2,500) in Trip");
+    });
+
     it("expense_edited: no amount", () => {
       const desc = buildActivityDescription("expense_edited", baseMeta);
       expect(desc).toBe("Alice edited 'Dinner' in Trip");

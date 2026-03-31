@@ -1,13 +1,13 @@
-session: 20 | 2026-03-31 | completed: TASK-058
+session: 21 | 2026-03-31 | completed: TASK-057, TASK-059, TASK-060
 
 decisions:
-  - Group delete visibility uses **`group_members.role === 'admin'`** (aligned with RLS `is_group_admin`), not only `createdBy`.
-  - Supabase path: single `groups` delete; Postgres CASCADE handles children. Dexie path: one transactional cascade in `DexieGroupRepository.delete`.
+  - Display currency preference: **`localStorage`** key **`sharesquare_display_currency`** (not `profiles` column) — see `CurrencyContext`, `constants/currency.ts`, requirements REQ-032 note.
+  - **JPY** stored integers are **whole yen** (no ÷100); other ISO codes use **cent** minor units per existing schema (display-only switch, no FX).
+  - **Add expense** control sits in a **row with Record Settlement** (REQ-033 adjacency).
 
 discoveries:
-  - other: `GroupDetailClient.test` mocks `useToast` with a hoisted `showToast` ref and uses module-level `mockNavigate` for `ROUTES.GROUPS` assertion after delete confirm.
+  - other: `useCurrency()` outside `CurrencyProvider` falls back to **USD** + no-op setter (tests / edge renders).
 
 next session:
-  - start with: **Batch 20** — TASK-057 (invite on detail polish if still pending), TASK-059 (currency), TASK-060 (add-expense shortcut); confirm `batch-plan.md` order vs `task-index.json`.
-  - check first: `tasks.md` TASK-057 status (invite code may already be on detail from TASK-047/057 scope)
-  - watch out: TASK-059 localStorage vs `profiles` column choice
+  - All **60/60** tasks from `tasks.md` are marked done; **`context.json`** `status` is **complete** — run a **release / QA pass** (Supabase project, OAuth redirects, real-device PWA) and decide versioning or backlog items outside the task list.
+  - Optional: clipboard-unavailable **fallback** for invite copy (REQ-030 edge case).

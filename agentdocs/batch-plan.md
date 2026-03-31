@@ -158,7 +158,7 @@ TASK-058
 
 ---
 
-## Batch 20 — Polish + shortcuts
+## ~~Batch 20 — Polish + shortcuts~~
 
 Focus: **`TASK-057`** (invite on detail); **`TASK-059`** (currency in settings); **`TASK-060`** (add-expense shortcut).
 

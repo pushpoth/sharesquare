@@ -1,6 +1,10 @@
-// Implements: TASK-043 (REQ-015)
+// Implements: TASK-043 (REQ-015), TASK-059
 
 import { fireEvent, render, screen } from "@testing-library/react";
+
+jest.mock("@/contexts/CurrencyContext", () => ({
+  useCurrency: () => ({ currencyCode: "USD" as const, setCurrencyCode: jest.fn() }),
+}));
 import userEvent from "@testing-library/user-event";
 import { SettlementForm } from "./SettlementForm";
 

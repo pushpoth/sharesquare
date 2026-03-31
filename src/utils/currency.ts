@@ -1,4 +1,6 @@
-// Implements: TASK-006 (REQ-013, REQ-008, REQ-009)
+// Implements: TASK-006 (REQ-013, REQ-008, REQ-009), TASK-059 (REQ-032)
+
+import { usesWholeUnitStorage } from "@/constants/currency";
 
 export function centsToDollars(cents: number): number {
   return cents / 100;
@@ -9,16 +11,46 @@ export function dollarsToCents(dollars: number): number {
 }
 
 /**
- * Format integer cents for display. Defaults to USD; pass an ISO 4217 code for other currencies (REQ-032).
+ * Prefix symbol for amount inputs (e.g. $, ¥) from Intl.
  */
-export function formatCurrency(cents: number, currencyCode = "USD"): string {
-  const amount = cents / 100;
+export function getCurrencySymbol(currencyCode: string): string {
+  const parts = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currencyCode,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).formatToParts(0);
+  return parts.find((p) => p.type === "currency")?.value ?? "$";
+}
+
+/**
+ * Format stored integer for display. USD/EUR/… use cent minor units (value / 100); JPY uses whole yen (REQ-032).
+ */
+export function formatCurrency(amountStored: number, currencyCode = "USD"): string {
+  const whole = usesWholeUnitStorage(currencyCode);
+  const numeric = whole ? amountStored : amountStored / 100;
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: currencyCode,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(amount);
+    minimumFractionDigits: whole ? 0 : 2,
+    maximumFractionDigits: whole ? 0 : 2,
+  }).format(numeric);
+}
+
+/** Parse user-typed amount into stored units (cents or whole yen). */
+export function displayInputToStoredAmount(displayValue: number, currencyCode: string): number {
+  if (usesWholeUnitStorage(currencyCode)) {
+    return Math.round(displayValue);
+  }
+  return dollarsToCents(displayValue);
+}
+
+/** Initial / controlled display string for an existing stored amount. */
+export function storedAmountToDisplayInputString(stored: number, currencyCode: string): string {
+  if (usesWholeUnitStorage(currencyCode)) {
+    return stored === 0 ? "" : String(stored);
+  }
+  return (stored / 100).toFixed(2);
 }
 
 /**

@@ -540,6 +540,7 @@ All monetary values are stored as **integer cents**. Display uses `(cents / 100)
 | Module | File Path | Responsibility |
 |--------|-----------|----------------|
 | AuthContext | `src/contexts/AuthContext.tsx` | Supabase session, sign-in/out |
+| CurrencyContext | `src/contexts/CurrencyContext.tsx` | Display currency (localStorage `sharesquare_display_currency`; no FX) |
 | RepositoryContext | `src/contexts/RepositoryContext.tsx` | Inject repositories |
 | useAuth | `src/hooks/useAuth.ts` | Auth state |
 | useGroups | `src/hooks/useGroups.ts` | Groups CRUD + loading |
@@ -551,7 +552,7 @@ All monetary values are stored as **integer cents**. Display uses `(cents / 100)
 
 | Utility | File Path | Responsibility |
 |---------|-----------|----------------|
-| currency | `src/utils/currency.ts` | Cents ↔ display |
+| currency | `src/utils/currency.ts` | Stored amounts ↔ display; JPY whole-yen vs cent-based (see `constants/currency.ts`) |
 | dateUtils | `src/utils/dateUtils.ts` | Formatting |
 | validation | `src/utils/validation.ts` | Shared validation |
 | rowMapping | `src/utils/rowMapping.ts` | snake_case ↔ domain types (optional) |

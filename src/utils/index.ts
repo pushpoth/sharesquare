@@ -1,4 +1,12 @@
-export { centsToDollars, dollarsToCents, formatCurrency, splitEqually } from "./currency";
+export {
+  centsToDollars,
+  dollarsToCents,
+  displayInputToStoredAmount,
+  formatCurrency,
+  getCurrencySymbol,
+  splitEqually,
+  storedAmountToDisplayInputString,
+} from "./currency";
 export {
   formatDate,
   formatFullDate,

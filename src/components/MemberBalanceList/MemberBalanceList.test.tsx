@@ -19,6 +19,6 @@ describe("MemberBalanceList", () => {
     expect(screen.getByTestId("member-balance-a")).toBeInTheDocument();
     expect(screen.getByText("Owed $25.00")).toBeInTheDocument();
     expect(screen.getByText("Owes $10.00")).toBeInTheDocument();
-    expect(screen.getByText("Owed $0")).toBeInTheDocument();
+    expect(screen.getByText("Owed $0.00")).toBeInTheDocument();
   });
 });

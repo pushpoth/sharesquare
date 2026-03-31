@@ -656,14 +656,14 @@ All group members (not just admins) must be able to see and copy the group's inv
 
 **Acceptance Criteria:**
 
-- [ ] Given a group detail page, when loaded by any member, then the group's invite code is prominently displayed
-- [ ] Given the invite code display, when the user taps "Copy Code", then the code is copied to the clipboard using the Clipboard API
-- [ ] Given a successful copy, when the copy action completes, then a confirmation ("Copied!") appears for 2 seconds
-- [ ] Given the invite code, when displayed, then it is formatted in monospace/code style for easy reading
+- [x] Given a group detail page, when loaded by any member, then the group's invite code is prominently displayed
+- [x] Given the invite code display, when the user taps "Copy Code", then the code is copied to the clipboard using the Clipboard API
+- [x] Given a successful copy, when the copy action completes, then a confirmation ("Copied!") appears for 2 seconds
+- [x] Given the invite code, when displayed, then it is formatted in monospace/code style for easy reading
 
 **Edge Cases:**
 
-- Clipboard API not available (some browser contexts): show the code in a selectable text field as a fallback
+- Clipboard API not available (some browser contexts): show the code in a selectable text field as a fallback (not yet implemented)
 - Very small viewport: invite code section should not overflow horizontally
 
 ---
@@ -710,18 +710,18 @@ USD ($), EUR (€), GBP (£), INR (₹), AUD (A$), CAD (C$), JPY (¥), SGD (S$)
 
 **Acceptance Criteria:**
 
-- [ ] Given the Settings page, when loaded, then a currency selector displays all 8 supported currencies as "USD ($)", "EUR (€)", etc.
-- [ ] Given the user selects a currency, when saved, then all monetary displays in the app update immediately to use the new symbol and formatting
-- [ ] Given the app is restarted, when loaded, then the previously selected currency is restored
-- [ ] Given no currency has been set, when the app first loads, then USD is the default
-- [ ] Given any balance, expense amount, or settlement amount is displayed, then it uses the selected currency symbol
+- [x] Given the Settings page, when loaded, then a currency selector displays all 8 supported currencies as "USD ($)", "EUR (€)", etc.
+- [x] Given the user selects a currency, when saved, then all monetary displays in the app update immediately to use the new symbol and formatting
+- [x] Given the app is restarted, when loaded, then the previously selected currency is restored
+- [x] Given no currency has been set, when the app first loads, then USD is the default
+- [x] Given any balance, expense amount, or settlement amount is displayed, then it uses the selected currency symbol
 
 **Edge Cases:**
 
 - Currency changed after expenses are already recorded: amounts display in new currency symbol without conversion (no data migration needed)
 - JPY selected: expense amounts entered as whole units (¥1,250); the stored value is treated as full units for display
 
-**Implementation note:** Preference may be stored in `localStorage` or a `profiles` / `user_preferences` column — document the chosen approach in design/tasks.
+**Implementation note:** Preference is stored in **`localStorage`** key `sharesquare_display_currency` (see `CurrencyContext`, `constants/currency.ts`, design §contexts).
 
 ---
 
@@ -735,11 +735,11 @@ The Group Detail page must provide a direct "Add Expense" button adjacent to the
 
 **Acceptance Criteria:**
 
-- [ ] Given the Group Detail page, when loaded, then an "Add Expense" button is visible adjacent to the "Record Settlement" button
-- [ ] Given the user taps "Add Expense" from a group, when the form loads, then the group is pre-selected based on the `groupId` query parameter (or equivalent)
-- [ ] Given the form is opened via the group shortcut, when rendered, then the group selector field is read-only (cannot be changed)
-- [ ] Given the Add Expense screen is opened via the bottom nav (not from a group), when rendered, then the group selector remains editable and no group is pre-selected
-- [ ] Given the expense is saved from the pre-selected group context, when complete, then the user is navigated back to that group's detail page
+- [x] Given the Group Detail page, when loaded, then an "Add Expense" button is visible adjacent to the "Record Settlement" button
+- [x] Given the user taps "Add Expense" from a group, when the form loads, then the group is pre-selected based on the `groupId` query parameter (or equivalent)
+- [x] Given the form is opened via the group shortcut, when rendered, then the group selector field is read-only (cannot be changed)
+- [x] Given the Add Expense screen is opened via the bottom nav (not from a group), when rendered, then the group selector remains editable and no group is pre-selected
+- [x] Given the expense is saved from the pre-selected group context, when complete, then the user is navigated back to that group's detail page
 
 **Edge Cases:**
 

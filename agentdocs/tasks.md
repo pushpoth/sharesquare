@@ -1229,16 +1229,16 @@ Audit policies so an **authenticated** user can **select** minimal group fields 
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-030
 **Depends on:** TASK-047
 
 **Description:**
-Add "Invite Members" section to **`GroupDetailPage`** (path `src/pages/GroupDetailPage.tsx`): monospace code, Copy button, 2s confirmation. Same acceptance as before.
+**`GroupDetailClient`**: section **Invite members**, monospace **`group-invite-code`**, **Copy code** → clipboard + success toast + button label **Copied!** for 2s (`TASK-057`).
 
 **Test Plan:**
 
-- **Unit:** Mock `navigator.clipboard`
+- **Unit:** `GroupDetailClient.test.tsx` (clipboard + toast + heading)
 
 ---
 
@@ -1269,21 +1269,21 @@ Admin-only delete with `ConfirmDialog`. **`SupabaseGroupRepository.delete`** del
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-032
 **Depends on:** TASK-051, TASK-004, TASK-005
 
 **Description:**
-Store preference in **`localStorage`** or **`profiles` column** (document choice). Implement **`useCurrency`** hook. Update **`currency.ts`** for multi-currency display. Update monetary components to use hook. **Remove** Dexie `settings` table references.
+**`localStorage`** key **`sharesquare_display_currency`**. **`CurrencyProvider`** + **`useCurrency`** in **`providers.tsx`**. Eight currencies in **`constants/currency.ts`**. **`formatCurrency` / `displayInputToStoredAmount`**: JPY uses whole-yen storage (no `/100`); others use cents. Wired: lists, cards, diagrams, forms, **`useExpenses`** activity text. Dexie had no `settings` table.
 
 **Acceptance Criteria:**
 
-- [ ] Persists across reloads
-- [ ] JPY formatting without decimals
+- [x] Persists across reloads
+- [x] JPY formatting without decimals
 
 **Test Plan:**
 
-- **Unit:** `formatAmount` per currency
+- **Unit:** `currency.test.ts`, `constants/currency.test.ts`, `CurrencyContext.test.tsx`, Settings `settings-currency-select`, `buildActivityDescription` JPY case
 
 ---
 
@@ -1291,15 +1291,15 @@ Store preference in **`localStorage`** or **`profiles` column** (document choice
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-033
 **Depends on:** TASK-047, TASK-048
 
 **Description:**
-Button navigates to **`/expenses/new?groupId=<id>`** using React Router. Same acceptance as before.
+**`group-add-expense`** next to **Record Settlement**; **`navigate(\`${ROUTES.ADD_EXPENSE}?groupId=...\`)`**. Pre-locked group flow remains **`AddExpenseClient`** (`TASK-048`).
 
 **Test Plan:**
 
-- **Unit:** Router navigation assertion
+- **Unit:** `GroupDetailClient.test.tsx` navigation assertion
 
 ---

@@ -1,9 +1,11 @@
 "use client";
-// Implements: TASK-043 (REQ-015)
+// Implements: TASK-043 (REQ-015), TASK-059 (REQ-032)
 
 import { useState } from "react";
+import { usesWholeUnitStorage } from "@/constants/currency";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { toISODate } from "@/utils/dateUtils";
-import { dollarsToCents } from "@/utils/currency";
+import { displayInputToStoredAmount, getCurrencySymbol } from "@/utils/currency";
 import { validateRequired, validateAmount } from "@/utils/validation";
 
 export interface SettlementFormProps {
@@ -13,16 +15,21 @@ export interface SettlementFormProps {
 }
 
 export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormProps) {
+  const { currencyCode } = useCurrency();
   const [fromUserId, setFromUserId] = useState("");
   const [toUserId, setToUserId] = useState("");
   const [amountDisplay, setAmountDisplay] = useState("");
   const [date, setDate] = useState(toISODate());
 
-  const amountCents = amountDisplay ? dollarsToCents(parseFloat(amountDisplay) || 0) : 0;
+  const amountCents = amountDisplay
+    ? displayInputToStoredAmount(parseFloat(amountDisplay) || 0, currencyCode)
+    : 0;
   const fromError = validateRequired(fromUserId, "From");
   const toError = validateRequired(toUserId, "To");
   const amountError =
-    amountCents > 0 ? validateAmount(amountCents) : validateRequired(amountDisplay, "Amount");
+    amountCents > 0
+      ? validateAmount(amountCents, currencyCode)
+      : validateRequired(amountDisplay, "Amount");
   const samePersonError =
     fromUserId && toUserId && fromUserId === toUserId
       ? "From and To must be different people"
@@ -104,7 +111,7 @@ export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormPr
         </label>
         <div className="flex">
           <span className="flex items-center rounded-l-lg border border-r-0 border-border bg-surface-muted px-3 text-text-secondary">
-            $
+            {getCurrencySymbol(currencyCode)}
           </span>
           <input
             id="settlement-amount"
@@ -112,7 +119,7 @@ export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormPr
             inputMode="decimal"
             value={amountDisplay}
             onChange={(e) => setAmountDisplay(e.target.value)}
-            placeholder="0.00"
+            placeholder={usesWholeUnitStorage(currencyCode) ? "0" : "0.00"}
             className="w-full rounded-r-lg border border-border px-3 py-2"
             data-testid="settlement-amount"
           />

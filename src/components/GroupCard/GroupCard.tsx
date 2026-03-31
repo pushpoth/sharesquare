@@ -4,6 +4,7 @@
 import { Link } from "react-router-dom";
 import type { Group } from "@/types";
 import { ROUTES } from "@/constants/routes";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatCurrency } from "@/utils/currency";
 import { relativeTime } from "@/utils/dateUtils";
 import { AvatarGroup } from "@/components/MemberAvatar/MemberAvatar";
@@ -34,6 +35,7 @@ export function GroupCard({
   userBalance,
   lastActivity,
 }: GroupCardProps) {
+  const { currencyCode } = useCurrency();
   const isOwed = userBalance >= 0;
 
   return (
@@ -57,7 +59,7 @@ export function GroupCard({
             </span>
           </div>
           <p className="text-sm text-text-secondary">
-            Total Expenses: {formatCurrency(totalExpenses)}
+            Total Expenses: {formatCurrency(totalExpenses, currencyCode)}
           </p>
           {lastActivity && (
             <p className="mt-1 text-xs text-text-secondary">Active {relativeTime(lastActivity)}</p>
@@ -70,8 +72,8 @@ export function GroupCard({
             }`}
           >
             {isOwed
-              ? `YOU ARE OWED ${formatCurrency(userBalance)}`
-              : `YOU OWE ${formatCurrency(Math.abs(userBalance))}`}
+              ? `YOU ARE OWED ${formatCurrency(userBalance, currencyCode)}`
+              : `YOU OWE ${formatCurrency(Math.abs(userBalance), currencyCode)}`}
           </span>
         </div>
       </div>

@@ -1,6 +1,10 @@
-// Implements: TASK-037 (REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-028)
+// Implements: TASK-037 (REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-028), TASK-059
 
 import { fireEvent, render, screen } from "@testing-library/react";
+
+jest.mock("@/contexts/CurrencyContext", () => ({
+  useCurrency: () => ({ currencyCode: "USD" as const, setCurrencyCode: jest.fn() }),
+}));
 import userEvent from "@testing-library/user-event";
 import { ExpenseForm } from "./ExpenseForm";
 

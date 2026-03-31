@@ -2,6 +2,7 @@
 // Implements: TASK-053 (REQ-018)
 
 import { useId } from "react";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatCurrency } from "@/utils/currency";
 import { COLORS } from "@/constants/colors";
 import type { DebtFlow } from "./types";
@@ -16,6 +17,7 @@ export interface FlowDiagramProps {
  * SVG summary of simplified settlements (who pays whom).
  */
 export function FlowDiagram({ flows, resolveName, className = "" }: FlowDiagramProps) {
+  const { currencyCode } = useCurrency();
   const markerUid = useId().replace(/:/g, "");
 
   if (flows.length === 0) {
@@ -61,7 +63,7 @@ export function FlowDiagram({ flows, resolveName, className = "" }: FlowDiagramP
           const y = pad + i * rowH + rowH / 2;
           const fromName = resolveName(f.fromUserId);
           const toName = resolveName(f.toUserId);
-          const label = formatCurrency(f.amountCents);
+          const label = formatCurrency(f.amountCents, currencyCode);
           return (
             <g key={`${f.fromUserId}-${f.toUserId}-${i}`} data-testid="flow-diagram-row">
               <text x="4" y={y + 4} fill={COLORS.textPrimary} fontSize="12" fontWeight="600">

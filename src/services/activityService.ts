@@ -36,12 +36,13 @@ export function buildActivityDescription(
     amount?: number;
     groupName?: string;
   },
+  currencyCode = "USD",
 ): string {
   const { userName = "Someone", title = "", amount, groupName = "" } = metadata;
 
   switch (type) {
     case "expense_added":
-      return `${userName} added '${title}' (${amount !== undefined ? formatCurrency(amount) : "?"}) in ${groupName}`;
+      return `${userName} added '${title}' (${amount !== undefined ? formatCurrency(amount, currencyCode) : "?"}) in ${groupName}`;
     case "expense_edited":
       return `${userName} edited '${title}' in ${groupName}`;
     case "expense_deleted":

@@ -2,6 +2,7 @@
 // Implements: TASK-040 (REQ-016)
 
 import { MemberAvatar } from "@/components/MemberAvatar";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatCurrency } from "@/utils/currency";
 
 export interface MemberBalanceListProps {
@@ -14,10 +15,11 @@ export interface MemberBalanceListProps {
 }
 
 export function MemberBalanceList({ members }: MemberBalanceListProps) {
+  const { currencyCode } = useCurrency();
   const getBalanceText = (balance: number) => {
-    if (balance > 0) return `Owed ${formatCurrency(balance)}`;
-    if (balance < 0) return `Owes ${formatCurrency(Math.abs(balance))}`;
-    return "Owed $0";
+    if (balance > 0) return `Owed ${formatCurrency(balance, currencyCode)}`;
+    if (balance < 0) return `Owes ${formatCurrency(Math.abs(balance), currencyCode)}`;
+    return `Owed ${formatCurrency(0, currencyCode)}`;
   };
 
   const getBalanceClassName = (balance: number) => {

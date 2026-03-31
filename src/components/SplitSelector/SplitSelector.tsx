@@ -3,7 +3,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { MemberAvatar } from "@/components/MemberAvatar";
-import { dollarsToCents, splitEqually as splitEquallyUtil } from "@/utils/currency";
+import { displayInputToStoredAmount, splitEqually as splitEquallyUtil } from "@/utils/currency";
 import { validateSplitsSum } from "@/utils/validation";
 
 export interface SplitEntry {
@@ -19,6 +19,8 @@ export interface SplitSelectorProps {
   splitEqually: boolean;
   onSplitEquallyChange: (checked: boolean) => void;
   readOnly?: boolean;
+  /** ISO 4217; JPY uses whole-yen stored units (TASK-059). */
+  currencyCode?: string;
 }
 
 export function SplitSelector({
@@ -29,6 +31,7 @@ export function SplitSelector({
   splitEqually,
   onSplitEquallyChange,
   readOnly = false,
+  currencyCode = "USD",
 }: SplitSelectorProps) {
   const [percentMode, setPercentMode] = useState<Record<string, boolean>>({});
 
@@ -61,7 +64,7 @@ export function SplitSelector({
       if (isPercent) {
         cents = Math.round((totalCents * num) / 100);
       } else {
-        cents = dollarsToCents(num);
+        cents = displayInputToStoredAmount(num, currencyCode);
       }
       const existing = splits.find((s) => s.userId === userId);
       const newSplits = existing
@@ -69,10 +72,10 @@ export function SplitSelector({
         : [...splits, { userId, amountOwed: cents }];
       onChange(newSplits);
     },
-    [splits, totalCents, onChange, readOnly],
+    [splits, totalCents, onChange, readOnly, currencyCode],
   );
 
-  const splitsSumError = validateSplitsSum(splits, totalCents);
+  const splitsSumError = validateSplitsSum(splits, totalCents, currencyCode);
 
   return (
     <div className="space-y-3">
