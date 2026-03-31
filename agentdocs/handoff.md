@@ -1,12 +1,22 @@
-session: 18 | 2026-03-31 | completed: TASK-048, TASK-049, TASK-050
+session: compact | 2026-03-31 | checkpoint before context reset
 
-decisions:
-  - Closed Batch 17 in one session: add/edit expense routes were already wired in AppRoutes; TASK-048 gap was explicit read-only group context when `?groupId=` preselects; TASK-049/050 verified + RTL tests added.
+summary:
+  - Phase: IMPLEMENT · **53 / 60** tasks done · Batches **1–17** complete per `batch-plan.md` (strikethrough batches).
+  - `current_batch`: **[]** (no dangling batch).
+  - Last closed batch: **17** (TASK-048–050: add/edit expense pages + activity feed + RTL tests; Add expense `?groupId=` → `add-expense-group-readonly`).
 
-discoveries:
-  - other: `AddExpenseClient.test.tsx` dexie `useLiveQuery` shim can trigger React `act` console warnings when promises resolve after mount; tests still pass; can tighten shim with `startTransition` or extra `waitFor` if noise matters.
+decisions (still valid):
+  - Page integration tests: post-mock **`require(SUT)`** + self-contained **`jest.mock` factories** to avoid Jest hoist / TDZ issues.
+  - Clipboard in tests: **`jest.spyOn(navigator.clipboard, "writeText")`** + **`fireEvent.click`** when needed.
 
-next session:
-  - start with: Batch 18 — TASK-051, TASK-052, TASK-053 (settings export/import, router/providers hardening, charts)
-  - check first: `src/app/settings/page.tsx` vs tasks.md sign-out AC for TASK-051
-  - watch out: Session touched many files (budget F≥8); next batch may deserve a fresh session if context is heavy
+discoveries (cold-start):
+  - Dexie **`useLiveQuery` test shims** may log React **`act`** warnings; tests pass; optional **`waitFor` / `startTransition`** if noise is annoying.
+  - **`notes.md`**: Jest patterns (TASK-047), Add expense query lock (TASK-048), Supabase import writer gap (TASK-020), etc.
+
+next session (resume IMPLEMENT):
+  - **Batch 18:** TASK-051 (Settings export/import + sign-out AC), TASK-052 (router/providers/PWA checklist), TASK-053 (SVG charts — needs TASK-026).
+  - Read first: `agentdocs/batch-plan.md` · `task-index.json` (pending) · `src/app/settings/page.tsx` vs `tasks.md` TASK-051.
+  - Commands: `npm test` · `npm run lint` · `npm run build` (from `context.json` stack).
+
+surprises:
+  - none since session 18 handoff
