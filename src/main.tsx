@@ -1,4 +1,5 @@
 // Implements: TASK-001 (REQ-026, REQ-027)
+import "@/env-shim";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";

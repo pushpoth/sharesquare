@@ -64,8 +64,11 @@ Copy `.env.example` when provided and set:
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
+- `VITE_USE_SUPABASE_REPOS` — set to `true` to use the shared Supabase anon client for all repositories; leave `false` or unset to keep **IndexedDB (Dexie)** for local/offline-first dev.
 
 Never commit secrets or the **service role** key.
+
+**Google / magic link (TASK-054):** With a **real** Supabase project URL (not the Jest placeholder), the login page shows **Sign in with Google**, which uses `supabase.auth.signInWithOAuth`. Configure **Site URL**, **redirect allow list**, and **Google OAuth credentials** in the Supabase dashboard — see [`supabase/README.md`](supabase/README.md) § *Supabase Auth (dashboard)*. For local demo without a project, use **Quick Start (Demo Mode)**.
 
 ### Common scripts
 

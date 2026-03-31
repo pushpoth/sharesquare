@@ -13,18 +13,38 @@ SQL migrations live in [`migrations/`](./migrations/). They define the **Postgre
 ### Option B — SQL Editor
 
 1. Open the Supabase dashboard → **SQL Editor**.
-2. Paste the contents of `migrations/20260331140000_initial_schema.sql` and run.
+2. Run migrations in order: `20260331140000_initial_schema.sql`, then `20260331150000_expense_write_rpcs.sql` (or use `supabase db push` for both).
 
 ## After migrate
 
-- Configure **Auth** providers and redirect URLs (see TASK-054 in `agentdocs/tasks.md`).
 - App uses `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (see root `.env.example`).
+- Configure **Auth** in the dashboard (TASK-054) — section below.
 
-## RPC helpers in this migration
+## Supabase Auth (dashboard) — TASK-054
 
-| Function | Purpose |
-|----------|---------|
-| `find_group_by_invite_code(text)` | Join flow: resolve a group by invite code without direct `groups` SELECT for non-members. |
-| `create_group_with_admin(text, text)` | Atomic insert `groups` + creator `group_members` row as `admin`. |
+Do this in [Supabase Dashboard](https://supabase.com/dashboard) → your project → **Authentication**.
 
-Repository implementations (TASK-009+) should call these where appropriate instead of relying on permissive `groups` SELECT policies.
+1. **Site URL** — set to your deployed SPA origin (e.g. `https://your-app.pages.dev`) and, for local dev, `http://localhost:5173` (or the port Vite prints).
+2. **Redirect URLs** — add allow-list entries so OAuth / magic link can return to the SPA:
+   - `http://localhost:5173/**`
+   - `http://127.0.0.1:5173/**`
+   - Production: `https://<your-domain>/**`
+3. **Providers** — enable **Google** (and/or others). Store **Client ID** and **Client secret** in Supabase (not in the repo). The SPA only uses the **anon** key; it never sees the service role.
+4. **Email** — under **Auth** → **Providers** → **Email**: enable or disable **magic link** / **confirm email** to match product choice (`authService.signInWithMagicLink` is available when email OTP is enabled).
+
+After saving, sign-in from the app (`Sign in with Google`) should redirect back to the Site URL / redirect path with a session. **Manual check:** complete OAuth on localhost and production once per environment.
+
+## RPC helpers
+
+| Function | Migration | Purpose |
+|----------|-----------|---------|
+| `find_group_by_invite_code(text)` | initial | Join flow: resolve a group by invite code without direct `groups` SELECT for non-members. |
+| `create_group_with_admin(text, text)` | initial | Atomic insert `groups` + creator `group_members` row as `admin`. |
+| `create_expense_with_lines(...)` | expense_write_rpcs | Atomic insert `expenses` + `expense_payers` + `expense_splits` (member check). |
+| `update_expense_with_lines(...)` | expense_write_rpcs | Replace payers/splits + patch expense in one transaction (creator or admin). |
+
+Group and expense Supabase repositories call these instead of relying on permissive `groups` SELECT or multi-request writes.
+
+## RLS audit (invite / join)
+
+See [`agentdocs/rls-invite-join.md`](../agentdocs/rls-invite-join.md) for the TASK-056 review: non-members cannot enumerate `groups`; join uses `find_group_by_invite_code` + controlled `group_members` inserts.

@@ -11,3 +11,8 @@
 - [2026-03-31 TASK-006] `isValidUuid` checks 8-4-4-4-12 hex shape only (not RFC version/variant strictness).
 - [2026-03-31 TASK-007] RLS: `groups` SELECT only for members; use `find_group_by_invite_code(p_code)` for authenticated join lookup. `create_group_with_admin(name, invite_code)` is SECURITY DEFINER for atomic group + admin member.
 - [2026-03-31 TASK-007] Postgres columns: `expense_splits.amount_owed`, `profiles.display_name` (map to `User.name` in TS).
+- [2026-03-31 TASK-011] Expense payer/split writes use RPCs `create_expense_with_lines` / `update_expense_with_lines`; apply migration `20260331150000_expense_write_rpcs.sql` after the initial schema migration.
+- [2026-04-01 TASK-014] Browser reads `VITE_*` for repos via `src/env-shim.ts` (imported from `main.tsx`); Jest uses `process.env` only — do not put `import.meta` in `readEnv.ts`.
+- [2026-04-01 TASK-056] RLS invite/join audit: `agentdocs/rls-invite-join.md` + `supabase/README.md` — non-members cannot `SELECT` `groups`; join uses RPC + controlled `group_members` inserts.
+- [2026-04-01 TASK-015] Supabase Auth UI only when `isSupabaseAuthConfigured()` is true (not the Jest default `https://test.supabase.co` URL).
+- [2026-04-01 TASK-016] `normalizeCode` inserts a hyphen for exactly 8 alphanumeric characters so `ABCD1234` matches stored `ABCD-1234`.

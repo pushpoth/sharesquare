@@ -1,6 +1,6 @@
 # Batch Plan: sharesquare
 
-> **Updated:** 2026-03-31 · **Total tasks:** 60 · **Done:** TASK-001–008 (batches 1–3) · **App today:** Vite + PWA + Dexie repos; **SQL** in `supabase/migrations/` (apply before Supabase repo tasks).
+> **Updated:** 2026-04-01 · **Total tasks:** 60 · **Done:** TASK-001–016, TASK-054, TASK-056 (batches 1–6) · **App today:** Vite + PWA; Supabase Auth when real project URL; repos = Dexie unless `VITE_USE_SUPABASE_REPOS=true`.
 
 Batches follow `context.json` **`depends_on`**: a task appears only after all listed dependencies are **done**. Each batch targets **3–5 tasks**, **≤2 M-effort**, **no L** in one batch where possible.
 
@@ -30,7 +30,7 @@ TASK-007, TASK-008
 
 ---
 
-## Batch 4 — Supabase repositories (core data)
+## ~~Batch 4 — Supabase repositories (core data)~~
 
 Focus: profile, groups, expenses — **requires live DB** with migration applied. Use `find_group_by_invite_code` / `create_group_with_admin` where RLS requires it.
 
@@ -38,7 +38,7 @@ TASK-009, TASK-010, TASK-011
 
 ---
 
-## Batch 5 — Supabase repositories (remainder) + client factory + RLS review
+## ~~Batch 5 — Supabase repositories (remainder) + client factory + RLS review~~
 
 Focus: settlements, activity, then **`@supabase/supabase-js` singleton** wiring all five repos (`TASK-014` blocks `TASK-023`). **`TASK-056`** (`depends_on`: 007, 010) belongs here so invite/join behavior is validated right after **`TASK-010`**.
 
@@ -46,7 +46,7 @@ TASK-012, TASK-013, TASK-014, TASK-056
 
 ---
 
-## Batch 6 — Auth session + invite service + dashboard config
+## ~~Batch 6 — Auth session + invite service + dashboard config~~
 
 Focus: `TASK-015` (session helpers) unblocks **`TASK-022`**; **`TASK-016`** needs **`TASK-010`** (group repo for code collision checks). **`TASK-054`** only needs **`TASK-007`** — do early so OAuth/magic-link matches deployed URLs.
 

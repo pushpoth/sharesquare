@@ -1,12 +1,45 @@
 // Implements: TASK-016 (REQ-003, REQ-004)
 
-import { generateUniqueCode, normalizeCode } from "./inviteCodeService";
+import { generateCode, generateUniqueCode, normalizeCode, resolveGroupByCode } from "./inviteCodeService";
 import type { IGroupRepository } from "@/repositories/interfaces/IGroupRepository";
 import type { Group } from "@/types/group";
 
 const CODE_FORMAT = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
 
 describe("inviteCodeService", () => {
+  describe("generateCode", () => {
+    it("matches XXXX-XXXX pattern", () => {
+      expect(generateCode()).toMatch(CODE_FORMAT);
+    });
+  });
+
+  describe("resolveGroupByCode", () => {
+    it("normalizes input and calls findByInviteCode", async () => {
+      const group: Group = {
+        id: "g1",
+        name: "T",
+        inviteCode: "ABCD-1234",
+        createdBy: "u1",
+        createdAt: "2025-01-01T00:00:00Z",
+      };
+      const groupRepo: IGroupRepository = {
+        findByInviteCode: jest.fn().mockResolvedValue(group),
+        findById: jest.fn(),
+        getByUserId: jest.fn(),
+        create: jest.fn(),
+        update: jest.fn(),
+        delete: jest.fn(),
+        addMember: jest.fn(),
+        getMembers: jest.fn(),
+        isMember: jest.fn(),
+      };
+
+      const result = await resolveGroupByCode(groupRepo, "  abcd  1234  ");
+      expect(result).toEqual(group);
+      expect(groupRepo.findByInviteCode).toHaveBeenCalledWith("ABCD-1234");
+    });
+  });
+
   describe("generateUniqueCode", () => {
     it("generates code matching format XXXX-XXXX", async () => {
       const groupRepo: IGroupRepository = {
@@ -87,8 +120,8 @@ describe("inviteCodeService", () => {
       expect(normalizeCode("abcd-1234")).toBe("ABCD-1234");
     });
 
-    it("strips spaces", () => {
-      expect(normalizeCode("ABCD 1234")).toBe("ABCD1234");
+    it("strips spaces and hyphenates 8-char input", () => {
+      expect(normalizeCode("ABCD 1234")).toBe("ABCD-1234");
       expect(normalizeCode("AB CD - 12 34")).toBe("ABCD-1234");
     });
 

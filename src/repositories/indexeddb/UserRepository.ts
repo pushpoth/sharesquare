@@ -1,4 +1,4 @@
-// Implements: TASK-009 (REQ-024)
+// Implements: REQ-024 (IndexedDB implementation; Supabase: TASK-009)
 
 import type { ShareSquareDB } from "./database";
 import type { IUserRepository } from "../interfaces/IUserRepository";

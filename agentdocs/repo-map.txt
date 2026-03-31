@@ -7,7 +7,9 @@ src/app/ [✅T001] page components (RR, was Next)
 src/components/ [⬜] UI library
 src/layouts/AppLayout/ [✅T001] auth shell + navigate
 supabase/migrations/ [✅T007] initial schema + RLS + RPC helpers
-src/repositories/ [✅T008] interfaces + errors; IndexedDB impl until Supabase repos
+src/repositories/ [✅T008-T014,T056] interfaces + errors; Dexie default OR Supabase bundle via VITE_USE_SUPABASE_REPOS; factory + env-shim
+src/services/ [✅T015-T016,T054] authService (Supabase OAuth/magic/ensureProfile); inviteCodeService (generateCode, resolveGroupByCode)
+src/contexts/AuthContext.tsx [✅T015] Supabase session + demo path
 src/hooks/ [⬜]
 src/services/ [⬜]
 src/types/ [✅T004-T006] entities + ACTIVITY_TYPES

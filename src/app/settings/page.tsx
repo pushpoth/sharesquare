@@ -72,7 +72,7 @@ export default function SettingsPage() {
   };
 
   const handleSignOut = () => {
-    logout();
+    void logout();
     navigate(ROUTES.LANDING, { replace: true });
   };
 

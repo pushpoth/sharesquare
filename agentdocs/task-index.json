@@ -1,6 +1,6 @@
 {
   "project": "sharesquare",
-  "updated": "2026-03-31T22:00:00Z",
+  "updated": "2026-04-01T12:00:00Z",
   "tasks": [
     {
       "id": "TASK-001",
@@ -85,7 +85,7 @@
       "title": "Implement Supabase profile / user repository",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-007",
         "TASK-008",
@@ -97,7 +97,7 @@
       "title": "Implement SupabaseGroupRepository",
       "phase": "backend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-007",
         "TASK-008",
@@ -109,7 +109,7 @@
       "title": "Implement SupabaseExpenseRepository",
       "phase": "backend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-007",
         "TASK-008",
@@ -121,7 +121,7 @@
       "title": "Implement SupabaseSettlementRepository",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-007",
         "TASK-008",
@@ -133,7 +133,7 @@
       "title": "Implement SupabaseActivityRepository",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-007",
         "TASK-008",
@@ -145,7 +145,7 @@
       "title": "Create Supabase client singleton and repository factory",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-009",
         "TASK-010",
@@ -159,7 +159,7 @@
       "title": "Implement Supabase Auth session helpers",
       "phase": "backend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-009",
         "TASK-014"
@@ -170,7 +170,7 @@
       "title": "Implement InviteCodeService",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-010"
       ]
@@ -596,7 +596,7 @@
       "title": "Configure Supabase Auth providers and redirect URLs",
       "phase": "infra",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-007"
       ]
@@ -617,7 +617,7 @@
       "title": "Review RLS for invite-code lookup and group join",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-007",
         "TASK-010"

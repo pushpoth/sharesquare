@@ -1,16 +1,19 @@
 "use client";
-// Implements: TASK-044
+// Implements: TASK-044, TASK-015
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useRepositories } from "@/contexts/RepositoryContext";
-import { loginOrCreateUser, setSession } from "@/services/authService";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading } = useAuth();
-  const repos = useRepositories();
+  const {
+    isAuthenticated,
+    isLoading,
+    supabaseAuthAvailable,
+    signInWithGoogle,
+    signInWithDemoProfile,
+  } = useAuth();
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -19,17 +22,18 @@ export default function LoginPage() {
   }, [isAuthenticated, isLoading, navigate]);
 
   const handleDemoLogin = async () => {
-    const user = await loginOrCreateUser(repos.users, {
+    await signInWithDemoProfile({
       email: "demo@sharesquare.app",
       name: "Demo User",
       picture: "",
     });
-    setSession(user.id);
-    window.location.href = "/home";
+    navigate("/home");
   };
 
   const handleGoogleSignIn = () => {
-    // Placeholder: Google OAuth will be integrated separately
+    void signInWithGoogle().catch((err) => {
+      console.error(err);
+    });
   };
 
   if (isLoading) {
@@ -87,13 +91,22 @@ export default function LoginPage() {
 
         {/* Buttons */}
         <div className="flex w-full flex-col gap-4">
-          <button
-            type="button"
-            onClick={handleGoogleSignIn}
-            className="w-full rounded-xl bg-accent px-6 py-4 font-semibold text-text-on-primary shadow-md transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-          >
-            Sign in with Google
-          </button>
+          {supabaseAuthAvailable ? (
+            <button
+              type="button"
+              data-testid="sign-in-google-button"
+              onClick={handleGoogleSignIn}
+              className="w-full rounded-xl bg-accent px-6 py-4 font-semibold text-text-on-primary shadow-md transition-colors hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            >
+              Sign in with Google
+            </button>
+          ) : (
+            <p className="rounded-xl border border-primary-light bg-primary-light/30 px-4 py-3 text-center text-sm text-text-secondary">
+              Set <code className="text-text-primary">VITE_SUPABASE_URL</code> and{" "}
+              <code className="text-text-primary">VITE_SUPABASE_ANON_KEY</code> to your project (see
+              README) to enable Google sign-in. Use Quick Start for local demo.
+            </p>
+          )}
           <button
             type="button"
             onClick={handleDemoLogin}

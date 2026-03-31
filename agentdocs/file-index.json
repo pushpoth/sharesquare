@@ -56,5 +56,124 @@
     "exports": [],
     "signatures": [],
     "imports": []
+  },
+  "supabase/migrations/20260331150000_expense_write_rpcs.sql": {
+    "task": "TASK-011",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
+  },
+  "src/repositories/supabase/client.ts": {
+    "task": "TASK-009,T014",
+    "status": "complete",
+    "exports": ["createBrowserSupabaseClient", "getSharedSupabaseBrowserClient", "resetSharedSupabaseBrowserClientForTests"],
+    "signatures": [],
+    "imports": ["@supabase/supabase-js", "./readEnv"]
+  },
+  "src/repositories/supabase/readEnv.ts": {
+    "task": "TASK-014,T015",
+    "status": "complete",
+    "exports": ["readPublicEnv", "isSupabaseRepositoriesEnabled"],
+    "signatures": [],
+    "imports": []
+  },
+  "src/env-shim.ts": {
+    "task": "TASK-014",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
+  },
+  "src/repositories/index.ts": {
+    "task": "TASK-014",
+    "status": "complete",
+    "exports": ["repositories"],
+    "signatures": [],
+    "imports": ["./indexeddb/*", "./supabase/*"]
+  },
+  "src/repositories/supabase/factory.ts": {
+    "task": "TASK-014",
+    "status": "complete",
+    "exports": ["createSupabaseRepositories", "RepositoryBundle"],
+    "signatures": [],
+    "imports": []
+  },
+  "src/repositories/supabase/UserRepository.ts": {
+    "task": "TASK-009",
+    "status": "complete",
+    "exports": ["SupabaseUserRepository"],
+    "signatures": ["class SupabaseUserRepository implements IUserRepository"],
+    "imports": ["@supabase/supabase-js", "../interfaces/IUserRepository"]
+  },
+  "src/repositories/supabase/GroupRepository.ts": {
+    "task": "TASK-010",
+    "status": "complete",
+    "exports": ["SupabaseGroupRepository"],
+    "signatures": ["class SupabaseGroupRepository implements IGroupRepository"],
+    "imports": ["@supabase/supabase-js", "../interfaces/IGroupRepository"]
+  },
+  "src/repositories/supabase/ExpenseRepository.ts": {
+    "task": "TASK-011",
+    "status": "complete",
+    "exports": ["SupabaseExpenseRepository"],
+    "signatures": ["class SupabaseExpenseRepository implements IExpenseRepository"],
+    "imports": ["@supabase/supabase-js", "../interfaces/IExpenseRepository"]
+  },
+  "src/repositories/supabase/SettlementRepository.ts": {
+    "task": "TASK-012",
+    "status": "complete",
+    "exports": ["SupabaseSettlementRepository"],
+    "signatures": [],
+    "imports": ["@supabase/supabase-js"]
+  },
+  "src/repositories/supabase/ActivityRepository.ts": {
+    "task": "TASK-013",
+    "status": "complete",
+    "exports": ["SupabaseActivityRepository"],
+    "signatures": [],
+    "imports": ["@supabase/supabase-js"]
+  },
+  "agentdocs/rls-invite-join.md": {
+    "task": "TASK-056",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
+  },
+  "src/services/authService.ts": {
+    "task": "TASK-015",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@supabase/supabase-js"]
+  },
+  "src/services/inviteCodeService.ts": {
+    "task": "TASK-016",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
+  },
+  "src/contexts/AuthContext.tsx": {
+    "task": "TASK-015",
+    "status": "complete",
+    "exports": ["AuthProvider", "useAuthContext"],
+    "signatures": [],
+    "imports": []
+  },
+  "src/app/page.tsx": {
+    "task": "TASK-044,T015",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
+  },
+  "supabase/README.md": {
+    "task": "TASK-054",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
   }
 }

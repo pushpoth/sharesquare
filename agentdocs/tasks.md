@@ -232,7 +232,7 @@ Create `src/repositories/interfaces/*.ts` for `IUserRepository`, `IGroupReposito
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-001, REQ-002, REQ-023, REQ-024
 **Depends on:** TASK-007, TASK-008, TASK-006
 
@@ -241,9 +241,9 @@ Create `src/repositories/supabase/UserRepository.ts` (and `client.ts` singleton 
 
 **Acceptance Criteria:**
 
-- [ ] `findByEmail` / `findById` query `profiles` under RLS
-- [ ] Duplicate or constraint errors map to `DuplicateError` where applicable
-- [ ] No Supabase calls outside this module except shared `client.ts`
+- [x] `findByEmail` / `findById` query `profiles` under RLS
+- [x] Duplicate or constraint errors map to `DuplicateError` where applicable
+- [x] No Supabase calls outside this module except shared `client.ts`
 
 **Test Plan:**
 
@@ -255,7 +255,7 @@ Create `src/repositories/supabase/UserRepository.ts` (and `client.ts` singleton 
 
 **Phase:** backend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-003, REQ-004, REQ-005, REQ-006, REQ-023, REQ-024
 **Depends on:** TASK-007, TASK-008, TASK-006
 
@@ -264,10 +264,10 @@ Create `src/repositories/supabase/GroupRepository.ts` implementing `IGroupReposi
 
 **Acceptance Criteria:**
 
-- [ ] `create` persists group and creator as admin
-- [ ] `findByInviteCode` is case-insensitive
-- [ ] `addMember` throws `DuplicateError` if already member
-- [ ] `delete` removes group and cascaded data per schema/RPC
+- [x] `create` persists group and creator as admin
+- [x] `findByInviteCode` is case-insensitive
+- [x] `addMember` throws `DuplicateError` if already member
+- [x] `delete` removes group and cascaded data per schema/RPC
 
 **Test Plan:**
 
@@ -280,7 +280,7 @@ Create `src/repositories/supabase/GroupRepository.ts` implementing `IGroupReposi
 
 **Phase:** backend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-006, REQ-011, REQ-012, REQ-023, REQ-024
 **Depends on:** TASK-007, TASK-008, TASK-006
 
@@ -289,9 +289,9 @@ Create `src/repositories/supabase/ExpenseRepository.ts` implementing `IExpenseRe
 
 **Acceptance Criteria:**
 
-- [ ] Create/update/delete maintain payer and split consistency
-- [ ] `getByGroupId` sort order is correct
-- [ ] Errors from PostgREST map to typed errors where useful
+- [x] Create/update/delete maintain payer and split consistency
+- [x] `getByGroupId` sort order is correct
+- [x] Errors from PostgREST map to typed errors where useful
 
 **Test Plan:**
 
@@ -303,7 +303,7 @@ Create `src/repositories/supabase/ExpenseRepository.ts` implementing `IExpenseRe
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-015, REQ-023, REQ-024
 **Depends on:** TASK-007, TASK-008, TASK-006
 
@@ -312,8 +312,8 @@ Create `src/repositories/supabase/SettlementRepository.ts` implementing `ISettle
 
 **Acceptance Criteria:**
 
-- [ ] `getByGroupId` sorted by date descending
-- [ ] `create` / `delete` work under RLS
+- [x] `getByGroupId` sorted by date descending
+- [x] `create` / `delete` work under RLS
 
 **Test Plan:**
 
@@ -325,7 +325,7 @@ Create `src/repositories/supabase/SettlementRepository.ts` implementing `ISettle
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-020, REQ-023, REQ-024
 **Depends on:** TASK-007, TASK-008, TASK-006
 
@@ -334,8 +334,8 @@ Create `src/repositories/supabase/ActivityRepository.ts` implementing `IActivity
 
 **Acceptance Criteria:**
 
-- [ ] `log` inserts activity row
-- [ ] `getByUserId` ordering and limit correct
+- [x] `log` inserts activity row
+- [x] `getByUserId` ordering and limit correct
 
 **Test Plan:**
 
@@ -347,7 +347,7 @@ Create `src/repositories/supabase/ActivityRepository.ts` implementing `IActivity
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-024
 **Depends on:** TASK-009, TASK-010, TASK-011, TASK-012, TASK-013
 
@@ -356,9 +356,9 @@ Create `src/repositories/supabase/client.ts` exporting a browser **`createClient
 
 **Acceptance Criteria:**
 
-- [ ] `repositories` exposes `users`, `groups`, `expenses`, `settlements`, `activity`
-- [ ] **Service role key** is never imported in app source
-- [ ] Single shared client instance
+- [x] `repositories` exposes `users`, `groups`, `expenses`, `settlements`, `activity`
+- [x] **Service role key** is never imported in app source
+- [x] Single shared client instance
 
 **Test Plan:**
 
@@ -374,7 +374,7 @@ Create `src/repositories/supabase/client.ts` exporting a browser **`createClient
 
 **Phase:** backend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-001, REQ-002
 **Depends on:** TASK-009, TASK-014
 
@@ -383,9 +383,9 @@ Create `src/services/authService.ts` (or split `supabaseAuth.ts`): `signInWithGo
 
 **Acceptance Criteria:**
 
-- [ ] Sign-in and sign-out delegate to Supabase Auth
-- [ ] Profile upsert runs after first sign-in
-- [ ] No `@react-oauth/google` dependency
+- [x] Sign-in and sign-out delegate to Supabase Auth
+- [x] Profile upsert runs after first sign-in
+- [x] No `@react-oauth/google` dependency
 
 **Test Plan:**
 
@@ -397,7 +397,7 @@ Create `src/services/authService.ts` (or split `supabaseAuth.ts`): `signInWithGo
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-003, REQ-004, REQ-029
 **Depends on:** TASK-010
 
@@ -406,9 +406,9 @@ Create `src/services/inviteCodeService.ts`. **`generateCode()`** → human-reada
 
 **Acceptance Criteria:**
 
-- [ ] Generated codes match agreed regex pattern
-- [ ] `normalizeCode` handles lowercase and spaces
-- [ ] No Vercel KV or Next API usage
+- [x] Generated codes match agreed regex pattern
+- [x] `normalizeCode` handles lowercase and spaces
+- [x] No Vercel KV or Next API usage
 
 **Test Plan:**
 
@@ -1159,7 +1159,7 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** infra
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-001
 **Depends on:** TASK-007
 
@@ -1168,8 +1168,8 @@ In the Supabase dashboard: enable desired providers (e.g. Google OAuth with clie
 
 **Acceptance Criteria:**
 
-- [ ] OAuth redirect completes back to the SPA with session established
-- [ ] README documents env vars and dashboard steps
+- [x] OAuth redirect completes back to the SPA with session established
+- [x] README documents env vars and dashboard steps
 
 **Test Plan:**
 
@@ -1203,7 +1203,7 @@ Either a SQL **`on auth.users` insert trigger** to create `profiles`, or rely on
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-004, REQ-029
 **Depends on:** TASK-007, TASK-010
 
@@ -1212,8 +1212,8 @@ Audit policies so an **authenticated** user can **select** minimal group fields 
 
 **Acceptance Criteria:**
 
-- [ ] Join flow works for valid code
-- [ ] Arbitrary enumeration of other users' groups is not possible
+- [x] Join flow works for valid code
+- [x] Arbitrary enumeration of other users' groups is not possible
 
 **Test Plan:**
 
