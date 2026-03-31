@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>spec-it Dashboard</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #243047;
+    --border: #334155;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --green: #22c55e;
+    --green-bg: #052e16;
+    --green-border: #166534;
+    --amber: #f59e0b;
+    --amber-bg: #451a03;
+    --amber-border: #92400e;
+    --blue: #3b82f6;
+    --blue-bg: #0c1a2e;
+    --blue-border: #1e40af;
+    --indigo: #818cf8;
+    --red: #ef4444;
+    --radius: 8px;
+    --radius-sm: 4px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+  .page { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .header-left { flex: 1; min-width: 0; }
+  .header-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .header-wordmark { color: var(--text-dim); font-weight: 400; }
+  .header-desc { color: var(--text-muted); font-size: 13px; max-width: 620px; margin-bottom: 10px; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+  }
+  .badge-implement { background: #1e3a5f; color: #60a5fa; border-color: #2563eb; }
+  .badge-spec      { background: #1a1a3e; color: #a5b4fc; border-color: #4f46e5; }
+  .badge-design    { background: #0c1e2e; color: #7dd3fc; border-color: #0369a1; }
+  .badge-tasks     { background: var(--green-bg); color: #86efac; border-color: #16a34a; }
+  .badge-evolve    { background: #2e1a3e; color: #d8b4fe; border-color: #7e22ce; }
+  .badge-done      { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+  .badge-progress  { background: #1c1a08; color: var(--amber); border-color: var(--amber-border); }
+  .badge-neutral   { background: var(--surface2); color: var(--text-muted); border-color: var(--border); }
+  .header-meta { font-size: 12px; color: var(--text-dim); text-align: right; line-height: 1.8; }
+  .header-meta strong { color: var(--text-muted); }
+  /* ── Progress ── */
+  .progress-section { margin-bottom: 24px; }
+  .progress-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .progress-label { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.8px; }
+  .progress-count { font-size: 22px; font-weight: 700; color: #fff; }
+  .progress-count small { color: var(--text-dim); font-weight: 400; font-size: 14px; }
+  .progress-bar-wrap {
+    height: 8px;
+    background: var(--surface2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #16a34a, #22c55e);
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
+  .stat-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+  .stat-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 90px;
+  }
+  .stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 700; }
+  .stat-value { font-size: 20px; font-weight: 700; color: #fff; line-height: 1; }
+  .stat-value.small { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.amber { color: var(--amber); }
+  .stat-value.red   { color: var(--red); }
+  /* ── Phase pipeline ── */
+  .phase-pipeline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+  }
+  .pipeline-inner { display: flex; align-items: center; min-width: max-content; }
+  .phase-node {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .phase-node.done   { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+  .phase-node.active { background: #1e3a5f; color: #60a5fa; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.2); }
+  .phase-node.future { background: transparent; color: var(--text-dim); border-color: var(--border); }
+  .phase-arrow { color: var(--text-dim); padding: 0 6px; font-size: 14px; flex-shrink: 0; }
+  /* ── Section heading ── */
+  .section { margin-bottom: 28px; }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  /* ── Documents ── */
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+  .doc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    border-left-width: 3px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .doc-card.exists { border-left-color: var(--green); }
+  .doc-card.missing { border-left-color: var(--border); opacity: 0.55; }
+  .doc-filename { font-size: 12px; font-weight: 700; color: var(--text); font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; }
+  .doc-version { font-size: 11px; color: var(--indigo); font-weight: 700; }
+  .doc-date { font-size: 11px; color: var(--text-dim); }
+  .doc-missing-label { font-size: 11px; color: var(--text-dim); font-style: italic; }
+  /* ── Batch plan ── */
+  .batch-list { display: flex; flex-direction: column; gap: 6px; }
+  .batch-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .batch-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s;
+  }
+  .batch-header:hover { background: var(--surface2); }
+  .batch-num { font-size: 10px; font-weight: 700; color: var(--text-dim); min-width: 56px; font-family: monospace; }
+  .batch-title { font-size: 13px; font-weight: 600; flex: 1; color: var(--text); }
+  .batch-title.done { text-decoration: line-through; color: var(--text-dim); }
+  .batch-pill {
+    font-size: 11px;
+    padding: 2px 9px;
+    border-radius: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .batch-pill.done    { background: var(--green-bg); color: var(--green); }
+  .batch-pill.pending { background: var(--amber-bg); color: var(--amber); }
+  .batch-pill.active  { background: var(--blue-bg); color: var(--blue); }
+  .batch-body { padding: 10px 14px; border-top: 1px solid var(--border); display: none; }
+  .batch-body.open { display: block; }
+  .batch-focus { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .batch-tasks { display: flex; gap: 5px; flex-wrap: wrap; }
+  .task-chip {
+    font-size: 11px;
+    font-family: monospace;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+  }
+  .task-chip.done    { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+  .task-chip.pending { background: var(--amber-bg); color: var(--amber); border-color: var(--amber-border); }
+  .task-chip.unknown { background: var(--surface2); color: var(--text-muted); border-color: var(--border); }
+  /* ── Task list ── */
+  .task-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; align-items: center; }
+  .filter-btn {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--indigo); color: var(--text); }
+  .filter-btn.active { background: var(--indigo); border-color: var(--indigo); color: #0f172a; }
+  .filter-sep { color: var(--border); margin: 0 2px; }
+  .task-count { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left;
+    padding: 8px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    white-space: nowrap;
+  }
+  tbody td { padding: 8px 10px; border-bottom: 1px solid var(--surface2); vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--surface2); }
+  tbody tr.done td { opacity: 0.55; }
+  .task-id { font-family: monospace; font-size: 12px; font-weight: 700; color: var(--indigo); white-space: nowrap; }
+  .task-title-cell { font-size: 13px; min-width: 200px; }
+  .effort-chip {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: monospace;
+    border: 1px solid transparent;
+  }
+  .effort-S { background: var(--blue-bg); color: #60a5fa; border-color: var(--blue-border); }
+  .effort-M { background: var(--amber-bg); color: var(--amber); border-color: var(--amber-border); }
+  .effort-L { background: #1a0a0a; color: var(--red); border-color: #7f1d1d; }
+  .phase-chip {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .phase-infra    { background: #16133a; color: #a5b4fc; border-color: #3730a3; }
+  .phase-backend  { background: var(--green-bg); color: #86efac; border-color: #166534; }
+  .phase-frontend { background: var(--blue-bg); color: #7dd3fc; border-color: #075985; }
+  .phase-both     { background: #2a1040; color: #d8b4fe; border-color: #6b21a8; }
+  .status-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .status-done    { background: var(--green-bg); color: var(--green); }
+  .status-pending { background: var(--amber-bg); color: var(--amber); }
+  /* ── Handoff & Notes ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .handoff-meta { font-family: monospace; font-size: 12px; color: var(--indigo); font-weight: 700; margin-bottom: 14px; }
+  .handoff-block { margin-bottom: 12px; }
+  .handoff-block:last-child { margin-bottom: 0; }
+  .handoff-heading { font-size: 10px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 5px; }
+  .handoff-line {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 4px 0 4px 10px;
+    border-left: 2px solid var(--border);
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+  .handoff-line:last-child { margin-bottom: 0; }
+  .note-row {
+    display: flex;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--surface2);
+    align-items: flex-start;
+  }
+  .note-row:last-child { border-bottom: none; }
+  .note-date { font-family: monospace; font-size: 10px; color: var(--text-dim); white-space: nowrap; min-width: 76px; padding-top: 1px; }
+  .note-task { font-family: monospace; font-size: 10px; color: var(--indigo); font-weight: 700; white-space: nowrap; min-width: 78px; padding-top: 1px; }
+  .note-text { font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+  /* ── Mode banner (scoped / legacy indicator) ── */
+  .mode-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+  }
+  .mode-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+  }
+  .mode-tag.scoped  { background: #1e3a5f; color: #60a5fa; border-color: #2563eb; }
+  .mode-tag.legacy  { background: var(--surface2); color: var(--text-muted); border-color: var(--border); }
+  .mode-banner-path { font-family: monospace; color: var(--indigo); }
+  .proj-switcher { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; align-items: center; }
+  .proj-btn {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: monospace;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .proj-btn:hover  { border-color: var(--indigo); color: var(--text); }
+  .proj-btn.active { background: var(--indigo); border-color: var(--indigo); color: #0f172a; }
+  /* ── Loading / error ── */
+  .loading { color: var(--text-dim); font-size: 13px; padding: 60px; text-align: center; }
+  .err-box { color: var(--red); font-size: 13px; padding: 20px; background: #1a0a0a; border: 1px solid #7f1d1d; border-radius: var(--radius); margin: 40px auto; max-width: 480px; }
+  @media (max-width: 720px) {
+    .two-col { grid-template-columns: 1fr; }
+    .stat-chips { gap: 8px; }
+    .stat-chip { min-width: 80px; }
+    .header-meta { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="page" id="root">
+  <div class="loading">Loading spec-it dashboard…</div>
+</div>
+<script>
+// ─── Utilities ────────────────────────────────────────────────────────
+function esc(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtDateFull(iso) {
+  if (!iso) return '—';
+  try {
+    return new Date(iso).toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+  } catch { return iso; }
+}
+function fmtDateShort(iso) {
+  if (!iso) return '—';
+  try {
+    return new Date(iso).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+  } catch { return iso; }
+}
+// ─── Fetch helpers ────────────────────────────────────────────────────
+async function getJson(path) {
+  try {
+    const r = await fetch(path);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch { return null; }
+}
+async function getText(path) {
+  try {
+    const r = await fetch(path);
+    if (!r.ok) return { text: null, lastModified: null };
+    return {
+      text: await r.text(),
+      lastModified: r.headers.get('Last-Modified'),
+    };
+  } catch { return { text: null, lastModified: null }; }
+}
+// ─── Parsers ──────────────────────────────────────────────────────────
+function parseBatches(text, taskMap) {
+  const batches = [];
+  const sections = text.split(/\n(?=##[ \t])/);
+  for (const sec of sections) {
+    if (!sec.trim().startsWith('##')) continue;
+    const lines = sec.split('\n');
+    const head = lines[0];
+    const isDone = /^##\s+~~/.test(head);
+    // Extract title text (strip ## and ~~…~~ markers)
+    const title = head.replace(/^##\s+/, '').replace(/^~~(.+)~~$/, '$1').trim();
+    let focus = '';
+    const taskIds = [];
+    for (let i = 1; i < lines.length; i++) {
+      const l = lines[i].trim();
+      if (l.startsWith('Focus:')) {
+        focus = l.replace(/^Focus:\s*/, '').replace(/\*\*/g, '');
+      }
+      for (const m of l.matchAll(/TASK-\d+/g)) {
+        if (!taskIds.includes(m[0])) taskIds.push(m[0]);
+      }
+    }
+    const statuses = taskIds.map(id => taskMap[id] || 'unknown');
+    const batchStatus = isDone ? 'done'
+      : statuses.some(s => s === 'done') ? 'active'
+      : 'pending';
+    batches.push({ title, focus, taskIds, isDone, batchStatus });
+  }
+  return batches;
+}
+function parseHandoff(text) {
+  if (!text) return null;
+  const lines = text.split('\n');
+  const result = { meta: lines[0] || '', blocks: [] };
+  let cur = null;
+  for (let i = 1; i < lines.length; i++) {
+    const l = lines[i];
+    const trimmed = l.trim();
+    // Section heading: non-empty line ending with ":" that isn't a list item,
+    // markdown header, blockquote, or URL
+    const isSectionHead = trimmed.length > 1
+      && trimmed.endsWith(':')
+      && !trimmed.startsWith('-')
+      && !trimmed.startsWith('*')
+      && !trimmed.startsWith('#')
+      && !trimmed.startsWith('>')
+      && !/^https?:/.test(trimmed);
+    if (isSectionHead) {
+      cur = { heading: trimmed.replace(/:$/, ''), items: [] };
+      result.blocks.push(cur);
+    } else if (cur && (trimmed.startsWith('- ') || trimmed.startsWith('* '))) {
+      cur.items.push(trimmed.replace(/^[-*]\s+/, '').replace(/\*\*/g, ''));
+    } else if (cur && trimmed && cur.items.length > 0) {
+      // Continuation line — append to the last item
+      cur.items[cur.items.length - 1] += ' ' + trimmed.replace(/\*\*/g, '');
+    }
+  }
+  return result;
+}
+function parseNotes(text) {
+  if (!text) return [];
+  return text.split('\n')
+    .filter(l => /^- \[/.test(l))
+    .map(l => {
+      const m = l.match(/^- \[(\d{4}-\d{2}-\d{2})\s+([\w-]+)\]\s+(.*)/);
+      if (m) return { date: m[1], task: m[2], text: m[3] };
+      return { date: '', task: '', text: l.replace(/^- /, '') };
+    })
+    .reverse();
+}
+function parseDocMeta(text) {
+  if (!text) return {};
+  const ver = text.match(/[Vv]ersion[:\s]+([0-9.]+)/);
+  const date = text.match(/[Ll]ast\s+updated[:\s]+([^\n\r]+)/);
+  return {
+    version: ver ? ver[1] : null,
+    docDate: date ? date[1].trim() : null,
+  };
+}
+// ─── CSS class helpers ────────────────────────────────────────────────
+function phaseBadge(phase) {
+  const map = { SPEC:'badge-spec', DESIGN:'badge-design', TASKS:'badge-tasks',
+                IMPLEMENT:'badge-implement', EVOLVE:'badge-evolve' };
+  return map[phase] || 'badge-neutral';
+}
+function phaseChipClass(phase) {
+  const p = (phase || '').toLowerCase();
+  if (p.includes('frontend') && p.includes('backend')) return 'phase-both';
+  if (p.includes('frontend')) return 'phase-frontend';
+  if (p.includes('backend'))  return 'phase-backend';
+  return 'phase-infra';
+}
+function phaseLabel(phase) {
+  const p = (phase || '').toLowerCase();
+  if (p.includes('frontend') && p.includes('backend')) return 'full-stack';
+  return phase || '';
+}
+// ─── HTML builders ────────────────────────────────────────────────────
+function header(ctx) {
+  const statusCls = ctx.status === 'done' ? 'badge-done' : 'badge-progress';
+  const statusLabel = ctx.status === 'done' ? 'Complete' : 'In Progress';
+  return `
+<header class="header">
+  <div class="header-left">
+    <div class="header-title">
+      <span class="header-wordmark">spec-it · </span>${esc(ctx.project)}
+    </div>
+    <div class="header-desc">${esc(ctx.description)}</div>
+    <div class="badge-row">
+      <span class="badge ${phaseBadge(ctx.phase)}">${esc(ctx.phase)}</span>
+      <span class="badge ${statusCls}">${statusLabel}</span>
+      ${ctx.mode ? `<span class="badge badge-neutral">${esc(ctx.mode)}</span>` : ''}
+    </div>
+  </div>
+  <div class="header-meta">
+    <div><strong>Created</strong> ${fmtDateShort(ctx.created)}</div>
+    <div><strong>Updated</strong> ${fmtDateFull(ctx.last_updated)}</div>
+    <div style="margin-top:6px;font-size:11px;">Refreshes on reload</div>
+  </div>
+</header>`;
+}
+function progress(ctx) {
+  const done  = ctx.tasks_done  || 0;
+  const total = ctx.tasks_total || 0;
+  const pct   = total > 0 ? Math.round(done / total * 100) : 0;
+  const pend  = total - done;
+  const ses   = ctx.session || {};
+  const decisions = (ctx.open_decisions || []).length;
+  const blockers  = (ctx.blockers || []).length;
+  return `
+<div class="progress-section">
+  <div class="progress-header">
+    <span class="progress-label">Implementation Progress</span>
+    <span class="progress-count">${done}<small> / ${total} tasks &nbsp;(${pct}%)</small></span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" style="width:${pct}%"></div>
+  </div>
+  <div class="stat-chips">
+    <div class="stat-chip">
+      <span class="stat-label">Done</span>
+      <span class="stat-value green">${done}</span>
+    </div>
+    <div class="stat-chip">
+      <span class="stat-label">Pending</span>
+      <span class="stat-value amber">${pend}</span>
+    </div>
+    <div class="stat-chip">
+      <span class="stat-label">Sessions</span>
+      <span class="stat-value">${ses.session_count || 0}</span>
+    </div>
+    <div class="stat-chip">
+      <span class="stat-label">Last Session</span>
+      <span class="stat-value small">${esc(ses.last_session_date || '—')}</span>
+    </div>
+    <div class="stat-chip">
+      <span class="stat-label">Decisions</span>
+      <span class="stat-value ${decisions > 0 ? 'amber' : 'green'}">${decisions}</span>
+    </div>
+    <div class="stat-chip">
+      <span class="stat-label">Blockers</span>
+      <span class="stat-value ${blockers > 0 ? 'red' : 'green'}">${blockers}</span>
+    </div>
+  </div>
+</div>`;
+}
+function pipeline(ctx) {
+  const ALL = ['INIT','SPEC','DESIGN','TASKS','IMPLEMENT','EVOLVE'];
+  const done = new Set(ctx.phases_completed || []);
+  const cur  = ctx.phase;
+  const nodes = ALL.map((p, i) => {
+    const cls  = done.has(p) ? 'done' : p === cur ? 'active' : 'future';
+    const icon = cls === 'done' ? '✓ ' : cls === 'active' ? '▶ ' : '';
+    const arrow = i < ALL.length - 1 ? '<span class="phase-arrow">→</span>' : '';
+    return `<div class="phase-node ${cls}">${icon}${p}</div>${arrow}`;
+  }).join('');
+  return `
+<div class="phase-pipeline">
+  <div class="pipeline-inner">${nodes}</div>
+</div>`;
+}
+function documents(docInfos) {
+  const cards = docInfos.map(d => `
+    <div class="doc-card ${d.exists ? 'exists' : 'missing'}">
+      <div class="doc-filename">${esc(d.file)}</div>
+      ${d.version  ? `<div class="doc-version">v${esc(d.version)}</div>` : ''}
+      ${d.docDate  ? `<div class="doc-date">Doc: ${esc(d.docDate)}</div>` : ''}
+      ${d.modified ? `<div class="doc-date">Modified: ${esc(d.modified)}</div>` : ''}
+      ${!d.exists  ? `<div class="doc-missing-label">not yet generated</div>` : ''}
+    </div>`).join('');
+  return `
+<div class="section">
+  <div class="section-title">Documents</div>
+  <div class="doc-grid">${cards}</div>
+</div>`;
+}
+function batchPlan(batches, taskMap) {
+  if (!batches.length) return `
+<div class="section">
+  <div class="section-title">Batch Plan</div>
+  <div class="card" style="color:var(--text-dim);font-size:13px;">batch-plan.md not yet generated</div>
+</div>`;
+  const items = batches.map((b, i) => {
+    const pillCls   = b.isDone ? 'done' : b.batchStatus === 'active' ? 'active' : 'pending';
+    const pillLabel = b.isDone ? 'Done'  : b.batchStatus === 'active' ? 'In Progress' : 'Pending';
+    const chips = b.taskIds.map(id => {
+      const st = taskMap[id] || 'unknown';
+      return `<span class="task-chip ${st}" title="${esc(id)}">${esc(id)}</span>`;
+    }).join('');
+    return `
+    <div class="batch-item">
+      <div class="batch-header" onclick="toggleBatch(${i})">
+        <span class="batch-num">BATCH ${String(i+1).padStart(2,'0')}</span>
+        <span class="batch-title ${b.isDone ? 'done' : ''}">${esc(b.title)}</span>
+        <span class="batch-pill ${pillCls}">${pillLabel}</span>
+      </div>
+      <div class="batch-body" id="bb-${i}">
+        ${b.focus ? `<div class="batch-focus">Focus: ${esc(b.focus)}</div>` : ''}
+        <div class="batch-tasks">${chips}</div>
+      </div>
+    </div>`;
+  }).join('');
+  return `
+<div class="section">
+  <div class="section-title">Batch Plan</div>
+  <div class="batch-list">${items}</div>
+</div>`;
+}
+function taskList(tasks) {
+  const phases = [...new Set(tasks.map(t => t.phase).filter(Boolean))];
+  const phaseFilters = phases.map(p =>
+    `<button class="filter-btn pf" data-phase="${esc(p)}" onclick="setPF(this)">${esc(phaseLabel(p))}</button>`
+  ).join('');
+  const rows = tasks.map(t => `
+    <tr class="task-row ${esc(t.status)}" data-status="${esc(t.status)}" data-phase="${esc(t.phase)}">
+      <td><span class="task-id">${esc(t.id)}</span></td>
+      <td class="task-title-cell">${esc(t.title)}</td>
+      <td><span class="effort-chip effort-${esc(t.effort)}">${esc(t.effort)}</span></td>
+      <td><span class="phase-chip ${phaseChipClass(t.phase)}">${esc(phaseLabel(t.phase))}</span></td>
+      <td><span class="status-pill status-${esc(t.status)}">${t.status === 'done' ? '✓ Done' : '○ Pending'}</span></td>
+    </tr>`).join('');
+  return `
+<div class="section">
+  <div class="section-title">Tasks</div>
+  <div class="task-filters">
+    <button class="filter-btn sf active" id="sf-all"     onclick="setSF('all')"    >All</button>
+    <button class="filter-btn sf"        id="sf-pending" onclick="setSF('pending')" >Pending</button>
+    <button class="filter-btn sf"        id="sf-done"    onclick="setSF('done')"   >Done</button>
+    <span class="filter-sep">|</span>
+    <button class="filter-btn pf active" data-phase="all" onclick="setPF(this)">All phases</button>
+    ${phaseFilters}
+  </div>
+  <div class="task-count" id="task-count">${tasks.length} tasks</div>
+  <div class="table-wrap">
+    <table id="task-table">
+      <thead>
+        <tr><th>ID</th><th>Title</th><th>Effort</th><th>Phase</th><th>Status</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>
+</div>`;
+}
+function handoffSection(handoff) {
+  if (!handoff) return `
+<div class="section">
+  <div class="section-title">Last Session</div>
+  <div class="card" style="color:var(--text-dim);font-size:13px;">handoff.md not found</div>
+</div>`;
+  const blocks = handoff.blocks.map(b => {
+    const items = b.items.map(it => `<div class="handoff-line">${esc(it)}</div>`).join('');
+    return `<div class="handoff-block">
+      <div class="handoff-heading">${esc(b.heading)}</div>
+      ${items}
+    </div>`;
+  }).join('');
+  return `
+<div class="section">
+  <div class="section-title">Last Session</div>
+  <div class="card">
+    <div class="handoff-meta">${esc(handoff.meta)}</div>
+    ${blocks}
+  </div>
+</div>`;
+}
+function notesSection(notes) {
+  if (!notes || !notes.length) return `
+<div class="section">
+  <div class="section-title">Project Notes</div>
+  <div class="card" style="color:var(--text-dim);font-size:13px;">No notes yet</div>
+</div>`;
+  const shown = notes.slice(0, 10);
+  const rows = shown.map(n => `
+    <div class="note-row">
+      <span class="note-date">${esc(n.date)}</span>
+      <span class="note-task">${esc(n.task)}</span>
+      <span class="note-text">${esc(n.text)}</span>
+    </div>`).join('');
+  return `
+<div class="section">
+  <div class="section-title">
+    Project Notes
+    <span style="font-size:10px;color:var(--text-dim);font-weight:400;letter-spacing:0">
+      latest ${shown.length} of ${notes.length}
+    </span>
+  </div>
+  <div class="card">${rows}</div>
+</div>`;
+}
+// ─── Mode banner ──────────────────────────────────────────────────────
+function buildModeBanner(isScoped, activeSlug, projects) {
+  const modeLabel = isScoped ? 'Scoped' : 'Legacy';
+  const modeCls   = isScoped ? 'scoped' : 'legacy';
+  const pathLabel = isScoped
+    ? `agentdocs/<span class="mode-banner-path">${esc(activeSlug)}/</span>`
+    : 'agentdocs/';
+
+  let switcher = '';
+  if (isScoped && projects.length > 1) {
+    const btns = projects.map(slug => {
+      const url = '?project=' + encodeURIComponent(slug);
+      const cls = slug === activeSlug ? 'active' : '';
+      return `<a class="proj-btn ${cls}" href="${url}">${esc(slug)}</a>`;
+    }).join('');
+    switcher = `<span style="color:var(--text-dim);font-size:11px;">Switch:</span>${btns}`;
+  }
+
+  return `<div class="mode-banner">
+  <span class="mode-tag ${modeCls}">${modeLabel}</span>
+  <span>Project root: ${pathLabel}</span>
+  ${switcher ? `<div class="proj-switcher">${switcher}</div>` : ''}
+</div>`;
+}
+
+// ─── Filter logic ─────────────────────────────────────────────────────
+let _sf = 'all', _pf = 'all';
+function setSF(val) {
+  _sf = val;
+  document.querySelectorAll('.sf').forEach(b => b.classList.toggle('active', b.id === 'sf-' + val));
+  applyFilters();
+}
+function setPF(btn) {
+  _pf = btn.dataset.phase;
+  document.querySelectorAll('.pf').forEach(b => b.classList.toggle('active', b.dataset.phase === _pf));
+  applyFilters();
+}
+function applyFilters() {
+  const rows = document.querySelectorAll('#task-table tbody tr');
+  let vis = 0;
+  rows.forEach(r => {
+    const ok = (_sf === 'all' || r.dataset.status === _sf)
+            && (_pf === 'all' || r.dataset.phase === _pf);
+    r.style.display = ok ? '' : 'none';
+    if (ok) vis++;
+  });
+  const el = document.getElementById('task-count');
+  if (el) el.textContent = vis + ' task' + (vis !== 1 ? 's' : '');
+}
+function toggleBatch(i) {
+  document.getElementById('bb-' + i)?.classList.toggle('open');
+}
+// ─── Main ─────────────────────────────────────────────────────────────
+async function main() {
+  // ── Step 1: load root context.json ──────────────────────────────────
+  const rootCtx = await getJson('context.json');
+  if (!rootCtx) {
+    document.getElementById('root').innerHTML =
+      '<div class="err-box">Could not load <strong>context.json</strong>.<br><br>' +
+      'Serve this file from the <code>agentdocs/</code> directory via a local HTTP server ' +
+      '(e.g. <code>python3 -m http.server 8080</code> or <code>npx serve .</code>).</div>';
+    return;
+  }
+
+  // ── Step 2: detect mode ──────────────────────────────────────────────
+  // Scoped: root context.json is a workspace registry — has active_project, no phase
+  // Legacy: root context.json is the project itself — has phase, tasks_done, etc.
+  let ctx = rootCtx;
+  let prefix = '';
+  let isScoped = false;
+  let activeSlug = '';
+  let projects = [];
+
+  if (rootCtx.active_project && !rootCtx.phase) {
+    // Scoped mode — resolve which project to show
+    // projects[] can be strings or objects with a .slug / .name field
+    const rawProjects = rootCtx.projects || [];
+    projects = rawProjects.map(p => (typeof p === 'string' ? p : (p.slug || p.name || String(p))));
+
+    // ?project=slug URL param overrides the stored active_project
+    const urlSlug = new URLSearchParams(location.search).get('project');
+    activeSlug = (urlSlug && projects.includes(urlSlug)) ? urlSlug : rootCtx.active_project;
+
+    prefix = activeSlug + '/';
+    const projectCtx = await getJson(prefix + 'context.json');
+    if (projectCtx) {
+      ctx = projectCtx;
+      isScoped = true;
+    } else {
+      // Scoped registry but can't load project — fall back gracefully
+      prefix = '';
+    }
+  }
+
+  // ── Step 3: fetch all project files in parallel ──────────────────────
+  const p = prefix; // shorter alias
+  const [
+    batchRes, handoffRes, notesRes,
+    specRes, designRes, tasksRes, reqsRes,
+    taskIdxRes, repoMapRes, fileIdxRes,
+  ] = await Promise.all([
+    getText(p + 'batch-plan.md'),
+    getText(p + 'handoff.md'),
+    getText(p + 'notes.md'),
+    getText(p + 'spec.md'),
+    getText(p + 'design.md'),
+    getText(p + 'tasks.md'),
+    getText(p + 'requirements.md'),
+    getText(p + 'task-index.json'),
+    getText(p + 'repo-map.txt'),
+    getText(p + 'file-index.json'),
+  ]);
+
+  // ── Step 4: build derived data ───────────────────────────────────────
+  const tasks = ctx.tasks || [];
+  const taskMap = {};
+  tasks.forEach(t => { taskMap[t.id] = t.status; });
+  const sortedTasks = [
+    ...tasks.filter(t => t.status !== 'done'),
+    ...tasks.filter(t => t.status === 'done'),
+  ];
+  const batches = batchRes.text ? parseBatches(batchRes.text, taskMap) : [];
+  const handoff  = parseHandoff(handoffRes.text);
+  const notes    = parseNotes(notesRes.text);
+
+  const docs = ctx.documentation || {};
+  const docDefs = [
+    { file: 'spec.md',         res: specRes,    ctxVer: docs.spec_version },
+    { file: 'design.md',       res: designRes,  ctxVer: docs.design_version },
+    { file: 'requirements.md', res: reqsRes,    ctxVer: docs.requirements_linked_spec },
+    { file: 'tasks.md',        res: tasksRes,   ctxVer: docs.tasks_version },
+    { file: 'task-index.json', res: taskIdxRes, ctxVer: null },
+    { file: 'batch-plan.md',   res: batchRes,   ctxVer: null },
+    { file: 'handoff.md',      res: handoffRes, ctxVer: null },
+    { file: 'notes.md',        res: notesRes,   ctxVer: null },
+    { file: 'repo-map.txt',    res: repoMapRes, ctxVer: null },
+    { file: 'file-index.json', res: fileIdxRes, ctxVer: null },
+  ];
+  const docInfos = docDefs.map(d => {
+    const exists = !!d.res.text;
+    const meta   = parseDocMeta(d.res.text);
+    const lm     = d.res.lastModified;
+    return {
+      file:     (isScoped ? activeSlug + '/' : '') + d.file,
+      exists,
+      version:  d.ctxVer || meta.version || null,
+      docDate:  meta.docDate || null,
+      modified: lm ? fmtDateShort(lm) : null,
+    };
+  });
+
+  // ── Step 5: render ───────────────────────────────────────────────────
+  document.getElementById('root').innerHTML = [
+    buildModeBanner(isScoped, activeSlug, projects),
+    header(ctx),
+    progress(ctx),
+    pipeline(ctx),
+    documents(docInfos),
+    batchPlan(batches, taskMap),
+    taskList(sortedTasks),
+    '<div class="two-col">',
+    handoffSection(handoff),
+    notesSection(notes),
+    '</div>',
+  ].join('');
+
+  const firstOpen = batches.findIndex(b => !b.isDone);
+  if (firstOpen >= 0) document.getElementById('bb-' + firstOpen)?.classList.add('open');
+}
+main();
+</script>
+</body>
+</html>

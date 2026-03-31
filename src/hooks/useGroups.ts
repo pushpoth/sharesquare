@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-024 (REQ-003, REQ-004, REQ-005)
+// Implements: TASK-024 (REQ-003, REQ-004, REQ-005), TASK-058 (REQ-031)
 
 import { useCallback, useEffect, useState } from "react";
 import type { Group } from "@/types";
@@ -116,6 +116,14 @@ export function useGroups() {
     [repos.groups, refetch],
   );
 
+  const deleteGroup = useCallback(
+    async (id: string) => {
+      await repos.groups.delete(id);
+      await refetch();
+    },
+    [repos.groups, refetch],
+  );
+
   return {
     groups,
     isLoading,
@@ -126,5 +134,6 @@ export function useGroups() {
     getGroupById,
     getGroupMembers,
     updateGroup,
+    deleteGroup,
   };
 }

@@ -114,7 +114,7 @@
     "imports": ["@supabase/supabase-js", "../interfaces/IUserRepository"]
   },
   "src/repositories/supabase/GroupRepository.ts": {
-    "task": "TASK-010",
+    "task": "TASK-010,T058",
     "status": "complete",
     "exports": ["SupabaseGroupRepository"],
     "signatures": ["class SupabaseGroupRepository implements IGroupRepository"],
@@ -233,7 +233,7 @@
     "imports": ["@/contexts/AuthContext"]
   },
   "src/hooks/useGroups.ts": {
-    "task": "TASK-024",
+    "task": "TASK-024,T058",
     "status": "complete",
     "exports": ["useGroups"],
     "signatures": [],
@@ -436,7 +436,7 @@
     "imports": ["./GroupDetailClient"]
   },
   "src/app/groups/[id]/GroupDetailClient.tsx": {
-    "task": "TASK-047,T053",
+    "task": "TASK-047,T053,T058",
     "status": "complete",
     "exports": ["default"],
     "signatures": ["GroupDetailClient(): JSX.Element"],
@@ -456,6 +456,7 @@
       "@/components/ExpenseFilters/ExpenseFilters",
       "@/components/ExpenseList/ExpenseList",
       "@/components/ConfirmDialog/ConfirmDialog",
+      "@/components/Toast/Toast",
       "@/constants/routes",
       "@/utils/currency",
       "@/constants/categories",
@@ -464,11 +465,16 @@
     ]
   },
   "src/app/groups/[id]/GroupDetailClient.test.tsx": {
-    "task": "TASK-047",
+    "task": "TASK-047,T058",
     "status": "complete",
     "exports": [],
     "signatures": [],
-    "imports": ["@testing-library/react", "react-router-dom", "post-mock require(./GroupDetailClient)"]
+    "imports": [
+      "@testing-library/react",
+      "react-router-dom",
+      "@/constants/routes",
+      "post-mock require(./GroupDetailClient)"
+    ]
   },
   "src/app/expenses/new/page.tsx": {
     "task": "TASK-048",

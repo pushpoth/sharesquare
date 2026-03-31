@@ -32,3 +32,4 @@
 - [2026-03-31 TASK-048] Add expense from `?groupId=` sets `groupLockedFromQuery` and shows `add-expense-group-readonly` above `ExpenseForm`; manual `<select>` clears the lock so the banner stays off.
 - [2026-04-01 TASK-052] Jest mocks of Vite page modules used as default route elements need **`__esModule: true`** and **`default: Component`** or React receives an invalid `element.type` (object).
 - [2026-04-01 TASK-053] `FlowDiagram` arrow marker `id` is derived from **`useId()`** to avoid duplicate `url(#...)` refs when more than one diagram mounts.
+- [2026-03-31 TASK-058] Delete group UI is gated on **`group_members.role === 'admin'`**; name edit still uses **`createdBy === currentUser.id`** where applicable.

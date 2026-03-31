@@ -1,9 +1,16 @@
-// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030)
+// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030), TASK-058 (REQ-031)
 
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { ROUTES } from "@/constants/routes";
+
+const showToast = jest.fn();
+
+jest.mock("@/components/Toast/Toast", () => ({
+  useToast: () => ({ showToast }),
+}));
 
 jest.mock("dexie-react-hooks", () => {
   const ReactMod = jest.requireActual<typeof import("react")>("react");
@@ -47,6 +54,7 @@ jest.mock("@/hooks/useGroups", () => {
     getGroupById: jest.fn(),
     updateGroup: jest.fn(),
     getGroupMembers: jest.fn(),
+    deleteGroup: jest.fn(),
   };
   return { useGroups: () => stable };
 });
@@ -98,12 +106,12 @@ jest.mock("@/contexts/RepositoryContext", () => {
   return { useRepositories: () => mockRepos };
 });
 
+const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => {
   const actual = jest.requireActual<typeof import("react-router-dom")>("react-router-dom");
-  const navigate = jest.fn();
   return {
     ...actual,
-    useNavigate: () => navigate,
+    useNavigate: () => mockNavigate,
   };
 });
 
@@ -112,7 +120,15 @@ jest.mock("react-router-dom", () => {
 const GroupDetailClient = require("./GroupDetailClient").default as typeof import("./GroupDetailClient").default;
 
 function groupsMocks() {
-  return (jest.requireMock("@/hooks/useGroups") as { useGroups: () => { getGroupById: jest.Mock; getGroupMembers: jest.Mock } }).useGroups();
+  return (
+    jest.requireMock("@/hooks/useGroups") as {
+      useGroups: () => {
+        getGroupById: jest.Mock;
+        getGroupMembers: jest.Mock;
+        deleteGroup: jest.Mock;
+      };
+    }
+  ).useGroups();
 }
 
 function settlementsMocks() {
@@ -132,6 +148,7 @@ function renderDetail(path = "/groups/g1") {
 describe("GroupDetailClient (TASK-047)", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    groupsMocks().deleteGroup.mockResolvedValue(undefined);
     groupsMocks().getGroupById.mockResolvedValue({
       id: "g1",
       name: "Weekend Trip",
@@ -184,5 +201,35 @@ describe("GroupDetailClient (TASK-047)", () => {
     await waitFor(() => screen.getByText("Weekend Trip"));
     await user.click(screen.getByRole("button", { name: /record settlement/i }));
     expect(screen.getByTestId("settlement-form")).toBeInTheDocument();
+  });
+
+  it("admin can delete group after confirm (TASK-058)", async () => {
+    const user = userEvent.setup();
+    renderDetail();
+    await waitFor(() => screen.getByText("Weekend Trip"));
+    expect(screen.getByTestId("group-delete-open")).toBeInTheDocument();
+    await user.click(screen.getByTestId("group-delete-open"));
+    expect(screen.getByTestId("confirm-dialog")).toBeInTheDocument();
+    await user.click(screen.getByTestId("confirm-dialog-confirm"));
+    await waitFor(() => {
+      expect(groupsMocks().deleteGroup).toHaveBeenCalledWith("g1");
+    });
+    expect(showToast).toHaveBeenCalledWith("Group deleted", "success");
+    expect(mockNavigate).toHaveBeenCalledWith(ROUTES.GROUPS);
+  });
+
+  it("non-admin member does not see delete group (TASK-058)", async () => {
+    groupsMocks().getGroupMembers.mockResolvedValue([
+      {
+        id: "gm1",
+        groupId: "g1",
+        userId: "u1",
+        role: "member" as const,
+        joinedAt: "2026-01-01T00:00:00Z",
+      },
+    ]);
+    renderDetail();
+    await waitFor(() => screen.getByText("Weekend Trip"));
+    expect(screen.queryByTestId("group-delete-open")).not.toBeInTheDocument();
   });
 });

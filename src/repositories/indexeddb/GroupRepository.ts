@@ -59,7 +59,24 @@ export class DexieGroupRepository implements IGroupRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.db.transaction("rw", this.db.groups, this.db.groupMembers, async () => {
+    const tables = [
+      this.db.expenses,
+      this.db.expensePayers,
+      this.db.expenseSplits,
+      this.db.settlements,
+      this.db.activityEntries,
+      this.db.groupMembers,
+      this.db.groups,
+    ];
+    await this.db.transaction("rw", tables, async () => {
+      const expenseIds = (await this.db.expenses.where("groupId").equals(id).toArray()).map((e) => e.id);
+      for (const expenseId of expenseIds) {
+        await this.db.expensePayers.where("expenseId").equals(expenseId).delete();
+        await this.db.expenseSplits.where("expenseId").equals(expenseId).delete();
+      }
+      await this.db.expenses.where("groupId").equals(id).delete();
+      await this.db.settlements.where("groupId").equals(id).delete();
+      await this.db.activityEntries.where("groupId").equals(id).delete();
       await this.db.groupMembers.where("groupId").equals(id).delete();
       await this.db.groups.delete(id);
     });

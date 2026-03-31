@@ -1,4 +1,4 @@
-// Implements: TASK-010 (REQ-024)
+// Implements: TASK-010 (REQ-024), TASK-058 (REQ-031)
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { DuplicateError } from "../errors";
@@ -121,5 +121,19 @@ describe("SupabaseGroupRepository", () => {
     const repo = new SupabaseGroupRepository(client);
     const g = await repo.update("g1", {});
     expect(g.id).toBe("g1");
+  });
+
+  it("delete removes group row by id", async () => {
+    const eq = jest.fn().mockResolvedValue({ error: null });
+    const del = jest.fn().mockReturnValue({ eq });
+    const from = jest.fn().mockReturnValue({ delete: del });
+    const client = { from } as unknown as SupabaseClient;
+
+    const repo = new SupabaseGroupRepository(client);
+    await repo.delete("g1");
+
+    expect(from).toHaveBeenCalledWith("groups");
+    expect(del).toHaveBeenCalled();
+    expect(eq).toHaveBeenCalledWith("id", "g1");
   });
 });

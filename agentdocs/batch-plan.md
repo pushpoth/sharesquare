@@ -150,7 +150,7 @@ TASK-051, TASK-052, TASK-053
 
 ---
 
-## Batch 19 — Delete group (admin)
+## ~~Batch 19 — Delete group (admin)~~
 
 Focus: **`TASK-058`** (M) after group detail + repos **`TASK-010`–`TASK-013`** and related UI.
 

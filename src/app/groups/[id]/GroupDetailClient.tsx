@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030), TASK-053 (REQ-018)
+// Implements: TASK-047 (REQ-016, REQ-012, REQ-015, REQ-017, REQ-030), TASK-053 (REQ-018), TASK-058 (REQ-031)
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,6 +16,7 @@ import { SettlementForm } from "@/components/SettlementForm/SettlementForm";
 import { ExpenseFilters } from "@/components/ExpenseFilters/ExpenseFilters";
 import { ExpenseList } from "@/components/ExpenseList/ExpenseList";
 import { ConfirmDialog } from "@/components/ConfirmDialog/ConfirmDialog";
+import { useToast } from "@/components/Toast/Toast";
 import { ROUTES } from "@/constants/routes";
 import { formatCurrency } from "@/utils/currency";
 import { CATEGORY_MAP, EXPENSE_CATEGORIES } from "@/constants/categories";
@@ -28,7 +29,8 @@ export default function GroupDetailClient() {
   const navigate = useNavigate();
   const params = useParams();
   const groupId = params.id as string;
-  const { getGroupById, updateGroup, getGroupMembers } = useGroups();
+  const { getGroupById, updateGroup, getGroupMembers, deleteGroup } = useGroups();
+  const { showToast } = useToast();
   const { expenses, deleteExpense } = useExpenses(groupId);
   const { memberBalances, simplifiedDebts } = useBalances(groupId);
   const { addSettlement } = useSettlements(groupId);
@@ -46,6 +48,7 @@ export default function GroupDetailClient() {
   const [splitsMap, setSplitsMap] = useState<Map<string, ExpenseSplit[]>>(new Map());
   const [editingName, setEditingName] = useState(false);
   const [editNameValue, setEditNameValue] = useState("");
+  const [confirmDeleteGroup, setConfirmDeleteGroup] = useState(false);
 
   useEffect(() => {
     getGroupById(groupId).then(setGroup);
@@ -128,6 +131,8 @@ export default function GroupDetailClient() {
 
   const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
   const isAdmin = group?.createdBy === currentUser?.id;
+  const isGroupAdmin =
+    groupMembers?.some((m) => m.userId === currentUser?.id && m.role === "admin") ?? false;
 
   const categoryChartSegments = useMemo(() => {
     const m = new Map<string, number>();
@@ -192,6 +197,19 @@ export default function GroupDetailClient() {
     await deleteExpense(deleteTarget);
     setDeleteTarget(null);
   }, [deleteTarget, deleteExpense]);
+
+  const handleConfirmDeleteGroup = useCallback(async () => {
+    if (!groupId) return;
+    try {
+      await deleteGroup(groupId);
+      showToast("Group deleted", "success");
+      setConfirmDeleteGroup(false);
+      navigate(ROUTES.GROUPS);
+    } catch {
+      showToast("Could not delete group", "error");
+      setConfirmDeleteGroup(false);
+    }
+  }, [groupId, deleteGroup, showToast, navigate]);
 
   const settlementMembers = useMemo(
     () =>
@@ -323,6 +341,25 @@ export default function GroupDetailClient() {
           )}
         </section>
 
+        {isGroupAdmin ? (
+          <section aria-labelledby="group-danger-heading">
+            <h2 id="group-danger-heading" className="mb-2 text-lg font-semibold text-owing-text">
+              Danger zone
+            </h2>
+            <p className="mb-3 text-sm text-text-secondary">
+              Permanently delete this group, all expenses, settlements, and activity for this group.
+            </p>
+            <button
+              type="button"
+              data-testid="group-delete-open"
+              onClick={() => setConfirmDeleteGroup(true)}
+              className="w-full rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+            >
+              Delete group
+            </button>
+          </section>
+        ) : null}
+
         <section>
           <ExpenseFilters
             onFilterChange={setFilters}
@@ -349,6 +386,16 @@ export default function GroupDetailClient() {
           variant="destructive"
           onConfirm={handleDeleteExpense}
           onCancel={() => setDeleteTarget(null)}
+        />
+
+        <ConfirmDialog
+          isOpen={confirmDeleteGroup}
+          title="Delete group"
+          message="This removes the group and all related expenses and settlements for every member. This cannot be undone."
+          confirmLabel="Delete group"
+          variant="destructive"
+          onConfirm={() => void handleConfirmDeleteGroup()}
+          onCancel={() => setConfirmDeleteGroup(false)}
         />
       </div>
     </AppLayout>

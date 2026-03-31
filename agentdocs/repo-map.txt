@@ -3,7 +3,7 @@ vite.config.ts [✅T001,T003] vite, react, tailwind, VitePWA
 src/main.tsx [✅T001] createRoot, BrowserRouter
 src/AppRoutes.tsx [✅T001] Routes, page mapping
 src/styles/globals.css [✅T001] @theme tokens
-src/app/ [✅T001,T044-T051+tests] `/` login; `/home`; `/groups`; expenses; `/activity`; `/settings`; etc.
+src/app/ [✅T001,T044-T051,T058+tests] `/` login; `/home`; `/groups`; expenses; `/activity`; `/settings`; etc.
 src/components/ [✅T028-T043,T053+tests] GroupCreateForm; InviteCodeInput; SettlementForm; Header; MemberAvatar; BalanceCard; GroupCard; ExpenseForm; ExpenseList; ExpenseFilters; MemberBalanceList; SplitSelector; BottomNav; EmptyState; ConfirmDialog; Toast; CategoryChart; FlowDiagram
 src/layouts/AppLayout/ [✅T030+test] Header; main max-w-lg; BottomNav; Navigate to / when unauthenticated after load
 supabase/migrations/ [✅T007,T055] initial schema + RLS + RPC + profile-on-signup trigger
@@ -12,7 +12,7 @@ src/services/ [✅T015-T021,T054] auth; invite; balance; debt simplify; export (
 src/contexts/AuthContext.tsx [✅T015,T022] Supabase session + demo path; user/session/signOut on value
 src/contexts/RepositoryContext.tsx [✅T023] useRepositories → factory bundle from index
 src/hooks/useAuth.ts [✅T022] thin wrapper over AuthContext
-src/hooks/ [✅T024-T027] useGroups (refetch+error); useExpenses/useSettlements (activity+log); useBalances (repos+services)
+src/hooks/ [✅T024-T027,T058] useGroups (refetch+deleteGroup); useExpenses/useSettlements (activity+log); useBalances (repos+services)
 src/types/ [✅T004-T006] entities + ACTIVITY_TYPES
 src/utils/ [✅T006] currency, dateUtils, validation + tests
 src/constants/ [✅T005] categories, routes, colors + tests

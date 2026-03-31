@@ -5,13 +5,13 @@
   "status": "in_progress",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
-  "last_updated": "2026-04-01T00:30:00Z",
+  "last_updated": "2026-03-31T23:59:00Z",
   "tasks_total": 60,
-  "tasks_done": 56,
+  "tasks_done": 57,
   "session": {
     "current_batch": [],
-    "session_count": 19,
-    "last_session_date": "2026-04-01"
+    "session_count": 20,
+    "last_session_date": "2026-03-31"
   },
   "documentation": {
     "spec_version": "0.2",
@@ -59,7 +59,8 @@
     "Batch 15 complete (TASK-044–045): Login at src/app/page.tsx uses Navigate to /home when authenticated; ROUTES.HOME; sign-in-button on demo CTA; page.test + home page.test with mocked hooks/AppLayout.",
     "Batch 16 complete (TASK-046–047): src/app/groups/page.tsx (EmptyState scroll-to-create, page.test); src/app/groups/[id]/GroupDetailClient + page route; invite block + copy testids; GroupDetailClient.test uses post-mock require(SUT) + self-contained jest.mock factories (hoist-safe) and fireEvent + clipboard spy.",
     "Batch 17 complete (TASK-048–050): AddExpenseClient `groupLockedFromQuery` + read-only group banner (`add-expense-group-readonly`) when `?groupId=`; AddExpenseClient.test / EditExpenseClient.test / activity/page.test (dexie useLiveQuery shim + require page); Activity rows `data-testid=\"activity-entry\"`.",
-    "Batch 18 complete (TASK-051–053): Settings sign-out `await logout()` + `settings-sign-out` test; `settings/page.test.tsx`; `AppRoutes.test.tsx` (`__esModule` page stubs); README + `.env.example` pointer; `CategoryChart` + `FlowDiagram` SVG + GroupDetail Insights; `main`/`providers`/`AppRoutes` task comments."
+    "Batch 18 complete (TASK-051–053): Settings sign-out `await logout()` + `settings-sign-out` test; `settings/page.test.tsx`; `AppRoutes.test.tsx` (`__esModule` page stubs); README + `.env.example` pointer; `CategoryChart` + `FlowDiagram` SVG + GroupDetail Insights; `main`/`providers`/`AppRoutes` task comments.",
+    "Batch 19 complete (TASK-058): Group detail admin-only delete (`group_members.role === admin`) + `ConfirmDialog` + `useGroups.deleteGroup`; `SupabaseGroupRepository.delete` relies on DB CASCADE; Dexie `GroupRepository.delete` transactional cascade for local data."
   ],
   "req_sequence": 33,
   "task_sequence": 60,
@@ -123,7 +124,7 @@
     { "id": "TASK-055", "title": "Add profile row sync on new user (trigger or documented upsert)", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-002"], "depends_on": ["TASK-007", "TASK-015"] },
     { "id": "TASK-056", "title": "Review RLS for invite-code lookup and group join", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-004", "REQ-029"], "depends_on": ["TASK-007", "TASK-010"] },
     { "id": "TASK-057", "title": "Show invite code on Group Detail page with copy button", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-030"], "depends_on": ["TASK-047"] },
-    { "id": "TASK-058", "title": "Implement Delete Group (admin only) via Supabase", "phase": "frontend + backend", "effort": "M", "status": "pending", "implements": ["REQ-031"], "depends_on": ["TASK-047", "TASK-035", "TASK-010", "TASK-011", "TASK-012", "TASK-013"] },
+    { "id": "TASK-058", "title": "Implement Delete Group (admin only) via Supabase", "phase": "frontend + backend", "effort": "M", "status": "done", "implements": ["REQ-031"], "depends_on": ["TASK-047", "TASK-035", "TASK-010", "TASK-011", "TASK-012", "TASK-013"] },
     { "id": "TASK-059", "title": "Add currency selection to Settings page", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-032"], "depends_on": ["TASK-051", "TASK-004", "TASK-005"] },
     { "id": "TASK-060", "title": "Add \"Add Expense\" shortcut button on Group Detail page", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-033"], "depends_on": ["TASK-047", "TASK-048"] }
   ]

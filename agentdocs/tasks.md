@@ -1246,21 +1246,21 @@ Add "Invite Members" section to **`GroupDetailPage`** (path `src/pages/GroupDeta
 
 **Phase:** frontend + backend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-031
 **Depends on:** TASK-047, TASK-035, TASK-010, TASK-011, TASK-012, TASK-013
 
 **Description:**
-Admin-only delete with `ConfirmDialog`. Implement **`IGroupRepository.delete`** using **CASCADE** schema and/or a **`delete_group` RPC** that removes dependent rows in order. **Remove** IndexedDB cascade ordering language. Navigate to `/groups` + toast on success.
+Admin-only delete with `ConfirmDialog`. **`SupabaseGroupRepository.delete`** deletes the `groups` row; Postgres **ON DELETE CASCADE** clears dependents. **`DexieGroupRepository.delete`** uses a single Dexie transaction to remove related local rows (no orphans). Navigate to `/groups` + toast on success.
 
 **Acceptance Criteria:**
 
-- [ ] No orphaned rows in Postgres after delete
-- [ ] Non-admins never see delete
+- [x] No orphaned rows in Postgres after delete (CASCADE)
+- [x] Non-admins never see delete (`group_members.role === admin`)
 
 **Test Plan:**
 
-- **Unit:** Mock repository delete called
+- **Unit:** `GroupDetailClient` admin flow + `useGroups.deleteGroup` + `SupabaseGroupRepository.delete` chain
 - **Integration:** Dev project — create group with expenses, delete, verify tables empty
 
 ---

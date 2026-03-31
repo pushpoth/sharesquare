@@ -1,4 +1,4 @@
-// Implements: TASK-024 (REQ-003, REQ-004, REQ-005)
+// Implements: TASK-024 (REQ-003, REQ-004, REQ-005), TASK-058 (REQ-031)
 
 import React from "react";
 import { act, renderHook, waitFor } from "@testing-library/react";
@@ -207,5 +207,27 @@ describe("useGroups", () => {
 
     expect(create).toHaveBeenCalledTimes(2);
     expect(jest.mocked(generateUniqueCode)).toHaveBeenCalled();
+  });
+
+  it("deleteGroup calls groups.delete then refetches", async () => {
+    const deleteFn = jest.fn().mockResolvedValue(undefined);
+    const getByUserId = jest.fn().mockResolvedValueOnce([]).mockResolvedValueOnce([]);
+
+    const bundle = buildMockRepos({
+      groups: { ...buildMockRepos().groups, delete: deleteFn, getByUserId },
+    });
+
+    const { result } = renderHook(() => useGroups(), {
+      wrapper: ({ children }) => <RepositoryProvider value={bundle}>{children}</RepositoryProvider>,
+    });
+
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+
+    await act(async () => {
+      await result.current.deleteGroup("g1");
+    });
+
+    expect(deleteFn).toHaveBeenCalledWith("g1");
+    expect(getByUserId).toHaveBeenCalledTimes(2);
   });
 });

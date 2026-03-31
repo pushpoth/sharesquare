@@ -638,7 +638,7 @@
       "title": "Implement Delete Group (admin only) via Supabase",
       "phase": "frontend + backend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-047",
         "TASK-035",
