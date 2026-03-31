@@ -20,11 +20,7 @@ export interface RepositoryContextValue {
 const RepositoryContext = createContext<RepositoryContextValue | null>(null);
 
 export function RepositoryProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <RepositoryContext.Provider value={repositories}>
-      {children}
-    </RepositoryContext.Provider>
-  );
+  return <RepositoryContext.Provider value={repositories}>{children}</RepositoryContext.Provider>;
 }
 
 export function useRepositories() {

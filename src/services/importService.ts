@@ -76,7 +76,7 @@ export type ImportStrategy = "overwrite" | "skip";
 export async function importData(
   db: ShareSquareDB,
   data: ShareSquareExport,
-  strategy: ImportStrategy
+  strategy: ImportStrategy,
 ): Promise<{ imported: number; skipped: number }> {
   let imported = 0;
   let skipped = 0;
@@ -95,7 +95,10 @@ export async function importData(
     const records = data[key] as { id: string }[];
     if (!Array.isArray(records)) continue;
 
-    const dbTable = db[table] as { get: (id: string) => Promise<unknown>; put: (r: unknown) => Promise<void> };
+    const dbTable = db[table] as {
+      get: (id: string) => Promise<unknown>;
+      put: (r: unknown) => Promise<void>;
+    };
 
     for (const record of records) {
       if (strategy === "overwrite") {

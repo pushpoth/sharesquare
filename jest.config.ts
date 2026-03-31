@@ -1,3 +1,4 @@
+// Implements: TASK-002 (REQ-024)
 import type { Config } from "jest";
 
 const config: Config = {

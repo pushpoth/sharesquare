@@ -14,7 +14,7 @@ function expense(
   id: string,
   groupId: string,
   amount: number,
-  overrides?: Partial<Expense>
+  overrides?: Partial<Expense>,
 ): Expense {
   return {
     id,
@@ -43,7 +43,7 @@ function settlement(
   groupId: string,
   fromUserId: string,
   toUserId: string,
-  amount: number
+  amount: number,
 ): Settlement {
   return {
     id,
@@ -61,10 +61,7 @@ describe("balanceService", () => {
     it("single expense, single payer, equal split among 2 (payer should have positive balance)", () => {
       const expenses = [expense("e1", "g1", 1000)];
       const payers = [payer("p1", "e1", "alice", 1000)];
-      const splits = [
-        split("s1", "e1", "alice", 500),
-        split("s2", "e1", "bob", 500),
-      ];
+      const splits = [split("s1", "e1", "alice", 500), split("s2", "e1", "bob", 500)];
       const settlements: Settlement[] = [];
 
       const balances = calculateGroupBalances(expenses, payers, splits, settlements);
@@ -74,14 +71,8 @@ describe("balanceService", () => {
     });
 
     it("multiple expenses", () => {
-      const expenses = [
-        expense("e1", "g1", 1000),
-        expense("e2", "g1", 600),
-      ];
-      const payers = [
-        payer("p1", "e1", "alice", 1000),
-        payer("p2", "e2", "bob", 600),
-      ];
+      const expenses = [expense("e1", "g1", 1000), expense("e2", "g1", 600)];
+      const payers = [payer("p1", "e1", "alice", 1000), payer("p2", "e2", "bob", 600)];
       const splits = [
         split("s1", "e1", "alice", 500),
         split("s2", "e1", "bob", 500),
@@ -99,10 +90,7 @@ describe("balanceService", () => {
     it("expenses with settlements reducing balances", () => {
       const expenses = [expense("e1", "g1", 1000)];
       const payers = [payer("p1", "e1", "alice", 1000)];
-      const splits = [
-        split("s1", "e1", "alice", 500),
-        split("s2", "e1", "bob", 500),
-      ];
+      const splits = [split("s1", "e1", "alice", 500), split("s2", "e1", "bob", 500)];
       const settlements = [settlement("st1", "g1", "bob", "alice", 500)];
 
       const balances = calculateGroupBalances(expenses, payers, splits, settlements);
@@ -164,10 +152,7 @@ describe("balanceService", () => {
     it("single expense, single payer, equal split", () => {
       const expenses = [expense("e1", "g1", 1000)];
       const payers = [payer("p1", "e1", "alice", 1000)];
-      const splits = [
-        split("s1", "e1", "alice", 500),
-        split("s2", "e1", "bob", 500),
-      ];
+      const splits = [split("s1", "e1", "alice", 500), split("s2", "e1", "bob", 500)];
       const settlements: Settlement[] = [];
 
       const pairwise = calculatePairwiseBalances(expenses, payers, splits, settlements);
@@ -178,10 +163,7 @@ describe("balanceService", () => {
 
     it("multiple payers, proportional split", () => {
       const expenses = [expense("e1", "g1", 1000)];
-      const payers = [
-        payer("p1", "e1", "alice", 600),
-        payer("p2", "e1", "bob", 400),
-      ];
+      const payers = [payer("p1", "e1", "alice", 600), payer("p2", "e1", "bob", 400)];
       const splits = [split("s1", "e1", "charlie", 1000)];
       const settlements: Settlement[] = [];
 

@@ -7,20 +7,11 @@ import { validateRequired, validateAmount } from "@/utils/validation";
 
 export interface SettlementFormProps {
   members: Array<{ userId: string; name: string }>;
-  onSubmit: (data: {
-    fromUserId: string;
-    toUserId: string;
-    amount: number;
-    date: string;
-  }) => void;
+  onSubmit: (data: { fromUserId: string; toUserId: string; amount: number; date: string }) => void;
   onCancel: () => void;
 }
 
-export function SettlementForm({
-  members,
-  onSubmit,
-  onCancel,
-}: SettlementFormProps) {
+export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormProps) {
   const [fromUserId, setFromUserId] = useState("");
   const [toUserId, setToUserId] = useState("");
   const [amountDisplay, setAmountDisplay] = useState("");
@@ -29,7 +20,8 @@ export function SettlementForm({
   const amountCents = amountDisplay ? dollarsToCents(parseFloat(amountDisplay) || 0) : 0;
   const fromError = validateRequired(fromUserId, "From");
   const toError = validateRequired(toUserId, "To");
-  const amountError = amountCents > 0 ? validateAmount(amountCents) : validateRequired(amountDisplay, "Amount");
+  const amountError =
+    amountCents > 0 ? validateAmount(amountCents) : validateRequired(amountDisplay, "Amount");
   const samePersonError =
     fromUserId && toUserId && fromUserId === toUserId
       ? "From and To must be different people"
@@ -56,11 +48,7 @@ export function SettlementForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4"
-      data-testid="settlement-form"
-    >
+    <form onSubmit={handleSubmit} className="space-y-4" data-testid="settlement-form">
       <div>
         <label htmlFor="settlement-from" className="mb-1 block text-sm font-medium">
           From
@@ -78,9 +66,7 @@ export function SettlementForm({
             </option>
           ))}
         </select>
-        {fromError && (
-          <p className="mt-1 text-sm text-owing-text">{fromError.message}</p>
-        )}
+        {fromError && <p className="mt-1 text-sm text-owing-text">{fromError.message}</p>}
       </div>
 
       <div>
@@ -100,9 +86,7 @@ export function SettlementForm({
             </option>
           ))}
         </select>
-        {toError && (
-          <p className="mt-1 text-sm text-owing-text">{toError.message}</p>
-        )}
+        {toError && <p className="mt-1 text-sm text-owing-text">{toError.message}</p>}
       </div>
 
       {samePersonError && (
@@ -129,9 +113,7 @@ export function SettlementForm({
             className="w-full rounded-r-lg border border-border px-3 py-2"
           />
         </div>
-        {amountError && (
-          <p className="mt-1 text-sm text-owing-text">{amountError.message}</p>
-        )}
+        {amountError && <p className="mt-1 text-sm text-owing-text">{amountError.message}</p>}
       </div>
 
       <div>

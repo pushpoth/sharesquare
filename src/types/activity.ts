@@ -8,6 +8,16 @@ export type ActivityType =
   | "member_joined"
   | "group_created";
 
+/** All activity types from design.md §6 (exhaustive union). */
+export const ACTIVITY_TYPES: readonly ActivityType[] = [
+  "expense_added",
+  "expense_edited",
+  "expense_deleted",
+  "settlement_added",
+  "member_joined",
+  "group_created",
+];
+
 export interface ActivityEntry {
   id: string;
   userId: string;

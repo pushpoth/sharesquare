@@ -12,7 +12,7 @@ export function calculateGroupBalances(
   expenses: Expense[],
   payers: ExpensePayer[],
   splits: ExpenseSplit[],
-  settlements: Settlement[]
+  settlements: Settlement[],
 ): Map<string, number> {
   const balanceByUser = new Map<string, number>();
 
@@ -48,7 +48,7 @@ export function calculateGroupBalances(
  */
 export function calculateOverallBalances(
   userId: string,
-  userBalanceMaps: Map<string, number>[]
+  userBalanceMaps: Map<string, number>[],
 ): { youOwe: number; owedToYou: number } {
   let youOwe = 0;
   let owedToYou = 0;
@@ -74,7 +74,7 @@ export function calculatePairwiseBalances(
   expenses: Expense[],
   payers: ExpensePayer[],
   splits: ExpenseSplit[],
-  settlements: Settlement[]
+  settlements: Settlement[],
 ): PairwiseBalance[] {
   const debtMap = new Map<string, number>(); // key: "fromUserId|toUserId", value: cents
 

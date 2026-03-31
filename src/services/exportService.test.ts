@@ -1,10 +1,6 @@
 // Implements: TASK-019 (REQ-021)
 
-import {
-  buildExportPayload,
-  downloadJson,
-  generateExportFilename,
-} from "./exportService";
+import { buildExportPayload, downloadJson, generateExportFilename } from "./exportService";
 import type { User } from "@/types/user";
 import type { Group } from "@/types/group";
 
@@ -25,9 +21,7 @@ describe("exportService", () => {
 
       expect(payload.version).toBe("1.0");
       expect(payload.exportedAt).toBeDefined();
-      expect(payload.exportedAt >= before && payload.exportedAt <= after).toBe(
-        true
-      );
+      expect(payload.exportedAt >= before && payload.exportedAt <= after).toBe(true);
       expect(payload.users).toEqual([]);
       expect(payload.groups).toEqual([]);
       expect(payload.groupMembers).toEqual([]);

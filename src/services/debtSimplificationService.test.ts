@@ -68,7 +68,7 @@ describe("debtSimplificationService", () => {
       const sumSimplified = result.reduce((s, r) => s + r.amount, 0);
       const sumAbsImbalances = Array.from(netBalances.values()).reduce(
         (s, v) => s + Math.abs(v),
-        0
+        0,
       );
       expect(sumSimplified).toBe(sumAbsImbalances / 2);
     });

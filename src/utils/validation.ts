@@ -1,5 +1,13 @@
 // Implements: TASK-006 (REQ-008, REQ-009)
 
+/** UUID-shaped string (8-4-4-4-12 hex); does not validate version/variant bits. */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** True if `s` is a canonical UUID string (v1–v8 variant bits accepted). */
+export function isValidUuid(s: string): boolean {
+  return UUID_RE.test(s.trim());
+}
+
 export interface ValidationError {
   field: string;
   message: string;

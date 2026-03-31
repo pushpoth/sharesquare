@@ -15,7 +15,7 @@ export interface SimplifiedSettlement {
  * All amounts are in integer cents.
  */
 export function simplifyDebts(
-  netBalances: Map<string, number>
+  netBalances: Map<string, number>,
 ): Array<{ from: string; to: string; amount: number }> {
   const result: SimplifiedSettlement[] = [];
 

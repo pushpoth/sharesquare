@@ -51,10 +51,7 @@ export function ConfirmDialog({
         className="max-w-sm rounded-xl bg-white p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2
-          id="confirm-dialog-title"
-          className="mb-2 font-semibold text-text-primary"
-        >
+        <h2 id="confirm-dialog-title" className="mb-2 font-semibold text-text-primary">
           {title}
         </h2>
         <p className="mb-6 text-sm text-text-secondary">{message}</p>

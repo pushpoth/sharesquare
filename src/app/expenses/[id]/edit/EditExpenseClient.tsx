@@ -20,18 +20,15 @@ export default function EditExpenseClient() {
   const repos = useRepositories();
   const { showToast } = useToast();
 
-  const expenseData = useLiveQuery(
-    async () => {
-      const exp = await repos.expenses.findById(expenseId);
-      if (!exp) return null;
-      const [p, s] = await Promise.all([
-        repos.expenses.getPayers(expenseId),
-        repos.expenses.getSplits(expenseId),
-      ]);
-      return { expense: exp, payers: p, splits: s };
-    },
-    [expenseId, repos.expenses],
-  );
+  const expenseData = useLiveQuery(async () => {
+    const exp = await repos.expenses.findById(expenseId);
+    if (!exp) return null;
+    const [p, s] = await Promise.all([
+      repos.expenses.getPayers(expenseId),
+      repos.expenses.getSplits(expenseId),
+    ]);
+    return { expense: exp, payers: p, splits: s };
+  }, [expenseId, repos.expenses]);
 
   const expense = expenseData?.expense;
   const payers = expenseData?.payers ?? [];
@@ -39,19 +36,16 @@ export default function EditExpenseClient() {
   const groupId = expense?.groupId;
   const { updateExpense } = useExpenses(groupId ?? undefined);
 
-  const groupMembers = useLiveQuery(
-    async () => {
-      if (!groupId) return [];
-      const members = await repos.groups.getMembers(groupId);
-      const users = await Promise.all(members.map((m) => repos.users.findById(m.userId)));
-      return members.map((m, i) => ({
-        userId: m.userId,
-        name: users[i]?.name ?? "Unknown",
-        avatarUrl: users[i]?.avatarUrl,
-      }));
-    },
-    [groupId, repos.groups, repos.users],
-  );
+  const groupMembers = useLiveQuery(async () => {
+    if (!groupId) return [];
+    const members = await repos.groups.getMembers(groupId);
+    const users = await Promise.all(members.map((m) => repos.users.findById(m.userId)));
+    return members.map((m, i) => ({
+      userId: m.userId,
+      name: users[i]?.name ?? "Unknown",
+      avatarUrl: users[i]?.avatarUrl,
+    }));
+  }, [groupId, repos.groups, repos.users]);
 
   const initialData = expense
     ? (() => {

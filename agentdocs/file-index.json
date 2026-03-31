@@ -14,10 +14,47 @@
     "imports": ["react", "react-router-dom", "@/app/page", "@/app/home/page", "@/app/activity/page", "@/app/settings/page", "@/app/groups/page", "@/app/groups/[id]/page", "@/app/expenses/new/page", "@/app/expenses/[id]/edit/page"]
   },
   "vite.config.ts": {
-    "task": "TASK-001",
+    "task": "TASK-003",
     "status": "complete",
     "exports": ["default"],
     "signatures": [],
-    "imports": ["node:path", "@tailwindcss/vite", "@vitejs/plugin-react", "vite"]
+    "imports": ["node:fs", "node:path", "node:url", "@tailwindcss/vite", "@vitejs/plugin-react", "vite-plugin-pwa", "vite"]
+  },
+  "public/manifest.json": {
+    "task": "TASK-003",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
+  },
+  "src/constants/colors.ts": {
+    "task": "TASK-005",
+    "status": "complete",
+    "exports": ["COLORS"],
+    "signatures": [],
+    "imports": []
+  },
+  "src/utils/currency.ts": {
+    "task": "TASK-006",
+    "status": "complete",
+    "exports": ["centsToDollars", "dollarsToCents", "formatCurrency", "splitEqually"],
+    "signatures": [
+      "formatCurrency(cents:number, currencyCode?:string):string"
+    ],
+    "imports": []
+  },
+  "src/utils/validation.ts": {
+    "task": "TASK-006",
+    "status": "complete",
+    "exports": ["isValidUuid", "validateRequired", "validateAmount", "validateSplitsSum", "validatePercentagesSum"],
+    "signatures": ["isValidUuid(s:string):boolean"],
+    "imports": []
+  },
+  "supabase/migrations/20260331140000_initial_schema.sql": {
+    "task": "TASK-007",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
   }
 }

@@ -36,7 +36,7 @@ export function ExpenseFilters({
       setSelectedCategories(next);
       onFilterChange({ categories: next, sort });
     },
-    [selectedCategories, sort, onFilterChange]
+    [selectedCategories, sort, onFilterChange],
   );
 
   const handleSortChange = useCallback(
@@ -44,7 +44,7 @@ export function ExpenseFilters({
       setSort(newSort);
       onFilterChange({ categories: selectedCategories, sort: newSort });
     },
-    [selectedCategories, onFilterChange]
+    [selectedCategories, onFilterChange],
   );
 
   const handleClear = useCallback(() => {
@@ -54,10 +54,7 @@ export function ExpenseFilters({
   }, [onFilterChange]);
 
   return (
-    <div
-      className="flex flex-wrap items-center gap-2"
-      data-testid="expense-filters"
-    >
+    <div className="flex flex-wrap items-center gap-2" data-testid="expense-filters">
       <div className="flex flex-wrap gap-1">
         {availableCategories.map((cat) => (
           <button

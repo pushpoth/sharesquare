@@ -15,7 +15,7 @@ The **source of truth** is [`agentdocs/`](agentdocs/): `spec.md` (v0.2), `design
 | PWA          | vite-plugin-pwa (Workbox); **online-first** data, precached shell/assets |
 | Testing      | Jest + React Testing Library |
 
-**Implementation note:** The Git tree may still contain a **Next.js + Dexie (IndexedDB)** scaffold until migration tasks in [`agentdocs/tasks.md`](agentdocs/tasks.md) are executed. Treat `agentdocs` as canonical for the intended stack.
+**Implementation note:** The app shell is **Vite + React** (see `agentdocs/tasks.md` TASK-001). **IndexedDB (Dexie)** remains the interim data layer until Supabase repository tasks land. Treat `agentdocs` as canonical for the target stack.
 
 ## Features (product)
 
@@ -28,13 +28,17 @@ The **source of truth** is [`agentdocs/`](agentdocs/): `spec.md` (v0.2), `design
 - **JSON export/import** — Portability via repositories
 - **PWA** — Installable; core data operations require network for MVP
 
+### PWA behavior (online-first)
+
+`vite-plugin-pwa` generates a Workbox service worker on `npm run build` that precaches the app shell and static assets (faster loads, install prompt). **Expense and group data are not offline-first in MVP:** CRUD still expects network access once Supabase is wired. See `public/manifest.json` for install metadata.
+
 ## Getting started
 
 ### Prerequisites
 
 - Node.js 18+
 - npm 9+
-- A Supabase project (URL + anon key) once the stack migration is applied
+- A Supabase project (URL + anon key) once the stack migration is applied — see [`supabase/README.md`](supabase/README.md) for running SQL migrations
 
 ### Installation
 

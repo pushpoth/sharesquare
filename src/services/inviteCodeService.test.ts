@@ -76,7 +76,7 @@ describe("inviteCodeService", () => {
       };
 
       await expect(generateUniqueCode(groupRepo)).rejects.toThrow(
-        "Failed to generate unique invite code after 10 attempts"
+        "Failed to generate unique invite code after 10 attempts",
       );
       expect(groupRepo.findByInviteCode).toHaveBeenCalledTimes(10);
     });

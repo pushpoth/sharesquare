@@ -27,6 +27,12 @@ describe("relativeTime", () => {
     const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString();
     expect(relativeTime(threeDaysAgo)).toBe("3d ago");
   });
+
+  it("uses short human-readable phrases", () => {
+    expect(relativeTime(new Date().toISOString())).toMatch(/just now/);
+    const ago = new Date(Date.now() - 90 * 1000).toISOString();
+    expect(relativeTime(ago)).toMatch(/ago$/);
+  });
 });
 
 describe("isToday", () => {

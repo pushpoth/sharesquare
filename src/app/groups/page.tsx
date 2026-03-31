@@ -30,27 +30,21 @@ export default function GroupsPage() {
         <h1 className="text-2xl font-bold text-text-primary">Groups</h1>
 
         <section>
-          <h2 className="mb-3 text-lg font-semibold text-text-primary">
-            Create a Group
-          </h2>
+          <h2 className="mb-3 text-lg font-semibold text-text-primary">Create a Group</h2>
           <div className="rounded-xl border border-border bg-white p-4">
             <GroupCreateForm onSuccess={handleGroupCreated} />
           </div>
         </section>
 
         <section>
-          <h2 className="mb-3 text-lg font-semibold text-text-primary">
-            Join a Group
-          </h2>
+          <h2 className="mb-3 text-lg font-semibold text-text-primary">Join a Group</h2>
           <div className="rounded-xl border border-border bg-white p-4">
             <InviteCodeInput onSuccess={handleJoinSuccess} />
           </div>
         </section>
 
         <section>
-          <h2 className="mb-3 text-lg font-semibold text-text-primary">
-            Your Groups
-          </h2>
+          <h2 className="mb-3 text-lg font-semibold text-text-primary">Your Groups</h2>
           {groups.length === 0 ? (
             <EmptyState
               title="No groups yet"

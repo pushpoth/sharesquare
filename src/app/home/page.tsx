@@ -21,11 +21,7 @@ export default function HomePage() {
       <div className="space-y-6 px-4 py-6" data-testid="dashboard-page">
         <h1 className="text-2xl font-bold text-text-primary">Home</h1>
 
-        <BalanceCard
-          overallBalance={overallBalance}
-          youOwe={youOwe}
-          owedToYou={owedToYou}
-        />
+        <BalanceCard overallBalance={overallBalance} youOwe={youOwe} owedToYou={owedToYou} />
 
         <Link
           to={ROUTES.ADD_EXPENSE}
@@ -36,9 +32,7 @@ export default function HomePage() {
         </Link>
 
         <section>
-          <h2 className="mb-3 text-lg font-semibold text-text-primary">
-            Recent Groups
-          </h2>
+          <h2 className="mb-3 text-lg font-semibold text-text-primary">Recent Groups</h2>
           {groups.length === 0 ? (
             <EmptyState
               title="No groups yet"

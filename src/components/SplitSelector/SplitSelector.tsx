@@ -45,8 +45,7 @@ export function SplitSelector({
     const isEqual =
       splits.length === expectedSplits.length &&
       expectedSplits.every(
-        (e, i) =>
-          splits[i]?.userId === e.userId && splits[i]?.amountOwed === e.amountOwed
+        (e, i) => splits[i]?.userId === e.userId && splits[i]?.amountOwed === e.amountOwed,
       );
     if (!isEqual) {
       onChange(expectedSplits);
@@ -65,13 +64,11 @@ export function SplitSelector({
       }
       const existing = splits.find((s) => s.userId === userId);
       const newSplits = existing
-        ? splits.map((s) =>
-            s.userId === userId ? { ...s, amountOwed: cents } : s
-          )
+        ? splits.map((s) => (s.userId === userId ? { ...s, amountOwed: cents } : s))
         : [...splits, { userId, amountOwed: cents }];
       onChange(newSplits);
     },
-    [splits, totalCents, onChange, readOnly]
+    [splits, totalCents, onChange, readOnly],
   );
 
   const splitsSumError = validateSplitsSum(splits, totalCents);
@@ -105,22 +102,14 @@ export function SplitSelector({
               key={member.userId}
               className="flex items-center gap-3 rounded-lg border border-border bg-surface-muted/50 p-2"
             >
-              <MemberAvatar
-                name={member.name}
-                avatarUrl={member.avatarUrl}
-                size="sm"
-              />
-              <span className="min-w-0 flex-1 truncate text-sm font-medium">
-                {member.name}
-              </span>
+              <MemberAvatar name={member.name} avatarUrl={member.avatarUrl} size="sm" />
+              <span className="min-w-0 flex-1 truncate text-sm font-medium">{member.name}</span>
               <div className="flex items-center gap-1">
                 <input
                   type="text"
                   inputMode="decimal"
                   value={displayValue}
-                  onChange={(e) =>
-                    handleAmountChange(member.userId, e.target.value, isPercent)
-                  }
+                  onChange={(e) => handleAmountChange(member.userId, e.target.value, isPercent)}
                   readOnly={readOnly}
                   className="w-20 rounded border border-border px-2 py-1 text-right text-sm"
                 />

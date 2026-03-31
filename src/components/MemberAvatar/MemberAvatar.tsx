@@ -75,11 +75,7 @@ export function AvatarGroup({ members, max = 4 }: AvatarGroupProps) {
           className="-ml-2 first:ml-0"
           style={{ zIndex: visible.length - index }}
         >
-          <MemberAvatar
-            name={member.name}
-            avatarUrl={member.avatarUrl}
-            size="sm"
-          />
+          <MemberAvatar name={member.name} avatarUrl={member.avatarUrl} size="sm" />
         </div>
       ))}
       {overflowCount > 0 && (

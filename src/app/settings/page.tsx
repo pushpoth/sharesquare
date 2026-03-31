@@ -8,15 +8,8 @@ import { AppLayout } from "@/layouts/AppLayout/AppLayout";
 import { MemberAvatar } from "@/components/MemberAvatar/MemberAvatar";
 import { ROUTES } from "@/constants/routes";
 import { db } from "@/repositories/indexeddb/database";
-import {
-  buildExportPayload,
-  downloadJson,
-  generateExportFilename,
-} from "@/services/exportService";
-import {
-  validateImportJson,
-  importData,
-} from "@/services/importService";
+import { buildExportPayload, downloadJson, generateExportFilename } from "@/services/exportService";
+import { validateImportJson, importData } from "@/services/importService";
 import { useToast } from "@/components/Toast/Toast";
 
 export default function SettingsPage() {
@@ -89,9 +82,7 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-bold text-text-primary">Settings</h1>
 
         <section>
-          <h2 className="mb-4 text-lg font-semibold text-text-primary">
-            Profile
-          </h2>
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">Profile</h2>
           <div className="flex flex-col items-center gap-3 rounded-xl border border-border bg-white p-6">
             <MemberAvatar
               name={currentUser?.name ?? ""}
@@ -99,20 +90,14 @@ export default function SettingsPage() {
               size="lg"
             />
             <div className="text-center">
-              <p className="font-medium text-text-primary">
-                {currentUser?.name ?? "Unknown"}
-              </p>
-              <p className="text-sm text-text-secondary">
-                {currentUser?.email ?? ""}
-              </p>
+              <p className="font-medium text-text-primary">{currentUser?.name ?? "Unknown"}</p>
+              <p className="text-sm text-text-secondary">{currentUser?.email ?? ""}</p>
             </div>
           </div>
         </section>
 
         <section>
-          <h2 className="mb-4 text-lg font-semibold text-text-primary">
-            Data
-          </h2>
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">Data</h2>
           <div className="space-y-3">
             <button
               type="button"

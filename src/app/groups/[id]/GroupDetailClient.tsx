@@ -49,26 +49,20 @@ export default function GroupDetailClient() {
     getGroupById(groupId).then(setGroup);
   }, [groupId, getGroupById]);
 
-  const groupMembers = useLiveQuery(
-    async () => {
-      if (!groupId) return [];
-      return getGroupMembers(groupId);
-    },
-    [groupId, getGroupMembers],
-  );
+  const groupMembers = useLiveQuery(async () => {
+    if (!groupId) return [];
+    return getGroupMembers(groupId);
+  }, [groupId, getGroupMembers]);
 
-  const membersWithUsers = useLiveQuery(
-    async () => {
-      if (!groupMembers) return new Map<string, { name: string }>();
-      const users = await Promise.all(groupMembers.map((m) => repos.users.findById(m.userId)));
-      const map = new Map<string, { name: string }>();
-      groupMembers.forEach((m, i) => {
-        map.set(m.userId, { name: users[i]?.name ?? "Unknown" });
-      });
-      return map;
-    },
-    [groupMembers, repos.users],
-  );
+  const membersWithUsers = useLiveQuery(async () => {
+    if (!groupMembers) return new Map<string, { name: string }>();
+    const users = await Promise.all(groupMembers.map((m) => repos.users.findById(m.userId)));
+    const map = new Map<string, { name: string }>();
+    groupMembers.forEach((m, i) => {
+      map.set(m.userId, { name: users[i]?.name ?? "Unknown" });
+    });
+    return map;
+  }, [groupMembers, repos.users]);
 
   const effectiveMembersMap = useMemo(
     () => membersWithUsers ?? new Map<string, { name: string }>(),

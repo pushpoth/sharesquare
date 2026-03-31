@@ -1,6 +1,6 @@
 {
   "project": "sharesquare",
-  "updated": "2026-03-31",
+  "updated": "2026-03-31T22:00:00Z",
   "tasks": [
     {
       "id": "TASK-001",
@@ -15,7 +15,7 @@
       "title": "Configure ESLint, Prettier, and Jest testing framework",
       "phase": "infra",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-001"
       ]
@@ -25,7 +25,7 @@
       "title": "Configure PWA with vite-plugin-pwa",
       "phase": "infra",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-001"
       ]
@@ -35,7 +35,7 @@
       "title": "Define TypeScript types for all entities",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-001"
       ]
@@ -45,7 +45,7 @@
       "title": "Create application constants",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-001"
       ]
@@ -55,7 +55,7 @@
       "title": "Implement utility functions",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-001"
       ]
@@ -65,7 +65,7 @@
       "title": "Author Supabase SQL migrations and RLS policies",
       "phase": "backend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-004"
       ]
@@ -75,7 +75,7 @@
       "title": "Define repository interfaces",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-004"
       ]

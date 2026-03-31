@@ -34,6 +34,11 @@ describe("formatCurrency", () => {
     expect(formatCurrency(-12500)).toBe("-$125.00");
     expect(formatCurrency(-1)).toBe("-$0.01");
   });
+
+  it("formats with a non-default ISO currency code", () => {
+    expect(formatCurrency(12500, "EUR")).toMatch(/125[.,]00/);
+    expect(formatCurrency(12500, "EUR")).toContain("€");
+  });
 });
 
 describe("splitEqually", () => {

@@ -48,9 +48,7 @@ export function GroupCard({
             <span className="text-xl" aria-hidden>
               {getGroupEmoji(group.name)}
             </span>
-            <h3 className="truncate font-semibold text-text-primary">
-              {group.name}
-            </h3>
+            <h3 className="truncate font-semibold text-text-primary">{group.name}</h3>
           </div>
           <div className="mb-2 flex items-center gap-2">
             <AvatarGroup members={members} max={4} />
@@ -62,9 +60,7 @@ export function GroupCard({
             Total Expenses: {formatCurrency(totalExpenses)}
           </p>
           {lastActivity && (
-            <p className="mt-1 text-xs text-text-secondary">
-              Active {relativeTime(lastActivity)}
-            </p>
+            <p className="mt-1 text-xs text-text-secondary">Active {relativeTime(lastActivity)}</p>
           )}
         </div>
         <div className="flex flex-shrink-0 flex-col items-end gap-1">
@@ -73,7 +69,9 @@ export function GroupCard({
               isOwed ? "bg-accent" : "bg-owed-badge"
             }`}
           >
-            {isOwed ? `YOU ARE OWED ${formatCurrency(userBalance)}` : `YOU OWE ${formatCurrency(Math.abs(userBalance))}`}
+            {isOwed
+              ? `YOU ARE OWED ${formatCurrency(userBalance)}`
+              : `YOU OWE ${formatCurrency(Math.abs(userBalance))}`}
           </span>
         </div>
       </div>

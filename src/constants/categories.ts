@@ -18,6 +18,4 @@ export const EXPENSE_CATEGORIES: ExpenseCategory[] = [
   { value: "other", label: "Other", icon: "📦" },
 ];
 
-export const CATEGORY_MAP = Object.fromEntries(
-  EXPENSE_CATEGORIES.map((c) => [c.value, c]),
-);
+export const CATEGORY_MAP = Object.fromEntries(EXPENSE_CATEGORIES.map((c) => [c.value, c]));

@@ -15,17 +15,14 @@ export class DexieExpenseRepository implements IExpenseRepository {
   }
 
   async getByGroupId(groupId: string): Promise<Expense[]> {
-    const expenses = await this.db.expenses
-      .where("groupId")
-      .equals(groupId)
-      .sortBy("date");
+    const expenses = await this.db.expenses.where("groupId").equals(groupId).sortBy("date");
     return expenses.reverse();
   }
 
   async create(
     expense: Omit<Expense, "id" | "createdAt" | "updatedAt">,
     payers: Omit<ExpensePayer, "id" | "expenseId">[],
-    splits: Omit<ExpenseSplit, "id" | "expenseId">[]
+    splits: Omit<ExpenseSplit, "id" | "expenseId">[],
   ): Promise<Expense> {
     const id = generateId();
     const createdAt = toISOTimestamp();
@@ -55,7 +52,7 @@ export class DexieExpenseRepository implements IExpenseRepository {
             expenseId: id,
           });
         }
-      }
+      },
     );
 
     return newExpense;
@@ -63,9 +60,9 @@ export class DexieExpenseRepository implements IExpenseRepository {
 
   async update(
     id: string,
-    expense: Partial<Pick<Expense, "title" | "amount" | "date" | "category">>,
+    expense: Partial<Expense>,
     payers?: Omit<ExpensePayer, "id" | "expenseId">[],
-    splits?: Omit<ExpenseSplit, "id" | "expenseId">[]
+    splits?: Omit<ExpenseSplit, "id" | "expenseId">[],
   ): Promise<Expense> {
     await this.db.transaction(
       "rw",
@@ -104,7 +101,7 @@ export class DexieExpenseRepository implements IExpenseRepository {
             });
           }
         }
-      }
+      },
     );
 
     const updated = await this.db.expenses.get(id);
@@ -124,21 +121,15 @@ export class DexieExpenseRepository implements IExpenseRepository {
         await this.db.expensePayers.where("expenseId").equals(id).delete();
         await this.db.expenseSplits.where("expenseId").equals(id).delete();
         await this.db.expenses.delete(id);
-      }
+      },
     );
   }
 
   async getPayers(expenseId: string): Promise<ExpensePayer[]> {
-    return this.db.expensePayers
-      .where("expenseId")
-      .equals(expenseId)
-      .toArray();
+    return this.db.expensePayers.where("expenseId").equals(expenseId).toArray();
   }
 
   async getSplits(expenseId: string): Promise<ExpenseSplit[]> {
-    return this.db.expenseSplits
-      .where("expenseId")
-      .equals(expenseId)
-      .toArray();
+    return this.db.expenseSplits.where("expenseId").equals(expenseId).toArray();
   }
 }

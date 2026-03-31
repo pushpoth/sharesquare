@@ -14,13 +14,10 @@ export default function ActivityPage() {
   const { currentUser } = useAuth();
   const repos = useRepositories();
 
-  const activityEntries = useLiveQuery(
-    async () => {
-      if (!currentUser) return [];
-      return repos.activity.getByUserId(currentUser.id, 50);
-    },
-    [currentUser?.id, repos.activity]
-  );
+  const activityEntries = useLiveQuery(async () => {
+    if (!currentUser) return [];
+    return repos.activity.getByUserId(currentUser.id, 50);
+  }, [currentUser?.id, repos.activity]);
 
   const entries = activityEntries ?? [];
 
@@ -61,9 +58,7 @@ function ActivityEntryRow({ entry }: { entry: ActivityEntry }) {
       <div className="min-w-0 flex-1">
         <p className="text-sm text-text-primary">{entry.description}</p>
         <div className="mt-1 flex items-center gap-2">
-          <span className="text-xs text-text-secondary">
-            {relativeTime(entry.timestamp)}
-          </span>
+          <span className="text-xs text-text-secondary">{relativeTime(entry.timestamp)}</span>
           {groupName && (
             <span className="rounded-full bg-surface-muted px-2 py-0.5 text-xs font-medium text-text-secondary">
               {groupName}

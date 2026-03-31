@@ -20,11 +20,7 @@ describe("EXPENSE_CATEGORIES", () => {
 
 describe("CATEGORY_MAP", () => {
   it("maps values to category objects", () => {
-    expect(CATEGORY_MAP["food"]).toEqual(
-      expect.objectContaining({ value: "food", label: "Food" }),
-    );
-    expect(CATEGORY_MAP["rent"]).toEqual(
-      expect.objectContaining({ value: "rent", label: "Rent" }),
-    );
+    expect(CATEGORY_MAP["food"]).toEqual(expect.objectContaining({ value: "food", label: "Food" }));
+    expect(CATEGORY_MAP["rent"]).toEqual(expect.objectContaining({ value: "rent", label: "Rent" }));
   });
 });

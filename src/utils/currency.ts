@@ -8,10 +8,17 @@ export function dollarsToCents(dollars: number): number {
   return Math.round(dollars * 100);
 }
 
-export function formatCurrency(cents: number): string {
-  const dollars = centsToDollars(Math.abs(cents));
-  const formatted = `$${dollars.toFixed(2)}`;
-  return cents < 0 ? `-${formatted}` : formatted;
+/**
+ * Format integer cents for display. Defaults to USD; pass an ISO 4217 code for other currencies (REQ-032).
+ */
+export function formatCurrency(cents: number, currencyCode = "USD"): string {
+  const amount = cents / 100;
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currencyCode,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount);
 }
 
 /**

@@ -5,12 +5,12 @@
   "status": "in_progress",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
-  "last_updated": "2026-03-31T12:00:00Z",
+  "last_updated": "2026-03-31T22:00:00Z",
   "tasks_total": 60,
-  "tasks_done": 1,
+  "tasks_done": 8,
   "session": {
     "current_batch": [],
-    "session_count": 1,
+    "session_count": 4,
     "last_session_date": "2026-03-31"
   },
   "documentation": {
@@ -41,7 +41,10 @@
     "Data and auth: Supabase Postgres + Supabase Auth; invite codes are unique on groups.invite_code (no Vercel KV).",
     "PWA is online-first: core CRUD requires network; service worker precaches app shell and static assets.",
     "Repository implementations live under src/repositories/supabase/; UUID primary keys align with auth.users.id.",
-    "TASK-001 complete: Vite SPA + react-router-dom; IndexedDB (Dexie) remains until Supabase repository tasks land."
+    "TASK-001 complete: Vite SPA + react-router-dom; IndexedDB (Dexie) remains until Supabase repository tasks land.",
+    "Batch 1 complete (TASK-001–003): Prettier + global jest-dom; vite-plugin-pwa + public manifest + Workbox precache.",
+    "Batch 2 complete (TASK-004–006): types + ACTIVITY_TYPES; COLORS + route tests; formatCurrency(cents, currencyCode) + isValidUuid.",
+    "Batch 3 complete (TASK-007–008): supabase/migrations initial_schema + RLS; interfaces aligned with design §5; errors.test.ts; IGroupRepository.create single-arg; IExpenseRepository Partial<Expense> update."
   ],
   "req_sequence": 33,
   "task_sequence": 60,
@@ -49,13 +52,13 @@
   "blockers": [],
   "tasks": [
     { "id": "TASK-001", "title": "Initialize Vite project with React, TypeScript, and Tailwind CSS", "phase": "infra", "effort": "M", "status": "done", "implements": ["REQ-026", "REQ-027"], "depends_on": [] },
-    { "id": "TASK-002", "title": "Configure ESLint, Prettier, and Jest testing framework", "phase": "infra", "effort": "S", "status": "pending", "implements": ["REQ-024"], "depends_on": ["TASK-001"] },
-    { "id": "TASK-003", "title": "Configure PWA with vite-plugin-pwa", "phase": "infra", "effort": "S", "status": "pending", "implements": ["REQ-025"], "depends_on": ["TASK-001"] },
-    { "id": "TASK-004", "title": "Define TypeScript types for all entities", "phase": "backend", "effort": "S", "status": "pending", "implements": ["REQ-023", "REQ-024"], "depends_on": ["TASK-001"] },
-    { "id": "TASK-005", "title": "Create application constants", "phase": "backend", "effort": "S", "status": "pending", "implements": ["REQ-027", "REQ-028"], "depends_on": ["TASK-001"] },
-    { "id": "TASK-006", "title": "Implement utility functions", "phase": "backend", "effort": "S", "status": "pending", "implements": ["REQ-013", "REQ-008", "REQ-009"], "depends_on": ["TASK-001"] },
-    { "id": "TASK-007", "title": "Author Supabase SQL migrations and RLS policies", "phase": "backend", "effort": "M", "status": "pending", "implements": ["REQ-023", "REQ-029"], "depends_on": ["TASK-004"] },
-    { "id": "TASK-008", "title": "Define repository interfaces", "phase": "backend", "effort": "S", "status": "pending", "implements": ["REQ-024"], "depends_on": ["TASK-004"] },
+    { "id": "TASK-002", "title": "Configure ESLint, Prettier, and Jest testing framework", "phase": "infra", "effort": "S", "status": "done", "implements": ["REQ-024"], "depends_on": ["TASK-001"] },
+    { "id": "TASK-003", "title": "Configure PWA with vite-plugin-pwa", "phase": "infra", "effort": "S", "status": "done", "implements": ["REQ-025"], "depends_on": ["TASK-001"] },
+    { "id": "TASK-004", "title": "Define TypeScript types for all entities", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-023", "REQ-024"], "depends_on": ["TASK-001"] },
+    { "id": "TASK-005", "title": "Create application constants", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-027", "REQ-028"], "depends_on": ["TASK-001"] },
+    { "id": "TASK-006", "title": "Implement utility functions", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-013", "REQ-008", "REQ-009"], "depends_on": ["TASK-001"] },
+    { "id": "TASK-007", "title": "Author Supabase SQL migrations and RLS policies", "phase": "backend", "effort": "M", "status": "done", "implements": ["REQ-023", "REQ-029"], "depends_on": ["TASK-004"] },
+    { "id": "TASK-008", "title": "Define repository interfaces", "phase": "backend", "effort": "S", "status": "done", "implements": ["REQ-024"], "depends_on": ["TASK-004"] },
     { "id": "TASK-009", "title": "Implement Supabase profile / user repository", "phase": "backend", "effort": "S", "status": "pending", "implements": ["REQ-001", "REQ-002", "REQ-023", "REQ-024"], "depends_on": ["TASK-007", "TASK-008", "TASK-006"] },
     { "id": "TASK-010", "title": "Implement SupabaseGroupRepository", "phase": "backend", "effort": "M", "status": "pending", "implements": ["REQ-003", "REQ-004", "REQ-005", "REQ-006", "REQ-023", "REQ-024"], "depends_on": ["TASK-007", "TASK-008", "TASK-006"] },
     { "id": "TASK-011", "title": "Implement SupabaseExpenseRepository", "phase": "backend", "effort": "M", "status": "pending", "implements": ["REQ-006", "REQ-011", "REQ-012", "REQ-023", "REQ-024"], "depends_on": ["TASK-007", "TASK-008", "TASK-006"] },

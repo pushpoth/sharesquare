@@ -42,15 +42,13 @@ describe("authService", () => {
     });
 
     it("throws on invalid JWT (missing payload)", () => {
-      expect(() => decodeGoogleCredential("invalid")).toThrow(
-        "Invalid JWT: missing payload"
-      );
+      expect(() => decodeGoogleCredential("invalid")).toThrow("Invalid JWT: missing payload");
     });
 
     it("throws when payload missing required fields", () => {
       const credential = createTestJWT({ email: "a@b.com" });
       expect(() => decodeGoogleCredential(credential)).toThrow(
-        "Invalid JWT payload: missing email, name, or picture"
+        "Invalid JWT payload: missing email, name, or picture",
       );
     });
   });

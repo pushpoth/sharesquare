@@ -31,9 +31,7 @@ export function ExpenseList({
       const name = members.get(expensePayers[0].userId)?.name ?? "Unknown";
       return `Paid by ${name} (${formatCurrency(total)})`;
     }
-    const names = expensePayers
-      .map((p) => members.get(p.userId)?.name ?? "Unknown")
-      .join(", ");
+    const names = expensePayers.map((p) => members.get(p.userId)?.name ?? "Unknown").join(", ");
     return `Paid by ${names} (${formatCurrency(total)})`;
   };
 
@@ -54,9 +52,7 @@ export function ExpenseList({
               <th className="px-3 py-2 text-left text-sm font-medium">Payer</th>
               <th className="px-3 py-2 text-right text-sm font-medium">Total</th>
               <th className="px-3 py-2 text-right text-sm font-medium">Your Share</th>
-              {onDelete && (
-                <th className="w-10 px-2 py-2" aria-label="Actions" />
-              )}
+              {onDelete && <th className="w-10 px-2 py-2" aria-label="Actions" />}
             </tr>
           </thead>
           <tbody>
@@ -71,15 +67,11 @@ export function ExpenseList({
                 <td className="px-3 py-2 text-sm text-text-secondary">
                   {formatDate(expense.date)}
                 </td>
-                <td className="px-3 py-2 text-sm">
-                  {getPayerDescription(expense.id)}
-                </td>
+                <td className="px-3 py-2 text-sm">{getPayerDescription(expense.id)}</td>
                 <td className="px-3 py-2 text-right text-sm font-medium">
                   {formatCurrency(expense.amount)}
                 </td>
-                <td className="px-3 py-2 text-right text-sm">
-                  {getCurrentUserShare(expense.id)}
-                </td>
+                <td className="px-3 py-2 text-right text-sm">{getCurrentUserShare(expense.id)}</td>
                 {onDelete && (
                   <td className="px-2 py-2">
                     <button

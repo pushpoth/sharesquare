@@ -1,5 +1,4 @@
 // Implements: TASK-001 (REQ-026, REQ-027)
-import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Providers } from "@/app/providers";

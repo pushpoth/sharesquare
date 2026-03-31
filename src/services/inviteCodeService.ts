@@ -19,9 +19,7 @@ function generateCode(): string {
  * Generates a unique 8-char invite code in format XXXX-XXXX.
  * Excludes confusing chars: I, O, 0, 1.
  */
-export async function generateUniqueCode(
-  groupRepo: IGroupRepository
-): Promise<string> {
+export async function generateUniqueCode(groupRepo: IGroupRepository): Promise<string> {
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     const code = generateCode();
     const existing = await groupRepo.findByInviteCode(code);
@@ -29,9 +27,7 @@ export async function generateUniqueCode(
       return code;
     }
   }
-  throw new Error(
-    `Failed to generate unique invite code after ${MAX_ATTEMPTS} attempts`
-  );
+  throw new Error(`Failed to generate unique invite code after ${MAX_ATTEMPTS} attempts`);
 }
 
 /**

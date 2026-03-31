@@ -61,9 +61,7 @@ export default function LoginPage() {
           <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-primary shadow-lg">
             <span className="text-4xl font-bold text-text-on-primary">S</span>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight text-primary-dark">
-            ShareSquare
-          </h1>
+          <h1 className="text-4xl font-bold tracking-tight text-primary-dark">ShareSquare</h1>
         </div>
 
         {/* Tagline */}

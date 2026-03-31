@@ -90,12 +90,8 @@ export function GroupCreateForm({ onSuccess }: GroupCreateFormProps) {
           className="w-full rounded-lg border border-border px-3 py-2"
           required
         />
-        {nameError && (
-          <p className="mt-1 text-sm text-owing-text">{nameError.message}</p>
-        )}
-        <p className="mt-1 text-xs text-text-secondary">
-          {name.length}/100 characters
-        </p>
+        {nameError && <p className="mt-1 text-sm text-owing-text">{nameError.message}</p>}
+        <p className="mt-1 text-xs text-text-secondary">{name.length}/100 characters</p>
       </div>
       {error && (
         <p className="text-sm text-owing-text" role="alert">

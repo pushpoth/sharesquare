@@ -20,22 +20,13 @@ export class DexieGroupRepository implements IGroupRepository {
   }
 
   async getByUserId(userId: string): Promise<Group[]> {
-    const memberships = await this.db.groupMembers
-      .where("userId")
-      .equals(userId)
-      .toArray();
+    const memberships = await this.db.groupMembers.where("userId").equals(userId).toArray();
     const groupIds = memberships.map((m) => m.groupId);
-    const groups = await this.db.groups
-      .where("id")
-      .anyOf(groupIds)
-      .toArray();
+    const groups = await this.db.groups.where("id").anyOf(groupIds).toArray();
     return groups;
   }
 
-  async create(
-    group: Omit<Group, "id" | "createdAt">,
-    creatorId: string
-  ): Promise<Group> {
+  async create(group: Omit<Group, "id" | "createdAt">): Promise<Group> {
     const id = generateId();
     const createdAt = toISOTimestamp();
     const newGroup: Group = { ...group, id, createdAt };
@@ -47,7 +38,7 @@ export class DexieGroupRepository implements IGroupRepository {
       const creatorMember: GroupMember = {
         id: memberId,
         groupId: id,
-        userId: creatorId,
+        userId: group.createdBy,
         role: "admin",
         joinedAt,
       };
@@ -57,10 +48,7 @@ export class DexieGroupRepository implements IGroupRepository {
     return newGroup;
   }
 
-  async update(
-    id: string,
-    updates: Partial<Pick<Group, "name">>
-  ): Promise<Group> {
+  async update(id: string, updates: Partial<Group>): Promise<Group> {
     const group = await this.db.groups.get(id);
     if (!group) {
       throw new NotFoundError(`Group ${id} not found`);
@@ -77,16 +65,10 @@ export class DexieGroupRepository implements IGroupRepository {
     });
   }
 
-  async addMember(
-    groupId: string,
-    userId: string,
-    role: "admin" | "member"
-  ): Promise<GroupMember> {
+  async addMember(groupId: string, userId: string, role: "admin" | "member"): Promise<GroupMember> {
     const alreadyMember = await this.isMember(groupId, userId);
     if (alreadyMember) {
-      throw new DuplicateError(
-        `User ${userId} is already a member of group ${groupId}`
-      );
+      throw new DuplicateError(`User ${userId} is already a member of group ${groupId}`);
     }
     const memberId = generateId();
     const joinedAt = toISOTimestamp();

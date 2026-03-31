@@ -35,7 +35,7 @@ export function decodeGoogleCredential(credential: string): {
  */
 export async function loginOrCreateUser(
   userRepo: IUserRepository,
-  profile: { email: string; name: string; picture: string }
+  profile: { email: string; name: string; picture: string },
 ): Promise<User> {
   const existing = await userRepo.findByEmail(profile.email);
   if (existing) {

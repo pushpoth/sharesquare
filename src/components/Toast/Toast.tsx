@@ -1,13 +1,7 @@
 "use client";
 // Implements: TASK-036
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 
 export type ToastVariant = "success" | "error" | "info";
 

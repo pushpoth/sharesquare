@@ -53,20 +53,20 @@ Scaffold a **Vite 6** project with **React** and **TypeScript**. Add **Tailwind 
 
 **Phase:** infra
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-024
 **Depends on:** TASK-001
 
 **Description:**
-Set up **ESLint 9** with TypeScript and React (Vite-appropriate config — not Next.js plugins). Configure Prettier. Set up **Jest 29** with **React Testing Library 16**, `jest.config.ts` (e.g. `ts-jest` or `babel-jest`), `jest.setup.ts` (RTL matchers), and module name mapping for `@/` aliases. Add npm scripts: `lint`, `lint:fix`, `format`, `format:check`, `test`, `test:watch`, `test:coverage`, `typecheck`.
+Set up **ESLint 9** with TypeScript and React (Vite-appropriate config — not Next.js plugins). Configure Prettier. Set up **Jest 30** with **React Testing Library 16**, `jest.config.ts` (e.g. `ts-jest` or `babel-jest`), `jest.setup.ts` (RTL matchers), and module name mapping for `@/` aliases. Add npm scripts: `lint`, `lint:fix`, `format`, `format:check`, `test`, `test:watch`, `test:coverage`, `typecheck`.
 
 **Acceptance Criteria:**
 
-- [ ] `npm run lint` runs ESLint with zero errors on scaffolded code
-- [ ] `npm run format:check` passes
-- [ ] `npm test` runs Jest with zero configuration errors
-- [ ] A sample test file passes (`src/__tests__/setup.test.ts`)
-- [ ] `npm run typecheck` succeeds
+- [x] `npm run lint` runs ESLint with zero errors on scaffolded code
+- [x] `npm run format:check` passes
+- [x] `npm test` runs Jest with zero configuration errors
+- [x] A sample test file passes (`src/__tests__/setup.test.ts`)
+- [x] `npm run typecheck` succeeds
 
 **Test Plan:**
 
@@ -79,7 +79,7 @@ Set up **ESLint 9** with TypeScript and React (Vite-appropriate config — not N
 
 **Phase:** infra
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-025
 **Depends on:** TASK-001
 
@@ -88,10 +88,10 @@ Install **`vite-plugin-pwa`** (Workbox-based). Configure precaching of the **app
 
 **Acceptance Criteria:**
 
-- [ ] Service worker is generated during `npm run build`
-- [ ] `manifest.json` is served with correct fields
-- [ ] App is installable as PWA over HTTPS (or localhost)
-- [ ] Documentation states **online-first** data (no requirement for offline expense CRUD)
+- [x] Service worker is generated during `npm run build`
+- [x] `manifest.json` is served with correct fields
+- [x] App is installable as PWA over HTTPS (or localhost)
+- [x] Documentation states **online-first** data (no requirement for offline expense CRUD)
 
 **Test Plan:**
 
@@ -108,7 +108,7 @@ Install **`vite-plugin-pwa`** (Workbox-based). Configure precaching of the **app
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-023, REQ-024
 **Depends on:** TASK-001
 
@@ -117,11 +117,11 @@ Create type definition files aligned with **design.md** (Postgres-backed domain 
 
 **Acceptance Criteria:**
 
-- [ ] Entity interfaces match the logical schema in design.md §6
-- [ ] `GroupMember.role` is `'admin' | 'member'`
-- [ ] `ActivityEntry.type` is the full union of activity types
-- [ ] Expense, payer, split, settlement amounts are `number` (cents)
-- [ ] All types export from `src/types/index.ts`
+- [x] Entity interfaces match the logical schema in design.md §6
+- [x] `GroupMember.role` is `'admin' | 'member'`
+- [x] `ActivityEntry.type` is the full union of activity types
+- [x] Expense, payer, split, settlement amounts are `number` (cents)
+- [x] All types export from `src/types/index.ts`
 
 **Test Plan:**
 
@@ -133,7 +133,7 @@ Create type definition files aligned with **design.md** (Postgres-backed domain 
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-027, REQ-028
 **Depends on:** TASK-001
 
@@ -142,9 +142,9 @@ Create `src/constants/categories.ts` (9 categories with `value`, `label`, `icon`
 
 **Acceptance Criteria:**
 
-- [ ] `EXPENSE_CATEGORIES` length === 9 with required fields
-- [ ] `ROUTES` covers all pages
-- [ ] Constants importable from `@/constants/...`
+- [x] `EXPENSE_CATEGORIES` length === 9 with required fields
+- [x] `ROUTES` covers all pages
+- [x] Constants importable from `@/constants/...`
 
 **Test Plan:**
 
@@ -156,7 +156,7 @@ Create `src/constants/categories.ts` (9 categories with `value`, `label`, `icon`
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-013, REQ-008, REQ-009
 **Depends on:** TASK-001
 
@@ -165,10 +165,10 @@ Create `src/utils/currency.ts`: `centsToDollars`, `dollarsToCents`, `formatCurre
 
 **Acceptance Criteria:**
 
-- [ ] `formatCurrency(12500)` works for default USD
-- [ ] `dollarsToCents(125.00)` returns `12500`
-- [ ] `validateSplitsSum` fails when splits ≠ total
-- [ ] Relative time strings are human-readable
+- [x] `formatCurrency(12500)` works for default USD
+- [x] `dollarsToCents(125.00)` returns `12500`
+- [x] `validateSplitsSum` fails when splits ≠ total
+- [x] Relative time strings are human-readable
 
 **Test Plan:**
 
@@ -184,7 +184,7 @@ Create `src/utils/currency.ts`: `centsToDollars`, `dollarsToCents`, `formatCurre
 
 **Phase:** backend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-023, REQ-029
 **Depends on:** TASK-004
 
@@ -193,10 +193,10 @@ Add **`supabase/migrations`** (or project-documented migration path) defining: `
 
 **Acceptance Criteria:**
 
-- [ ] All tables and constraints from design.md §4 / §6 are represented in SQL
-- [ ] RLS is **enabled** on all public app tables
-- [ ] Policies allow: create group (authenticated), join by invite code (authenticated lookup + insert membership), CRUD expenses for group members subject to BR-03/BR-04
-- [ ] `invite_code` uniqueness enforced at DB level
+- [x] All tables and constraints from design.md §4 / §6 are represented in SQL
+- [x] RLS is **enabled** on all public app tables
+- [x] Policies allow: create group (authenticated), join by invite code (authenticated lookup + insert membership), CRUD expenses for group members subject to BR-03/BR-04
+- [x] `invite_code` uniqueness enforced at DB level
 
 **Test Plan:**
 
@@ -209,7 +209,7 @@ Add **`supabase/migrations`** (or project-documented migration path) defining: `
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-024
 **Depends on:** TASK-004
 
@@ -218,9 +218,9 @@ Create `src/repositories/interfaces/*.ts` for `IUserRepository`, `IGroupReposito
 
 **Acceptance Criteria:**
 
-- [ ] All five interfaces match design.md method signatures
-- [ ] Methods return `Promise<...>`
-- [ ] Error classes extend `Error` with `name` / optional `code`
+- [x] All five interfaces match design.md method signatures
+- [x] Methods return `Promise<...>`
+- [x] Error classes extend `Error` with `name` / optional `code`
 
 **Test Plan:**
 

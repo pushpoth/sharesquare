@@ -30,24 +30,17 @@ export interface ExpenseFormProps {
   onCancel: () => void;
 }
 
-export function ExpenseForm({
-  groupMembers,
-  initialData,
-  onSubmit,
-  onCancel,
-}: ExpenseFormProps) {
+export function ExpenseForm({ groupMembers, initialData, onSubmit, onCancel }: ExpenseFormProps) {
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [date, setDate] = useState(initialData?.date ?? toISODate());
   const [amountDisplay, setAmountDisplay] = useState(
-    initialData ? (initialData.amount / 100).toFixed(2) : ""
+    initialData ? (initialData.amount / 100).toFixed(2) : "",
   );
   const [category, setCategory] = useState(initialData?.category ?? "other");
   const [payerId, setPayerId] = useState(initialData?.payerId ?? GROUP_PAYER_ID);
   const [splitEqually, setSplitEqually] = useState(true);
   const [splits, setSplits] = useState<Array<{ userId: string; amountOwed: number }>>(
-    () =>
-      initialData?.splits ??
-      groupMembers.map((m) => ({ userId: m.userId, amountOwed: 0 }))
+    () => initialData?.splits ?? groupMembers.map((m) => ({ userId: m.userId, amountOwed: 0 })),
   );
 
   const amountCents = amountDisplay ? dollarsToCents(parseFloat(amountDisplay) || 0) : 0;
@@ -59,11 +52,7 @@ export function ExpenseForm({
   const splitsError = amountCents > 0 ? validateSplitsSum(splits, amountCents) : null;
 
   const isValid =
-    !titleError &&
-    !amountError &&
-    !splitsError &&
-    title.trim() !== "" &&
-    amountCents > 0;
+    !titleError && !amountError && !splitsError && title.trim() !== "" && amountCents > 0;
 
   const getPaidBy = useCallback((): Array<{ userId: string; amount: number }> => {
     if (payerId === GROUP_PAYER_ID && groupMembers.length > 0) {
@@ -94,11 +83,7 @@ export function ExpenseForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4"
-      data-testid="expense-form"
-    >
+    <form onSubmit={handleSubmit} className="space-y-4" data-testid="expense-form">
       <div>
         <label htmlFor="expense-title" className="mb-1 block text-sm font-medium">
           Description
@@ -112,9 +97,7 @@ export function ExpenseForm({
           className="w-full rounded-lg border border-border px-3 py-2"
           required
         />
-        {titleError && (
-          <p className="mt-1 text-sm text-owing-text">{titleError.message}</p>
-        )}
+        {titleError && <p className="mt-1 text-sm text-owing-text">{titleError.message}</p>}
       </div>
 
       <div>
@@ -148,9 +131,7 @@ export function ExpenseForm({
             className="w-full rounded-r-lg border border-border px-3 py-2"
           />
         </div>
-        {amountError && (
-          <p className="mt-1 text-sm text-owing-text">{amountError.message}</p>
-        )}
+        {amountError && <p className="mt-1 text-sm text-owing-text">{amountError.message}</p>}
       </div>
 
       <div>

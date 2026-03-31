@@ -14,16 +14,11 @@ export class DexieSettlementRepository implements ISettlementRepository {
   }
 
   async getByGroupId(groupId: string): Promise<Settlement[]> {
-    const settlements = await this.db.settlements
-      .where("groupId")
-      .equals(groupId)
-      .sortBy("date");
+    const settlements = await this.db.settlements.where("groupId").equals(groupId).sortBy("date");
     return settlements.reverse();
   }
 
-  async create(
-    settlement: Omit<Settlement, "id" | "createdAt">
-  ): Promise<Settlement> {
+  async create(settlement: Omit<Settlement, "id" | "createdAt">): Promise<Settlement> {
     const id = generateId();
     const createdAt = toISOTimestamp();
     const newSettlement: Settlement = { ...settlement, id, createdAt };

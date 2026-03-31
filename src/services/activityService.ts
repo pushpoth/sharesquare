@@ -9,7 +9,7 @@ import { formatCurrency } from "@/utils";
  */
 export async function logActivity(
   activityRepo: IActivityRepository,
-  entry: Omit<ActivityEntry, "id" | "timestamp">
+  entry: Omit<ActivityEntry, "id" | "timestamp">,
 ): Promise<ActivityEntry> {
   return activityRepo.log(entry);
 }
@@ -20,7 +20,7 @@ export async function logActivity(
 export async function getActivityFeed(
   activityRepo: IActivityRepository,
   userId: string,
-  limit?: number
+  limit?: number,
 ): Promise<ActivityEntry[]> {
   return activityRepo.getByUserId(userId, limit);
 }
@@ -35,7 +35,7 @@ export function buildActivityDescription(
     title?: string;
     amount?: number;
     groupName?: string;
-  }
+  },
 ): string {
   const { userName = "Someone", title = "", amount, groupName = "" } = metadata;
 

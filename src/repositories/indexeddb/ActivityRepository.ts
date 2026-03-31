@@ -10,10 +10,7 @@ export class DexieActivityRepository implements IActivityRepository {
   constructor(private readonly db: ShareSquareDB) {}
 
   async getByUserId(userId: string, limit?: number): Promise<ActivityEntry[]> {
-    let entries = await this.db.activityEntries
-      .where("userId")
-      .equals(userId)
-      .sortBy("timestamp");
+    let entries = await this.db.activityEntries.where("userId").equals(userId).sortBy("timestamp");
     entries = entries.reverse();
     if (limit !== undefined) {
       entries = entries.slice(0, limit);
@@ -21,9 +18,7 @@ export class DexieActivityRepository implements IActivityRepository {
     return entries;
   }
 
-  async log(
-    entry: Omit<ActivityEntry, "id" | "timestamp">
-  ): Promise<ActivityEntry> {
+  async log(entry: Omit<ActivityEntry, "id" | "timestamp">): Promise<ActivityEntry> {
     const id = generateId();
     const timestamp = toISOTimestamp();
     const newEntry: ActivityEntry = { ...entry, id, timestamp };

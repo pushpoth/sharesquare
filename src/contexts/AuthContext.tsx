@@ -1,13 +1,7 @@
 "use client";
 // Implements: TASK-022 (REQ-001, REQ-002)
 
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { User } from "@/types";
 import { repositories } from "@/repositories";
 import {

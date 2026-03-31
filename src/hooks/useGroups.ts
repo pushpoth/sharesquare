@@ -12,13 +12,10 @@ export function useGroups() {
   const repos = useRepositories();
   const auth = useAuth();
 
-  const groups = useLiveQuery(
-    async () => {
-      if (!auth.currentUser) return [];
-      return repos.groups.getByUserId(auth.currentUser.id);
-    },
-    [auth.currentUser?.id]
-  );
+  const groups = useLiveQuery(async () => {
+    if (!auth.currentUser) return [];
+    return repos.groups.getByUserId(auth.currentUser.id);
+  }, [auth.currentUser?.id]);
 
   const createGroup = useCallback(
     async (name: string) => {
@@ -26,16 +23,13 @@ export function useGroups() {
         throw new Error("Must be logged in to create a group");
       }
       const inviteCode = await generateUniqueCode(repos.groups);
-      return repos.groups.create(
-        {
-          name,
-          inviteCode,
-          createdBy: auth.currentUser.id,
-        },
-        auth.currentUser.id
-      );
+      return repos.groups.create({
+        name,
+        inviteCode,
+        createdBy: auth.currentUser.id,
+      });
     },
-    [repos.groups, auth.currentUser]
+    [repos.groups, auth.currentUser],
   );
 
   const joinGroup = useCallback(
@@ -55,23 +49,19 @@ export function useGroups() {
       await repos.groups.addMember(group.id, auth.currentUser.id, "member");
       return group;
     },
-    [repos.groups, auth.currentUser]
+    [repos.groups, auth.currentUser],
   );
 
-  const getGroupById = useCallback(
-    (id: string) => repos.groups.findById(id),
-    [repos.groups]
-  );
+  const getGroupById = useCallback((id: string) => repos.groups.findById(id), [repos.groups]);
 
   const getGroupMembers = useCallback(
     (groupId: string) => repos.groups.getMembers(groupId),
-    [repos.groups]
+    [repos.groups],
   );
 
   const updateGroup = useCallback(
-    (id: string, updates: Partial<Pick<Group, "name">>) =>
-      repos.groups.update(id, updates),
-    [repos.groups]
+    (id: string, updates: Partial<Pick<Group, "name">>) => repos.groups.update(id, updates),
+    [repos.groups],
   );
 
   return {

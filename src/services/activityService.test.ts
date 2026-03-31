@@ -1,10 +1,6 @@
 // Implements: TASK-021 (REQ-020)
 
-import {
-  logActivity,
-  getActivityFeed,
-  buildActivityDescription,
-} from "./activityService";
+import { logActivity, getActivityFeed, buildActivityDescription } from "./activityService";
 import type { IActivityRepository } from "@/repositories/interfaces/IActivityRepository";
 import type { ActivityEntry } from "@/types/activity";
 

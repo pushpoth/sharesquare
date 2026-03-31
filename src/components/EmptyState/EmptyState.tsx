@@ -30,21 +30,13 @@ function DefaultIcon() {
   );
 }
 
-export function EmptyState({
-  icon,
-  title,
-  description,
-  actionLabel,
-  onAction,
-}: EmptyStateProps) {
+export function EmptyState({ icon, title, description, actionLabel, onAction }: EmptyStateProps) {
   return (
     <div
       className="flex flex-col items-center justify-center py-12 text-center"
       data-testid="empty-state"
     >
-      <div className="mb-4 flex items-center justify-center">
-        {icon ?? <DefaultIcon />}
-      </div>
+      <div className="mb-4 flex items-center justify-center">{icon ?? <DefaultIcon />}</div>
       <h3 className="mb-2 text-lg font-semibold text-text-primary">{title}</h3>
       <p className="mb-6 max-w-sm text-sm text-text-secondary">{description}</p>
       {actionLabel && onAction && (

@@ -31,21 +31,16 @@ export default function AddExpenseClient() {
     }
   }, [groupIdParam, groups]);
 
-  const groupMembers = useLiveQuery(
-    async () => {
-      if (!selectedGroupId) return [];
-      const members = await repos.groups.getMembers(selectedGroupId);
-      const users = await Promise.all(
-        members.map((m) => repos.users.findById(m.userId))
-      );
-      return members.map((m, i) => ({
-        userId: m.userId,
-        name: users[i]?.name ?? "Unknown",
-        avatarUrl: users[i]?.avatarUrl,
-      }));
-    },
-    [selectedGroupId, repos.groups, repos.users]
-  );
+  const groupMembers = useLiveQuery(async () => {
+    if (!selectedGroupId) return [];
+    const members = await repos.groups.getMembers(selectedGroupId);
+    const users = await Promise.all(members.map((m) => repos.users.findById(m.userId)));
+    return members.map((m, i) => ({
+      userId: m.userId,
+      name: users[i]?.name ?? "Unknown",
+      avatarUrl: users[i]?.avatarUrl,
+    }));
+  }, [selectedGroupId, repos.groups, repos.users]);
 
   const handleSubmit = useCallback(
     async (data: {
@@ -67,12 +62,12 @@ export default function AddExpenseClient() {
           createdBy: currentUser.id,
         },
         data.paidBy.map((p) => ({ userId: p.userId, amount: p.amount })),
-        data.splits.map((s) => ({ userId: s.userId, amountOwed: s.amountOwed }))
+        data.splits.map((s) => ({ userId: s.userId, amountOwed: s.amountOwed })),
       );
       showToast("Expense added successfully");
       navigate(ROUTES.GROUP_DETAIL(selectedGroupId));
     },
-    [selectedGroupId, currentUser, addExpense, showToast, navigate]
+    [selectedGroupId, currentUser, addExpense, showToast, navigate],
   );
 
   const handleCancel = useCallback(() => {

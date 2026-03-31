@@ -5,3 +5,4 @@ export type { Group, GroupMember, GroupMemberRole } from "./group";
 export type { Expense, ExpensePayer, ExpenseSplit } from "./expense";
 export type { Settlement } from "./settlement";
 export type { ActivityEntry, ActivityType } from "./activity";
+export { ACTIVITY_TYPES } from "./activity";

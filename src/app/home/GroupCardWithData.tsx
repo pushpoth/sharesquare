@@ -18,19 +18,14 @@ export function GroupCardWithData({ group, currentUserId }: GroupCardWithDataPro
   const { expenses } = useExpenses(group.id);
   const { memberBalances } = useBalances(group.id);
 
-  const membersWithUsers = useLiveQuery(
-    async () => {
-      const groupMembers = await repos.groups.getMembers(group.id);
-      const users = await Promise.all(
-        groupMembers.map((m) => repos.users.findById(m.userId))
-      );
-      return groupMembers.map((_, i) => ({
-        name: users[i]?.name ?? "Unknown",
-        avatarUrl: users[i]?.avatarUrl,
-      }));
-    },
-    [group.id, repos.groups, repos.users]
-  );
+  const membersWithUsers = useLiveQuery(async () => {
+    const groupMembers = await repos.groups.getMembers(group.id);
+    const users = await Promise.all(groupMembers.map((m) => repos.users.findById(m.userId)));
+    return groupMembers.map((_, i) => ({
+      name: users[i]?.name ?? "Unknown",
+      avatarUrl: users[i]?.avatarUrl,
+    }));
+  }, [group.id, repos.groups, repos.users]);
 
   const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
   const userBalance = memberBalances.get(currentUserId) ?? 0;
