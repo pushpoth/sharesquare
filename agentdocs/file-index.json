@@ -64,6 +64,13 @@
     "signatures": [],
     "imports": []
   },
+  "supabase/migrations/20260331160000_profile_on_auth_user.sql": {
+    "task": "TASK-055",
+    "status": "complete",
+    "exports": [],
+    "signatures": ["handle_new_user(): trigger on auth.users"],
+    "imports": []
+  },
   "src/repositories/supabase/client.ts": {
     "task": "TASK-009,T014",
     "status": "complete",
@@ -155,6 +162,20 @@
     "signatures": [],
     "imports": []
   },
+  "src/services/balanceService.ts": {
+    "task": "TASK-017",
+    "status": "complete",
+    "exports": ["calculateGroupBalances", "calculateOverallBalances", "calculatePairwiseBalances"],
+    "signatures": [],
+    "imports": ["@/types/expense", "@/types/settlement"]
+  },
+  "src/services/debtSimplificationService.ts": {
+    "task": "TASK-018",
+    "status": "complete",
+    "exports": ["simplifyDebts", "SimplifiedSettlement"],
+    "signatures": [],
+    "imports": []
+  },
   "src/contexts/AuthContext.tsx": {
     "task": "TASK-015",
     "status": "complete",
@@ -170,7 +191,7 @@
     "imports": []
   },
   "supabase/README.md": {
-    "task": "TASK-054",
+    "task": "TASK-054,T055",
     "status": "complete",
     "exports": [],
     "signatures": [],

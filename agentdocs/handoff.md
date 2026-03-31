@@ -1,13 +1,12 @@
-session: 7 | 2026-04-01 | completed: TASK-015, TASK-016, TASK-054
+session: 8 | 2026-04-01 | completed: TASK-055, TASK-017, TASK-018
 
 decisions:
+  - Marked TASK-017/TASK-018 done in agentdocs only: implementations and tests already existed in repo; Batch 7 scope was alignment + TASK-055 migration.
 
-- **`isSupabaseAuthConfigured()`** in `readEnv.ts`: requires URL + anon key and **excludes** `https://test.supabase.co` so Jest keeps **Dexie + localStorage** auth path; real project enables OAuth UI + `AuthProvider` Supabase branch.
-- **`ensureProfile`** uses `profiles` **upsert** `onConflict: id` after each session; pairs with TASK-055 (trigger vs app-only) later.
-- **Invite codes:** `normalizeCode` hyphenates bare **8** alphanumeric chars to `XXXX-XXXX` so lookup matches DB/RPC storage when users omit the hyphen.
+discoveries:
+  - other: `git push origin main` completed (`2ed2b73..1a7810b`).
 
 next session:
-
-- start with: **Batch 7** — TASK-055, TASK-017, TASK-018 (profile trigger or doc + balance + debt simplification).
-- check first: whether to add SQL trigger for `profiles` or document app-only `ensureProfile` as source of truth.
-- watch out: `BalanceService` must stay pure (no repo imports); cents-only math.
+  - start with: Batch 8 — TASK-019, TASK-020, TASK-021 (ExportService, ImportService, ActivityService)
+  - check first: `src/services/` patterns from `authService` / `inviteCodeService`; `IActivityRepository` for TASK-021
+  - watch out: TASK-020 depends on TASK-019; validate import edge cases and file formats per tasks.md AC

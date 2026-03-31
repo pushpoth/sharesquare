@@ -420,7 +420,7 @@ Create `src/services/inviteCodeService.ts`. **`generateCode()`** → human-reada
 
 **Phase:** backend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-013
 **Depends on:** TASK-004, TASK-006
 
@@ -443,7 +443,7 @@ Same as prior spec: pure functions `calculateGroupBalances`, `calculateOverallBa
 
 **Phase:** backend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-014
 **Depends on:** TASK-017
 
@@ -1181,7 +1181,7 @@ In the Supabase dashboard: enable desired providers (e.g. Google OAuth with clie
 
 **Phase:** backend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-002
 **Depends on:** TASK-007, TASK-015
 

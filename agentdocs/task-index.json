@@ -180,7 +180,7 @@
       "title": "Implement BalanceService",
       "phase": "backend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-004",
         "TASK-006"
@@ -191,7 +191,7 @@
       "title": "Implement DebtSimplificationService",
       "phase": "backend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-017"
       ]
@@ -606,7 +606,7 @@
       "title": "Add profile row sync on new user (trigger or documented upsert)",
       "phase": "backend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-007",
         "TASK-015"

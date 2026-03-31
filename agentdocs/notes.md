@@ -16,3 +16,4 @@
 - [2026-04-01 TASK-056] RLS invite/join audit: `agentdocs/rls-invite-join.md` + `supabase/README.md` — non-members cannot `SELECT` `groups`; join uses RPC + controlled `group_members` inserts.
 - [2026-04-01 TASK-015] Supabase Auth UI only when `isSupabaseAuthConfigured()` is true (not the Jest default `https://test.supabase.co` URL).
 - [2026-04-01 TASK-016] `normalizeCode` inserts a hyphen for exactly 8 alphanumeric characters so `ABCD1234` matches stored `ABCD-1234`.
+- [2026-04-01 TASK-055] `on_auth_user_created` + `handle_new_user()` inserts into `public.profiles` with `ON CONFLICT (id) DO NOTHING`; client `ensureProfile()` remains the idempotent upsert for OAuth name/avatar refresh.

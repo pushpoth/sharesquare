@@ -13,7 +13,16 @@ SQL migrations live in [`migrations/`](./migrations/). They define the **Postgre
 ### Option B — SQL Editor
 
 1. Open the Supabase dashboard → **SQL Editor**.
-2. Run migrations in order: `20260331140000_initial_schema.sql`, then `20260331150000_expense_write_rpcs.sql` (or use `supabase db push` for both).
+2. Run migrations in order (or `supabase db push`):
+   - `20260331140000_initial_schema.sql`
+   - `20260331150000_expense_write_rpcs.sql`
+   - `20260331160000_profile_on_auth_user.sql` — creates `profiles` row when a user signs up (TASK-055)
+
+### Profile sync (TASK-055)
+
+- **Database:** `on_auth_user_created` on `auth.users` calls `handle_new_user()` to `INSERT` into `public.profiles` (`ON CONFLICT DO NOTHING`).
+- **App:** `ensureProfile()` in `src/services/authService.ts` still **upserts** after sign-in so OAuth name/avatar stay current.
+- Either path alone satisfies “row exists before first data op”; both together are idempotent.
 
 ## After migrate
 
