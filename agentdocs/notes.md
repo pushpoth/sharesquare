@@ -26,3 +26,4 @@
 - [2026-04-02 TASK-029] BottomNav uses `NavLink` with `end={false}` only for `ROUTES.GROUPS` so `/groups/:id` keeps Groups active; other tabs use `end` for exact segment match.
 - [2026-03-31 TASK-031] RTL tests for `<img onError>` should use `fireEvent.error(img)` inside `act(...)` so the fallback-to-initials state update is flushed (raw `dispatchEvent` does not run React’s `onError` the same way).
 - [2026-03-31 TASK-037] `SplitSelector` `readOnly` must not disable the “Split equally” checkbox when `ExpenseForm` passes `readOnly={splitEqually}` — otherwise users cannot switch to custom splits (amount inputs stay read-only only while equal mode is on).
+- [2026-03-31 TASK-042] `InviteCodeInput` checks `navigator.onLine` before `joinGroup`; in Jest restore `navigator.onLine` after tests that set it to `false`.

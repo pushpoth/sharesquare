@@ -1,6 +1,8 @@
 "use client";
+// Implements: TASK-041 (REQ-003)
 
 import { useState } from "react";
+import { useToast } from "@/components/Toast/Toast";
 import { useGroups } from "@/hooks/useGroups";
 import type { Group } from "@/types";
 import { validateRequired } from "@/utils/validation";
@@ -16,6 +18,7 @@ export function GroupCreateForm({ onSuccess }: GroupCreateFormProps) {
   const [createdGroup, setCreatedGroup] = useState<Group | null>(null);
 
   const { createGroup } = useGroups();
+  const { showToast } = useToast();
 
   const nameError = validateRequired(name.trim(), "Group name");
 
@@ -32,7 +35,9 @@ export function GroupCreateForm({ onSuccess }: GroupCreateFormProps) {
       setCreatedGroup(group);
       setInviteCode(group.inviteCode);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create group");
+      const message = err instanceof Error ? err.message : "Failed to create group";
+      setError(message);
+      showToast(message, "error");
     }
   };
 
@@ -59,6 +64,7 @@ export function GroupCreateForm({ onSuccess }: GroupCreateFormProps) {
             type="button"
             onClick={handleCopy}
             className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white"
+            data-testid="group-create-copy"
           >
             Copy
           </button>
@@ -67,6 +73,7 @@ export function GroupCreateForm({ onSuccess }: GroupCreateFormProps) {
           type="button"
           onClick={() => onSuccess(createdGroup, inviteCode)}
           className="w-full rounded-lg border border-border px-4 py-2 text-sm font-medium"
+          data-testid="group-create-done"
         >
           Done
         </button>
@@ -88,6 +95,7 @@ export function GroupCreateForm({ onSuccess }: GroupCreateFormProps) {
           placeholder="e.g. Roommates"
           maxLength={100}
           className="w-full rounded-lg border border-border px-3 py-2"
+          data-testid="group-create-name"
           required
         />
         {nameError && <p className="mt-1 text-sm text-owing-text">{nameError.message}</p>}
@@ -102,6 +110,7 @@ export function GroupCreateForm({ onSuccess }: GroupCreateFormProps) {
         type="submit"
         disabled={!!nameError || !name.trim()}
         className="w-full rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        data-testid="group-create-submit"
       >
         Create Group
       </button>

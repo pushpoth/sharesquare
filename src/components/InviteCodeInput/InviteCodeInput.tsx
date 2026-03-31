@@ -1,6 +1,8 @@
 "use client";
+// Implements: TASK-042 (REQ-004)
 
 import { useState } from "react";
+import { useToast } from "@/components/Toast/Toast";
 import { useGroups } from "@/hooks/useGroups";
 
 export interface InviteCodeInputProps {
@@ -12,6 +14,7 @@ export function InviteCodeInput({ onSuccess }: InviteCodeInputProps) {
   const [error, setError] = useState<string | null>(null);
 
   const { joinGroup } = useGroups();
+  const { showToast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCode(e.target.value.toUpperCase());
@@ -23,18 +26,28 @@ export function InviteCodeInput({ onSuccess }: InviteCodeInputProps) {
     setError(null);
     const trimmed = code.trim();
     if (!trimmed) return;
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      const offlineMsg =
+        "You appear to be offline. Connect to the internet to join a group.";
+      setError(offlineMsg);
+      showToast(offlineMsg, "error");
+      return;
+    }
     try {
       const group = await joinGroup(trimmed);
       onSuccess(group.id);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to join group";
+      let display: string;
       if (message.includes("Invalid") || message.includes("not found")) {
-        setError("Code not found");
+        display = "Code not found";
       } else if (message.includes("already a member")) {
-        setError("Already a member");
+        display = "Already a member";
       } else {
-        setError(message);
+        display = message;
       }
+      setError(display);
+      showToast(display, "error");
     }
   };
 
@@ -49,6 +62,7 @@ export function InviteCodeInput({ onSuccess }: InviteCodeInputProps) {
           className="w-full rounded-lg border border-border px-3 py-2 font-mono uppercase"
           autoCapitalize="characters"
           autoComplete="off"
+          data-testid="invite-code-field"
         />
         {error && (
           <p className="mt-1 text-sm text-owing-text" role="alert">
@@ -60,6 +74,7 @@ export function InviteCodeInput({ onSuccess }: InviteCodeInputProps) {
         type="submit"
         disabled={!code.trim()}
         className="w-full rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+        data-testid="invite-code-submit"
       >
         Join
       </button>

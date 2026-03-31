@@ -906,7 +906,7 @@ Unchanged. Tests.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-003
 **Depends on:** TASK-024, TASK-036
 
@@ -919,7 +919,7 @@ Calls `createGroup` from hook; surfaces **network/Supabase errors**. Tests.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-004
 **Depends on:** TASK-024, TASK-036
 
@@ -932,7 +932,7 @@ Join flow via `joinGroup`; show offline message when appropriate. Tests.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-015
 **Depends on:** TASK-031, TASK-027, TASK-006
 

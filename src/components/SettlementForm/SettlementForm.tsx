@@ -1,4 +1,5 @@
 "use client";
+// Implements: TASK-043 (REQ-015)
 
 import { useState } from "react";
 import { toISODate } from "@/utils/dateUtils";
@@ -58,6 +59,7 @@ export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormPr
           value={fromUserId}
           onChange={(e) => setFromUserId(e.target.value)}
           className="w-full rounded-lg border border-border px-3 py-2"
+          data-testid="settlement-from"
         >
           <option value="">Select payer</option>
           {members.map((m) => (
@@ -78,6 +80,7 @@ export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormPr
           value={toUserId}
           onChange={(e) => setToUserId(e.target.value)}
           className="w-full rounded-lg border border-border px-3 py-2"
+          data-testid="settlement-to"
         >
           <option value="">Select recipient</option>
           {members.map((m) => (
@@ -111,6 +114,7 @@ export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormPr
             onChange={(e) => setAmountDisplay(e.target.value)}
             placeholder="0.00"
             className="w-full rounded-r-lg border border-border px-3 py-2"
+            data-testid="settlement-amount"
           />
         </div>
         {amountError && <p className="mt-1 text-sm text-owing-text">{amountError.message}</p>}
@@ -126,6 +130,7 @@ export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormPr
           value={date}
           onChange={(e) => setDate(e.target.value)}
           className="w-full rounded-lg border border-border px-3 py-2"
+          data-testid="settlement-date"
         />
       </div>
 
@@ -134,6 +139,7 @@ export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormPr
           type="button"
           onClick={onCancel}
           className="flex-1 rounded-lg border border-border px-4 py-2 text-sm font-medium"
+          data-testid="settlement-cancel"
         >
           Cancel
         </button>
@@ -141,6 +147,7 @@ export function SettlementForm({ members, onSubmit, onCancel }: SettlementFormPr
           type="submit"
           disabled={!isValid}
           className="flex-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          data-testid="settlement-submit"
         >
           Record Settlement
         </button>

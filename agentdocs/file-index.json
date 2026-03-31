@@ -358,6 +358,27 @@
     "signatures": [],
     "imports": ["@/components/MemberAvatar", "@/utils/currency"]
   },
+  "src/components/GroupCreateForm/GroupCreateForm.tsx": {
+    "task": "TASK-041",
+    "status": "complete",
+    "exports": ["GroupCreateForm"],
+    "signatures": [],
+    "imports": ["react", "@/components/Toast/Toast", "@/hooks/useGroups", "@/types", "@/utils/validation"]
+  },
+  "src/components/InviteCodeInput/InviteCodeInput.tsx": {
+    "task": "TASK-042",
+    "status": "complete",
+    "exports": ["InviteCodeInput"],
+    "signatures": [],
+    "imports": ["react", "@/components/Toast/Toast", "@/hooks/useGroups"]
+  },
+  "src/components/SettlementForm/SettlementForm.tsx": {
+    "task": "TASK-043",
+    "status": "complete",
+    "exports": ["SettlementForm"],
+    "signatures": [],
+    "imports": ["react", "@/utils/dateUtils", "@/utils/currency", "@/utils/validation"]
+  },
   "src/app/page.tsx": {
     "task": "TASK-044,T015",
     "status": "complete",

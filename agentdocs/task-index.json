@@ -432,7 +432,7 @@
       "title": "Implement GroupCreateForm component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-024",
         "TASK-036"
@@ -443,7 +443,7 @@
       "title": "Implement InviteCodeInput component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-024",
         "TASK-036"
@@ -454,7 +454,7 @@
       "title": "Implement SettlementForm component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-031",
         "TASK-027",
