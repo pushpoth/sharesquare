@@ -2,36 +2,48 @@
 // Implements: TASK-026 (REQ-013, REQ-014)
 
 import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "@/repositories/indexeddb/database";
+import {
+  type RepositoryContextValue,
+  useRepositories,
+} from "@/contexts/RepositoryContext";
 import { calculateGroupBalances, calculateOverallBalances } from "@/services/balanceService";
 import { simplifyDebts } from "@/services/debtSimplificationService";
 import { useAuth } from "@/hooks/useAuth";
-import { useRepositories } from "@/contexts/RepositoryContext";
+
+async function loadGroupLedger(repos: RepositoryContextValue, groupId: string) {
+  const [expenses, settlements] = await Promise.all([
+    repos.expenses.getByGroupId(groupId),
+    repos.settlements.getByGroupId(groupId),
+  ]);
+  const expenseIds = expenses.map((e) => e.id);
+  const [payers, splits] =
+    expenseIds.length > 0
+      ? await Promise.all([
+          Promise.all(expenseIds.map((id) => repos.expenses.getPayers(id))).then((rows) =>
+            rows.flat(),
+          ),
+          Promise.all(expenseIds.map((id) => repos.expenses.getSplits(id))).then((rows) =>
+            rows.flat(),
+          ),
+        ])
+      : [[], []];
+
+  const memberBalances = calculateGroupBalances(expenses, payers, splits, settlements);
+  const simplifiedDebts = simplifyDebts(memberBalances);
+
+  return {
+    memberBalances,
+    simplifiedDebts,
+  };
+}
 
 export function useBalances(groupId?: string) {
+  const repos = useRepositories();
+
   const result = useLiveQuery(async () => {
     if (!groupId) return null;
-    const [expenses, settlements] = await Promise.all([
-      db.expenses.where("groupId").equals(groupId).toArray(),
-      db.settlements.where("groupId").equals(groupId).toArray(),
-    ]);
-    const expenseIds = expenses.map((e) => e.id);
-    const [payers, splits] =
-      expenseIds.length > 0
-        ? await Promise.all([
-            db.expensePayers.where("expenseId").anyOf(expenseIds).toArray(),
-            db.expenseSplits.where("expenseId").anyOf(expenseIds).toArray(),
-          ])
-        : [[], []];
-
-    const memberBalances = calculateGroupBalances(expenses, payers, splits, settlements);
-    const simplifiedDebts = simplifyDebts(memberBalances);
-
-    return {
-      memberBalances,
-      simplifiedDebts,
-    };
-  }, [groupId]);
+    return loadGroupLedger(repos, groupId);
+  }, [groupId, repos]);
 
   return {
     memberBalances: result?.memberBalances ?? new Map<string, number>(),
@@ -50,20 +62,7 @@ export function useOverallBalances() {
     const balanceMaps: Map<string, number>[] = [];
 
     for (const group of groups) {
-      const [expenses, settlements] = await Promise.all([
-        db.expenses.where("groupId").equals(group.id).toArray(),
-        db.settlements.where("groupId").equals(group.id).toArray(),
-      ]);
-      const expenseIds = expenses.map((e) => e.id);
-      const [payers, splits] =
-        expenseIds.length > 0
-          ? await Promise.all([
-              db.expensePayers.where("expenseId").anyOf(expenseIds).toArray(),
-              db.expenseSplits.where("expenseId").anyOf(expenseIds).toArray(),
-            ])
-          : [[], []];
-
-      const memberBalances = calculateGroupBalances(expenses, payers, splits, settlements);
+      const { memberBalances } = await loadGroupLedger(repos, group.id);
       balanceMaps.push(memberBalances);
     }
 
@@ -71,7 +70,7 @@ export function useOverallBalances() {
     const overallBalance = owedToYou - youOwe;
 
     return { youOwe, owedToYou, overallBalance };
-  }, [auth.currentUser?.id]);
+  }, [auth.currentUser?.id, repos]);
 
   return {
     youOwe: result?.youOwe ?? 0,

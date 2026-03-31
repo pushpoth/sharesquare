@@ -232,6 +232,34 @@
     "signatures": [],
     "imports": ["@/contexts/AuthContext"]
   },
+  "src/hooks/useGroups.ts": {
+    "task": "TASK-024",
+    "status": "complete",
+    "exports": ["useGroups"],
+    "signatures": [],
+    "imports": ["@/contexts/RepositoryContext", "@/services/inviteCodeService"]
+  },
+  "src/hooks/useExpenses.ts": {
+    "task": "TASK-025",
+    "status": "complete",
+    "exports": ["useExpenses"],
+    "signatures": [],
+    "imports": ["@/contexts/RepositoryContext", "@/services/activityService"]
+  },
+  "src/hooks/useBalances.ts": {
+    "task": "TASK-026",
+    "status": "complete",
+    "exports": ["useBalances", "useOverallBalances"],
+    "signatures": [],
+    "imports": ["dexie-react-hooks", "@/contexts/RepositoryContext", "@/services/balanceService"]
+  },
+  "src/hooks/useSettlements.ts": {
+    "task": "TASK-027",
+    "status": "complete",
+    "exports": ["useSettlements"],
+    "signatures": [],
+    "imports": ["@/contexts/RepositoryContext", "@/services/activityService"]
+  },
   "src/app/page.tsx": {
     "task": "TASK-044,T015",
     "status": "complete",

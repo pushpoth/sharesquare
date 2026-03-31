@@ -13,7 +13,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function GroupsPage() {
   const navigate = useNavigate();
-  const { groups } = useGroups();
+  const { groups, isLoading: groupsLoading } = useGroups();
   const { currentUser } = useAuth();
 
   const handleGroupCreated = (_group: { id: string }, _inviteCode: string) => {
@@ -45,7 +45,13 @@ export default function GroupsPage() {
 
         <section>
           <h2 className="mb-3 text-lg font-semibold text-text-primary">Your Groups</h2>
-          {groups.length === 0 ? (
+          {groupsLoading ? (
+            <div
+              className="h-24 animate-pulse rounded-xl bg-surface-muted"
+              aria-busy="true"
+              aria-label="Loading groups"
+            />
+          ) : groups.length === 0 ? (
             <EmptyState
               title="No groups yet"
               description="Create or join a group to get started."

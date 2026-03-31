@@ -12,7 +12,7 @@ import { ROUTES } from "@/constants/routes";
 import { GroupCardWithData } from "./GroupCardWithData";
 
 export default function HomePage() {
-  const { groups } = useGroups();
+  const { groups, isLoading: groupsLoading } = useGroups();
   const { youOwe, owedToYou, overallBalance } = useOverallBalances();
   const { currentUser } = useAuth();
 
@@ -33,7 +33,13 @@ export default function HomePage() {
 
         <section>
           <h2 className="mb-3 text-lg font-semibold text-text-primary">Recent Groups</h2>
-          {groups.length === 0 ? (
+          {groupsLoading ? (
+            <div
+              className="h-24 animate-pulse rounded-xl bg-surface-muted"
+              aria-busy="true"
+              aria-label="Loading groups"
+            />
+          ) : groups.length === 0 ? (
             <EmptyState
               title="No groups yet"
               description="Create one to get started!"

@@ -580,7 +580,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-003, REQ-004, REQ-005
 **Depends on:** TASK-023, TASK-016
 
@@ -603,7 +603,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-006, REQ-011, REQ-012
 **Depends on:** TASK-023, TASK-021
 
@@ -625,7 +625,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-013, REQ-014
 **Depends on:** TASK-023, TASK-017, TASK-018
 
@@ -647,7 +647,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-015
 **Depends on:** TASK-023, TASK-021
 

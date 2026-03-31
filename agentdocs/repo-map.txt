@@ -12,7 +12,7 @@ src/services/ [✅T015-T021,T054] auth; invite; balance; debt simplify; export (
 src/contexts/AuthContext.tsx [✅T015,T022] Supabase session + demo path; user/session/signOut on value
 src/contexts/RepositoryContext.tsx [✅T023] useRepositories → factory bundle from index
 src/hooks/useAuth.ts [✅T022] thin wrapper over AuthContext
-src/hooks/ [⬜] data hooks pending
+src/hooks/ [✅T024-T027] useGroups (refetch+error); useExpenses/useSettlements (activity+log); useBalances (repos+services)
 src/types/ [✅T004-T006] entities + ACTIVITY_TYPES
 src/utils/ [✅T006] currency, dateUtils, validation + tests
 src/constants/ [✅T005] categories, routes, colors + tests

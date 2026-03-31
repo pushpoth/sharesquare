@@ -1,9 +1,9 @@
-session: 10 | 2026-04-01 | completed: TASK-022, TASK-023
+session: 11 | 2026-04-01 | completed: TASK-024, TASK-025, TASK-026, TASK-027
 
 decisions:
-  - Extended `AuthContextValue` with task-aligned aliases `user`, `session` (Supabase `Session | null`), `signOut`; kept `currentUser` / `logout` for existing call sites.
+  - Kept `useLiveQuery` on useExpenses / useSettlements / useBalances for Dexie live updates; useGroups alone uses explicit refetch (task requirement).
 
 next session:
-  - start with: Batch 10 — TASK-024, TASK-025, TASK-026, TASK-027 (data hooks; verify existing `useGroups` / `useBalances` vs task AC)
-  - check first: `src/hooks/useGroups.ts`, `useBalances.ts`, `useExpenses.ts`, `useSettlements.ts`
-  - watch out: tasks specify refetch patterns and invite retry; align or mark partial in tasks if already sufficient
+  - start with: Batch 11 — TASK-029, TASK-034, TASK-035, TASK-036 (BottomNav, EmptyState, ConfirmDialog, Toast)
+  - check first: which of these components already exist under `src/components/`
+  - watch out: TASK-052 depends on Toast (TASK-036)

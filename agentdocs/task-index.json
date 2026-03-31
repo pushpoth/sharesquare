@@ -255,7 +255,7 @@
       "title": "Implement useGroups hook",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-023",
         "TASK-016"
@@ -266,7 +266,7 @@
       "title": "Implement useExpenses hook",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-023",
         "TASK-021"
@@ -277,7 +277,7 @@
       "title": "Implement useBalances hook",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-023",
         "TASK-017",
@@ -289,7 +289,7 @@
       "title": "Implement useSettlements hook",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-023",
         "TASK-021"

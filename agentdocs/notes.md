@@ -20,3 +20,6 @@
 - [2026-04-01 TASK-019] Settings **export** uses `exportAllData(repositories, currentUser.id)` so Supabase mode exports RLS-visible data, not a raw Dexie dump.
 - [2026-04-01 TASK-020] **Import** uses `ImportDataWriter`; `createDexieImportWriter(db)` backs the Settings page — a Supabase-backed writer is not wired yet when `VITE_USE_SUPABASE_REPOS=true`.
 - [2026-04-01 TASK-022] With Supabase Auth, `AuthContext.session` tracks `Session | null` from `getSupabaseSession` / `onAuthStateChange`; `authService` still mirrors user id to `localStorage` for the demo/offline path, not as the only source when Supabase is active.
+- [2026-04-01 TASK-024] `useGroups` uses `useEffect` + `refetch` (not `useLiveQuery`) per tasks.md; `createGroup` retries on `DuplicateError` or Postgres-style unique messages after `generateUniqueCode`.
+- [2026-04-01 TASK-026] `useBalances` / `useOverallBalances` load expenses/settlements/payers/splits through `RepositoryBundle`, not `db`, so Supabase-backed repos work; list hooks still use `useLiveQuery` for Dexie reactivity.
+- [2026-04-01 TASK-025-T027] Hook tests that mock only repositories jest-mock `dexie-react-hooks` `useLiveQuery` to resolve async callbacks (real hook waits on Dexie observation).

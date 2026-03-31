@@ -5,14 +5,17 @@ import { useCallback } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import type { Expense, ExpensePayer, ExpenseSplit } from "@/types";
 import { useRepositories } from "@/contexts/RepositoryContext";
+import { useAuth } from "@/hooks/useAuth";
+import { logActivity, buildActivityDescription } from "@/services/activityService";
 
 export function useExpenses(groupId?: string) {
   const repos = useRepositories();
+  const auth = useAuth();
 
   const expenses = useLiveQuery(async () => {
     if (!groupId) return [];
     return repos.expenses.getByGroupId(groupId);
-  }, [groupId]);
+  }, [groupId, repos.expenses]);
 
   const addExpense = useCallback(
     async (
@@ -20,9 +23,24 @@ export function useExpenses(groupId?: string) {
       payers: Omit<ExpensePayer, "id" | "expenseId">[],
       splits: Omit<ExpenseSplit, "id" | "expenseId">[],
     ) => {
-      return repos.expenses.create(expense, payers, splits);
+      const created = await repos.expenses.create(expense, payers, splits);
+      if (auth.currentUser) {
+        await logActivity(repos.activity, {
+          userId: auth.currentUser.id,
+          groupId: created.groupId,
+          type: "expense_added",
+          description: buildActivityDescription("expense_added", {
+            userName: auth.currentUser.name,
+            title: created.title,
+            amount: created.amount,
+            groupName: "",
+          }),
+          referenceId: created.id,
+        });
+      }
+      return created;
     },
-    [repos.expenses],
+    [repos.expenses, repos.activity, auth.currentUser],
   );
 
   const updateExpense = useCallback(
@@ -32,12 +50,45 @@ export function useExpenses(groupId?: string) {
       payers?: Omit<ExpensePayer, "id" | "expenseId">[],
       splits?: Omit<ExpenseSplit, "id" | "expenseId">[],
     ) => {
-      return repos.expenses.update(id, expense, payers, splits);
+      const updated = await repos.expenses.update(id, expense, payers, splits);
+      if (auth.currentUser) {
+        await logActivity(repos.activity, {
+          userId: auth.currentUser.id,
+          groupId: updated.groupId,
+          type: "expense_edited",
+          description: buildActivityDescription("expense_edited", {
+            userName: auth.currentUser.name,
+            title: updated.title,
+            groupName: "",
+          }),
+          referenceId: updated.id,
+        });
+      }
+      return updated;
     },
-    [repos.expenses],
+    [repos.expenses, repos.activity, auth.currentUser],
   );
 
-  const deleteExpense = useCallback((id: string) => repos.expenses.delete(id), [repos.expenses]);
+  const deleteExpense = useCallback(
+    async (id: string) => {
+      const existing = await repos.expenses.findById(id);
+      await repos.expenses.delete(id);
+      if (auth.currentUser && existing) {
+        await logActivity(repos.activity, {
+          userId: auth.currentUser.id,
+          groupId: existing.groupId,
+          type: "expense_deleted",
+          description: buildActivityDescription("expense_deleted", {
+            userName: auth.currentUser.name,
+            title: existing.title,
+            groupName: "",
+          }),
+          referenceId: id,
+        });
+      }
+    },
+    [repos.expenses, repos.activity, auth.currentUser],
+  );
 
   return {
     expenses: expenses ?? [],

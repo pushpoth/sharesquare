@@ -19,8 +19,17 @@ export interface RepositoryContextValue {
 
 const RepositoryContext = createContext<RepositoryContextValue | null>(null);
 
-export function RepositoryProvider({ children }: { children: React.ReactNode }) {
-  return <RepositoryContext.Provider value={repositories}>{children}</RepositoryContext.Provider>;
+export function RepositoryProvider({
+  children,
+  /** Optional bundle for tests; production uses the app singleton from `@/repositories`. */
+  value,
+}: {
+  children: React.ReactNode;
+  value?: RepositoryContextValue;
+}) {
+  return (
+    <RepositoryContext.Provider value={value ?? repositories}>{children}</RepositoryContext.Provider>
+  );
 }
 
 export function useRepositories() {
