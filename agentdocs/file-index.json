@@ -468,6 +468,93 @@
     "signatures": [],
     "imports": ["@testing-library/react", "react-router-dom", "post-mock require(./GroupDetailClient)"]
   },
+  "src/app/expenses/new/page.tsx": {
+    "task": "TASK-048",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": [],
+    "imports": ["./AddExpenseClient"]
+  },
+  "src/app/expenses/new/AddExpenseClient.tsx": {
+    "task": "TASK-048",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": ["AddExpenseClient(): JSX.Element"],
+    "imports": [
+      "react",
+      "react-router-dom",
+      "dexie-react-hooks",
+      "@/hooks/useGroups",
+      "@/hooks/useExpenses",
+      "@/hooks/useAuth",
+      "@/contexts/RepositoryContext",
+      "@/layouts/AppLayout/AppLayout",
+      "@/components/ExpenseForm/ExpenseForm",
+      "@/constants/routes",
+      "@/components/Toast/Toast"
+    ]
+  },
+  "src/app/expenses/new/AddExpenseClient.test.tsx": {
+    "task": "TASK-048",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "react-router-dom", "post-mock require(./AddExpenseClient)"]
+  },
+  "src/app/expenses/[id]/edit/page.tsx": {
+    "task": "TASK-049",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": [],
+    "imports": ["./EditExpenseClient"]
+  },
+  "src/app/expenses/[id]/edit/EditExpenseClient.tsx": {
+    "task": "TASK-049",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": ["EditExpenseClient(): JSX.Element"],
+    "imports": [
+      "react",
+      "react-router-dom",
+      "dexie-react-hooks",
+      "@/hooks/useExpenses",
+      "@/contexts/RepositoryContext",
+      "@/layouts/AppLayout/AppLayout",
+      "@/components/ExpenseForm/ExpenseForm",
+      "@/constants/routes",
+      "@/components/Toast/Toast"
+    ]
+  },
+  "src/app/expenses/[id]/edit/EditExpenseClient.test.tsx": {
+    "task": "TASK-049",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "react-router-dom", "post-mock require(./EditExpenseClient)"]
+  },
+  "src/app/activity/page.tsx": {
+    "task": "TASK-050",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": ["ActivityPage(): JSX.Element"],
+    "imports": [
+      "react",
+      "dexie-react-hooks",
+      "@/hooks/useAuth",
+      "@/contexts/RepositoryContext",
+      "@/layouts/AppLayout/AppLayout",
+      "@/components/EmptyState/EmptyState",
+      "@/utils/dateUtils",
+      "@/types"
+    ]
+  },
+  "src/app/activity/page.test.tsx": {
+    "task": "TASK-050",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": ["@testing-library/react", "post-mock require(./page)"]
+  },
   "src/app/settings/page.tsx": {
     "task": "TASK-051,T019-T020",
     "status": "complete",

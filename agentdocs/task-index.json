@@ -523,7 +523,7 @@
       "title": "Implement Add Expense page",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-037",
         "TASK-025",
@@ -536,7 +536,7 @@
       "title": "Implement Edit Expense page",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-037",
         "TASK-025"
@@ -547,7 +547,7 @@
       "title": "Implement Activity feed page",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-031",
         "TASK-034",

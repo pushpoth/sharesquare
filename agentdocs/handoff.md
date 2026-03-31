@@ -1,13 +1,12 @@
-session: 17 | 2026-03-31 | completed: TASK-046, TASK-047
+session: 18 | 2026-03-31 | completed: TASK-048, TASK-049, TASK-050
 
 decisions:
-  - Finished Batch 16 agentdocs and verification after prior implementation; fixed `GroupDetailClient.test.tsx` for Jest ESM import order vs. hoisted `jest.mock` (outer `const` TDZ / unstable refs).
+  - Closed Batch 17 in one session: add/edit expense routes were already wired in AppRoutes; TASK-048 gap was explicit read-only group context when `?groupId=` preselects; TASK-049/050 verified + RTL tests added.
 
 discoveries:
-  - other: Tests that `import` the SUT before mock-backed `const` values run hit `ReferenceError` or unstable mock identities; use `require("./Component")` after all `jest.mock` blocks, with factories that only close over variables created inside the factory.
-  - other: Clipboard: `Object.assign(navigator, { clipboard })` did not hook `writeText`; `jest.spyOn(navigator.clipboard, "writeText")` (when present) or `defineProperty` works; `fireEvent.click` is reliable for the copy button assertion.
+  - other: `AddExpenseClient.test.tsx` dexie `useLiveQuery` shim can trigger React `act` console warnings when promises resolve after mount; tests still pass; can tighten shim with `startTransition` or extra `waitFor` if noise matters.
 
 next session:
-  - start with: Batch 17 — TASK-048, TASK-049, TASK-050 (expense pages + activity)
-  - check first: `batch-plan.md` + `task-index.json` for TASK-048 deps
-  - watch out: Same Jest mock pattern for heavy page integration tests
+  - start with: Batch 18 — TASK-051, TASK-052, TASK-053 (settings export/import, router/providers hardening, charts)
+  - check first: `src/app/settings/page.tsx` vs tasks.md sign-out AC for TASK-051
+  - watch out: Session touched many files (budget F≥8); next batch may deserve a fresh session if context is heavy

@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-050
+// Implements: TASK-050 (REQ-020)
 
 import { useEffect, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -54,7 +54,10 @@ function ActivityEntryRow({ entry }: { entry: ActivityEntry }) {
   }, [entry.groupId, repos.groups]);
 
   return (
-    <div className="flex items-start gap-3 rounded-lg border border-border bg-white p-3">
+    <div
+      className="flex items-start gap-3 rounded-lg border border-border bg-white p-3"
+      data-testid="activity-entry"
+    >
       <div className="min-w-0 flex-1">
         <p className="text-sm text-text-primary">{entry.description}</p>
         <div className="mt-1 flex items-center gap-2">

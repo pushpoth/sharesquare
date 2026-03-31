@@ -1038,16 +1038,16 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-028
 **Depends on:** TASK-037, TASK-025, TASK-024, TASK-036
 
 **Description:**
-**`src/pages/NewExpensePage.tsx`**, route `/expenses/new`. Read **`groupId`** from `useSearchParams`.
+**`src/pages/NewExpensePage.tsx`**, route `/expenses/new`. Read **`groupId`** from `useSearchParams`. **Implemented:** **`src/app/expenses/new/AddExpenseClient.tsx`** + **`AddExpenseClient.test.tsx`**.
 
 **Acceptance Criteria:**
 
-- [ ] Pre-select group from query; read-only when shortcut used
+- [x] Pre-select group from query; read-only when shortcut used (`add-expense-group-readonly` when `?groupId=` matches a member group)
 
 **Test Plan:**
 
@@ -1059,12 +1059,12 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-011
 **Depends on:** TASK-037, TASK-025
 
 **Description:**
-**`src/pages/EditExpensePage.tsx`**, route `/expenses/:id/edit`.
+**`src/pages/EditExpensePage.tsx`**, route `/expenses/:id/edit`. **Implemented:** **`src/app/expenses/[id]/edit/EditExpenseClient.tsx`** + **`EditExpenseClient.test.tsx`**.
 
 **Test Plan:**
 
@@ -1076,12 +1076,12 @@ Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-020
 **Depends on:** TASK-031, TASK-034, TASK-021
 
 **Description:**
-**`src/pages/ActivityPage.tsx`**, route `/activity`.
+**`src/pages/ActivityPage.tsx`**, route `/activity`. **Implemented:** **`src/app/activity/page.tsx`** + **`page.test.tsx`**; list rows use **`data-testid="activity-entry"`**.
 
 **Test Plan:**
 

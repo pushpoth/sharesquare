@@ -5,12 +5,12 @@
   "status": "in_progress",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
-  "last_updated": "2026-03-31T22:30:00Z",
+  "last_updated": "2026-03-31T23:45:00Z",
   "tasks_total": 60,
-  "tasks_done": 50,
+  "tasks_done": 53,
   "session": {
     "current_batch": [],
-    "session_count": 17,
+    "session_count": 18,
     "last_session_date": "2026-03-31"
   },
   "documentation": {
@@ -57,7 +57,8 @@
     "Batch 13 complete (TASK-030,037–040): AppLayout uses Navigate to / when unauthenticated after load; main max-w-lg; ExpenseForm testids + ExpenseForm tests; SplitSelector equal-mode readOnly on amount fields only (checkbox stays enabled to switch to custom splits); ExpenseList row/delete testids; ExpenseFilters filter testids; MemberBalanceList task comment; RTL tests for list/filters/balances.",
     "Batch 14 complete (TASK-041–043): GroupCreateForm showToast(error) + testids + tests; InviteCodeInput offline guard (navigator.onLine) + join error toasts + tests; SettlementForm testids + validation tests.",
     "Batch 15 complete (TASK-044–045): Login at src/app/page.tsx uses Navigate to /home when authenticated; ROUTES.HOME; sign-in-button on demo CTA; page.test + home page.test with mocked hooks/AppLayout.",
-    "Batch 16 complete (TASK-046–047): src/app/groups/page.tsx (EmptyState scroll-to-create, page.test); src/app/groups/[id]/GroupDetailClient + page route; invite block + copy testids; GroupDetailClient.test uses post-mock require(SUT) + self-contained jest.mock factories (hoist-safe) and fireEvent + clipboard spy."
+    "Batch 16 complete (TASK-046–047): src/app/groups/page.tsx (EmptyState scroll-to-create, page.test); src/app/groups/[id]/GroupDetailClient + page route; invite block + copy testids; GroupDetailClient.test uses post-mock require(SUT) + self-contained jest.mock factories (hoist-safe) and fireEvent + clipboard spy.",
+    "Batch 17 complete (TASK-048–050): AddExpenseClient `groupLockedFromQuery` + read-only group banner (`add-expense-group-readonly`) when `?groupId=`; AddExpenseClient.test / EditExpenseClient.test / activity/page.test (dexie useLiveQuery shim + require page); Activity rows `data-testid=\"activity-entry\"`."
   ],
   "req_sequence": 33,
   "task_sequence": 60,
@@ -111,9 +112,9 @@
     { "id": "TASK-045", "title": "Implement Dashboard / Home page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-030", "TASK-032", "TASK-033", "TASK-034", "TASK-026", "TASK-024"] },
     { "id": "TASK-046", "title": "Implement Groups list page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-003", "REQ-004", "REQ-005"], "depends_on": ["TASK-033", "TASK-041", "TASK-042", "TASK-024", "TASK-030"] },
     { "id": "TASK-047", "title": "Implement Group detail page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-016", "REQ-012", "REQ-015", "REQ-017", "REQ-030"], "depends_on": ["TASK-040", "TASK-038", "TASK-039", "TASK-043", "TASK-035", "TASK-026", "TASK-025", "TASK-027"] },
-    { "id": "TASK-048", "title": "Implement Add Expense page", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-006", "REQ-007", "REQ-008", "REQ-009", "REQ-010", "REQ-028"], "depends_on": ["TASK-037", "TASK-025", "TASK-024", "TASK-036"] },
-    { "id": "TASK-049", "title": "Implement Edit Expense page", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-011"], "depends_on": ["TASK-037", "TASK-025"] },
-    { "id": "TASK-050", "title": "Implement Activity feed page", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-020"], "depends_on": ["TASK-031", "TASK-034", "TASK-021"] },
+    { "id": "TASK-048", "title": "Implement Add Expense page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-006", "REQ-007", "REQ-008", "REQ-009", "REQ-010", "REQ-028"], "depends_on": ["TASK-037", "TASK-025", "TASK-024", "TASK-036"] },
+    { "id": "TASK-049", "title": "Implement Edit Expense page", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-011"], "depends_on": ["TASK-037", "TASK-025"] },
+    { "id": "TASK-050", "title": "Implement Activity feed page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-020"], "depends_on": ["TASK-031", "TASK-034", "TASK-021"] },
     { "id": "TASK-051", "title": "Implement Settings page with export/import", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-002", "REQ-021", "REQ-022"], "depends_on": ["TASK-019", "TASK-020", "TASK-022", "TASK-036", "TASK-035"] },
     { "id": "TASK-052", "title": "Wire React Router, providers, and global configuration", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-001", "REQ-024", "REQ-025"], "depends_on": ["TASK-022", "TASK-023", "TASK-036", "TASK-003"] },
     { "id": "TASK-053", "title": "Implement SVG data visualizations", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-018"], "depends_on": ["TASK-026"] },

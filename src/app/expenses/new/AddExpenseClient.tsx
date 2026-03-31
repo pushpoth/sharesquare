@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-048
+// Implements: TASK-048 (REQ-006, REQ-007, REQ-008, REQ-009, REQ-010, REQ-028)
 
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -24,10 +24,17 @@ export default function AddExpenseClient() {
   const { showToast } = useToast();
 
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
+  /** True when `groupId` query param pre-selected a valid group (shortcut from group detail, etc.). */
+  const [groupLockedFromQuery, setGroupLockedFromQuery] = useState(false);
 
   useEffect(() => {
     if (groupIdParam && groups.some((g) => g.id === groupIdParam)) {
       setSelectedGroupId(groupIdParam);
+      setGroupLockedFromQuery(true);
+      return;
+    }
+    if (!groupIdParam) {
+      setGroupLockedFromQuery(false);
     }
   }, [groupIdParam, groups]);
 
@@ -105,7 +112,10 @@ export default function AddExpenseClient() {
             <select
               id="group-select"
               value=""
-              onChange={(e) => setSelectedGroupId(e.target.value || null)}
+              onChange={(e) => {
+                setSelectedGroupId(e.target.value || null);
+                setGroupLockedFromQuery(false);
+              }}
               className="w-full rounded-lg border border-border px-3 py-2"
             >
               <option value="">Choose a group...</option>
@@ -122,11 +132,27 @@ export default function AddExpenseClient() {
             )}
           </div>
         ) : (
-          <ExpenseForm
-            groupMembers={groupMembers ?? []}
-            onSubmit={handleSubmit}
-            onCancel={handleCancel}
-          />
+          <div className="space-y-4">
+            {groupLockedFromQuery ? (
+              <div
+                data-testid="add-expense-group-readonly"
+                className="rounded-xl border border-border bg-surface-muted/50 px-4 py-3"
+              >
+                <p className="text-xs font-medium uppercase tracking-wide text-text-secondary">Group</p>
+                <p className="mt-1 text-base font-semibold text-text-primary">
+                  {groups.find((g) => g.id === selectedGroupId)?.name ?? "Group"}
+                </p>
+                <p className="mt-1 text-xs text-text-secondary">
+                  Group is fixed from the link you used. Go back to choose a different group.
+                </p>
+              </div>
+            ) : null}
+            <ExpenseForm
+              groupMembers={groupMembers ?? []}
+              onSubmit={handleSubmit}
+              onCancel={handleCancel}
+            />
+          </div>
         )}
       </div>
     </AppLayout>

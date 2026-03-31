@@ -29,3 +29,4 @@
 - [2026-03-31 TASK-042] `InviteCodeInput` checks `navigator.onLine` before `joinGroup`; in Jest restore `navigator.onLine` after tests that set it to `false`.
 - [2026-03-31 TASK-044] Unauthenticated landing is `src/app/page.tsx` (`/`); when `isAuthenticated`, render `<Navigate to={ROUTES.HOME} replace />` instead of an empty fragment after `useEffect` redirect.
 - [2026-03-31 TASK-047] For Jest + a client page under test: avoid top-level `import` of the SUT if mocks need stable objects defined in the same file — use post-mock `require("./Component").default` and self-contained `jest.mock` factories; for `navigator.clipboard.writeText`, prefer `jest.spyOn(navigator.clipboard, "writeText")` when jsdom exposes it.
+- [2026-03-31 TASK-048] Add expense from `?groupId=` sets `groupLockedFromQuery` and shows `add-expense-group-readonly` above `ExpenseForm`; manual `<select>` clears the lock so the banner stays off.

@@ -134,7 +134,7 @@ TASK-046, TASK-047
 
 ---
 
-## Batch 17 — Expense pages + activity
+## ~~Batch 17 — Expense pages + activity~~
 
 Focus: **`TASK-048`–`TASK-050`**.
 
