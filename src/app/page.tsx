@@ -1,9 +1,9 @@
 "use client";
-// Implements: TASK-044, TASK-015
+// Implements: TASK-044 (REQ-001, REQ-027), TASK-015
 
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { ROUTES } from "@/constants/routes";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -15,19 +15,13 @@ export default function LoginPage() {
     signInWithDemoProfile,
   } = useAuth();
 
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      navigate("/home");
-    }
-  }, [isAuthenticated, isLoading, navigate]);
-
   const handleDemoLogin = async () => {
     await signInWithDemoProfile({
       email: "demo@sharesquare.app",
       name: "Demo User",
       picture: "",
     });
-    navigate("/home");
+    navigate(ROUTES.HOME);
   };
 
   const handleGoogleSignIn = () => {
@@ -51,7 +45,7 @@ export default function LoginPage() {
   }
 
   if (isAuthenticated) {
-    return null;
+    return <Navigate to={ROUTES.HOME} replace />;
   }
 
   return (
@@ -110,7 +104,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={handleDemoLogin}
-            data-testid="demo-login-button"
+            data-testid="sign-in-button"
             className="w-full rounded-xl border-2 border-primary px-6 py-4 font-semibold text-primary transition-colors hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
           >
             Quick Start (Demo Mode)

@@ -3,7 +3,7 @@ vite.config.ts [✅T001,T003] vite, react, tailwind, VitePWA
 src/main.tsx [✅T001] createRoot, BrowserRouter
 src/AppRoutes.tsx [✅T001] Routes, page mapping
 src/styles/globals.css [✅T001] @theme tokens
-src/app/ [✅T001] page components (RR, was Next)
+src/app/ [✅T001,T044-T045+tests] `/` login (Navigate→/home); `/home` dashboard + FAB; other routes
 src/components/ [✅T028-T043+tests] GroupCreateForm; InviteCodeInput; SettlementForm; Header; MemberAvatar; BalanceCard; GroupCard; ExpenseForm; ExpenseList; ExpenseFilters; MemberBalanceList; SplitSelector; BottomNav; EmptyState; ConfirmDialog; Toast
 src/layouts/AppLayout/ [✅T030+test] Header; main max-w-lg; BottomNav; Navigate to / when unauthenticated after load
 supabase/migrations/ [✅T007,T055] initial schema + RLS + RPC + profile-on-signup trigger

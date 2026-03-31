@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-045
+// Implements: TASK-045 (REQ-005, REQ-027)
 
 import { Link } from "react-router-dom";
 import { useGroups } from "@/hooks/useGroups";

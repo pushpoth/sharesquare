@@ -1,10 +1,10 @@
-session: 15 | 2026-03-31 | completed: TASK-041, TASK-042, TASK-043
+session: 16 | 2026-03-31 | completed: TASK-044, TASK-045
 
 decisions:
-  - GroupCreateForm / InviteCodeInput: duplicate user-visible errors via inline `role="alert"` plus `showToast(..., "error")` so TASK-036 feedback applies alongside form copy.
-  - InviteCodeInput: short-circuit submit when `navigator.onLine === false` (no `joinGroup` call).
+  - Login: `<Navigate to={ROUTES.HOME} replace />` when `isAuthenticated` (replacing `useEffect`+`navigate` only for that case); demo navigation after `signInWithDemoProfile` still uses `useNavigate`.
+  - Demo CTA uses `data-testid="sign-in-button"`; Google OAuth keeps `sign-in-google-button` (tasks allow provider-specific ids).
 
 next session:
-  - start with: Batch 15 — TASK-044, TASK-045 (Landing/Login page + Dashboard/Home per tasks paths vs existing `src/app/page.tsx` + `src/app/home/page.tsx`)
-  - check first: tasks.md still references `src/pages/*` — repo uses `src/app/` routes; align implementation or task text in evolve if needed
-  - watch out: TASK-044 AC (no Google Identity Services; redirect if session)
+  - start with: Batch 16 — TASK-046, TASK-047 (Groups list + Group detail — heavier integration)
+  - check first: `src/app/groups/page.tsx` and `src/app/groups/[id]/page.tsx` vs tasks.md; wire GroupCreateForm, InviteCodeInput, ExpenseList/Filters, etc.
+  - watch out: TASK-047 dependency chain includes TASK-040, TASK-038, TASK-039, TASK-043

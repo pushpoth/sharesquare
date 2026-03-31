@@ -466,7 +466,7 @@
       "title": "Implement Landing / Login page",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-022",
         "TASK-003"
@@ -477,7 +477,7 @@
       "title": "Implement Dashboard / Home page",
       "phase": "frontend",
       "effort": "M",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-030",
         "TASK-032",

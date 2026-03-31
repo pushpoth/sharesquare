@@ -949,17 +949,19 @@ Unchanged validation rules. Tests.
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-001, REQ-027
 **Depends on:** TASK-022, TASK-003
 
 **Description:**
 Create **`src/pages/LandingPage.tsx`**. Sign-in buttons call **`AuthContext.signIn`** (Supabase OAuth / magic link per configuration). **Remove** `@react-oauth/google` and `GoogleLogin`. If session exists, **`<Navigate to="/home" />`**. Brand styling. `data-testid="login-page"`, `data-testid="sign-in-button"` (or provider-specific ids).
 
+**Implementation note:** Landing UI is **`src/app/page.tsx`** (route **`/`**) in the Vite app layout.
+
 **Acceptance Criteria:**
 
-- [ ] No Google Identity Services direct integration
-- [ ] Redirect authenticated users to `/home`
+- [x] No Google Identity Services direct integration
+- [x] Redirect authenticated users to `/home`
 
 **Test Plan:**
 
@@ -971,16 +973,18 @@ Create **`src/pages/LandingPage.tsx`**. Sign-in buttons call **`AuthContext.sign
 
 **Phase:** frontend
 **Effort:** M
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-005, REQ-027
 **Depends on:** TASK-030, TASK-032, TASK-033, TASK-034, TASK-026, TASK-024
 
 **Description:**
 Create **`src/pages/HomePage.tsx`**. Route `/home`. FAB links to `/expenses/new`. Uses hooks.
 
+**Implementation note:** Dashboard is **`src/app/home/page.tsx`** (route **`/home`**).
+
 **Acceptance Criteria:**
 
-- [ ] `data-testid="dashboard-page"`
+- [x] `data-testid="dashboard-page"`
 
 **Test Plan:**
 

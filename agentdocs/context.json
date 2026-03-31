@@ -5,12 +5,12 @@
   "status": "in_progress",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
-  "last_updated": "2026-03-31T18:00:00Z",
+  "last_updated": "2026-03-31T20:00:00Z",
   "tasks_total": 60,
-  "tasks_done": 46,
+  "tasks_done": 48,
   "session": {
     "current_batch": [],
-    "session_count": 15,
+    "session_count": 16,
     "last_session_date": "2026-03-31"
   },
   "documentation": {
@@ -55,7 +55,8 @@
     "Batch 11 complete (TASK-029,034–036): BottomNav NavLink + end rules (groups prefix match); RTL tests MemoryRouter; EmptyState/ConfirmDialog testids; Toast provider + useToast tests with fake timers.",
     "Batch 12 complete (TASK-028,031–033): Header uses MemberAvatar + useAuth (header-search, header-avatar testids); MemberAvatar initials rules + AvatarGroup testid + image error fallback (RTL: act + fireEvent.error); BalanceCard/GroupCard formatCurrency + per-group testid + tests.",
     "Batch 13 complete (TASK-030,037–040): AppLayout uses Navigate to / when unauthenticated after load; main max-w-lg; ExpenseForm testids + ExpenseForm tests; SplitSelector equal-mode readOnly on amount fields only (checkbox stays enabled to switch to custom splits); ExpenseList row/delete testids; ExpenseFilters filter testids; MemberBalanceList task comment; RTL tests for list/filters/balances.",
-    "Batch 14 complete (TASK-041–043): GroupCreateForm showToast(error) + testids + tests; InviteCodeInput offline guard (navigator.onLine) + join error toasts + tests; SettlementForm testids + validation tests."
+    "Batch 14 complete (TASK-041–043): GroupCreateForm showToast(error) + testids + tests; InviteCodeInput offline guard (navigator.onLine) + join error toasts + tests; SettlementForm testids + validation tests.",
+    "Batch 15 complete (TASK-044–045): Login at src/app/page.tsx uses Navigate to /home when authenticated; ROUTES.HOME; sign-in-button on demo CTA; page.test + home page.test with mocked hooks/AppLayout."
   ],
   "req_sequence": 33,
   "task_sequence": 60,
@@ -105,8 +106,8 @@
     { "id": "TASK-041", "title": "Implement GroupCreateForm component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-003"], "depends_on": ["TASK-024", "TASK-036"] },
     { "id": "TASK-042", "title": "Implement InviteCodeInput component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-004"], "depends_on": ["TASK-024", "TASK-036"] },
     { "id": "TASK-043", "title": "Implement SettlementForm component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-015"], "depends_on": ["TASK-031", "TASK-027", "TASK-006"] },
-    { "id": "TASK-044", "title": "Implement Landing / Login page", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-001", "REQ-027"], "depends_on": ["TASK-022", "TASK-003"] },
-    { "id": "TASK-045", "title": "Implement Dashboard / Home page", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-030", "TASK-032", "TASK-033", "TASK-034", "TASK-026", "TASK-024"] },
+    { "id": "TASK-044", "title": "Implement Landing / Login page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-001", "REQ-027"], "depends_on": ["TASK-022", "TASK-003"] },
+    { "id": "TASK-045", "title": "Implement Dashboard / Home page", "phase": "frontend", "effort": "M", "status": "done", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-030", "TASK-032", "TASK-033", "TASK-034", "TASK-026", "TASK-024"] },
     { "id": "TASK-046", "title": "Implement Groups list page", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-003", "REQ-004", "REQ-005"], "depends_on": ["TASK-033", "TASK-041", "TASK-042", "TASK-024", "TASK-030"] },
     { "id": "TASK-047", "title": "Implement Group detail page", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-016", "REQ-012", "REQ-015", "REQ-017", "REQ-030"], "depends_on": ["TASK-040", "TASK-038", "TASK-039", "TASK-043", "TASK-035", "TASK-026", "TASK-025", "TASK-027"] },
     { "id": "TASK-048", "title": "Implement Add Expense page", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-006", "REQ-007", "REQ-008", "REQ-009", "REQ-010", "REQ-028"], "depends_on": ["TASK-037", "TASK-025", "TASK-024", "TASK-036"] },

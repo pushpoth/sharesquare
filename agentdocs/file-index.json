@@ -382,9 +382,26 @@
   "src/app/page.tsx": {
     "task": "TASK-044,T015",
     "status": "complete",
-    "exports": [],
-    "signatures": [],
-    "imports": []
+    "exports": ["default"],
+    "signatures": ["LoginPage(): JSX.Element"],
+    "imports": ["react-router-dom", "@/hooks/useAuth", "@/constants/routes"]
+  },
+  "src/app/home/page.tsx": {
+    "task": "TASK-045",
+    "status": "complete",
+    "exports": ["default"],
+    "signatures": ["HomePage(): JSX.Element"],
+    "imports": [
+      "react-router-dom",
+      "@/hooks/useGroups",
+      "@/hooks/useBalances",
+      "@/hooks/useAuth",
+      "@/layouts/AppLayout/AppLayout",
+      "@/components/BalanceCard/BalanceCard",
+      "@/components/EmptyState/EmptyState",
+      "@/constants/routes",
+      "./GroupCardWithData"
+    ]
   },
   "src/app/settings/page.tsx": {
     "task": "TASK-051,T019-T020",

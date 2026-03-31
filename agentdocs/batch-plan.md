@@ -1,6 +1,6 @@
 # Batch Plan: sharesquare
 
-> **Updated:** 2026-03-31 · **Total tasks:** 60 · **Done through Batch 14:** 46 tasks (see `context.json` `tasks_done`) · **App today:** Vite + PWA; Supabase Auth when real project URL; repos = Dexie unless `VITE_USE_SUPABASE_REPOS=true`.
+> **Updated:** 2026-03-31 · **Total tasks:** 60 · **Done through Batch 15:** 48 tasks (see `context.json` `tasks_done`) · **App today:** Vite + PWA; Supabase Auth when real project URL; repos = Dexie unless `VITE_USE_SUPABASE_REPOS=true`.
 
 Batches follow `context.json` **`depends_on`**: a task appears only after all listed dependencies are **done**. Each batch targets **3–5 tasks**, **≤2 M-effort**, **no L** in one batch where possible.
 
@@ -118,7 +118,7 @@ TASK-041, TASK-042, TASK-043
 
 ---
 
-## Batch 15 — Landing + dashboard pages
+## ~~Batch 15 — Landing + dashboard pages~~
 
 Focus: **`TASK-044`** needs **`TASK-022`**, **`TASK-003`**; **`TASK-045`** needs shell, cards, **`TASK-026`**, **`TASK-024`**, etc.
 
