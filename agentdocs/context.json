@@ -5,13 +5,13 @@
   "status": "in_progress",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
-  "last_updated": "2026-04-02T00:00:00Z",
+  "last_updated": "2026-03-31T00:00:00Z",
   "tasks_total": 60,
-  "tasks_done": 34,
+  "tasks_done": 38,
   "session": {
     "current_batch": [],
-    "session_count": 12,
-    "last_session_date": "2026-04-01"
+    "session_count": 13,
+    "last_session_date": "2026-03-31"
   },
   "documentation": {
     "spec_version": "0.2",
@@ -52,7 +52,8 @@
     "Batch 8 complete (TASK-019–021): exportAllData(repos, userId); ImportDataWriter + createDexieImportWriter + importData(writer); Settings export uses repositories; import tests for overwrite/skip; activityService default-branch test.",
     "Batch 9 complete (TASK-022–023): AuthContext exposes user/session/signOut aliases + authSession state; useAuth tests (demo path, logout); RepositoryContext tests (five repos, throw outside provider).",
     "Batch 10 complete (TASK-024–027): useGroups useEffect+refetch (no useLiveQuery), createGroup invite-collision retry, joinGroup errors; useExpenses/useSettlements activity logs; useBalances via repos not Dexie; RepositoryProvider optional value for tests; hook unit tests + dexie useLiveQuery shim in tests only.",
-    "Batch 11 complete (TASK-029,034–036): BottomNav NavLink + end rules (groups prefix match); RTL tests MemoryRouter; EmptyState/ConfirmDialog testids; Toast provider + useToast tests with fake timers."
+    "Batch 11 complete (TASK-029,034–036): BottomNav NavLink + end rules (groups prefix match); RTL tests MemoryRouter; EmptyState/ConfirmDialog testids; Toast provider + useToast tests with fake timers.",
+    "Batch 12 complete (TASK-028,031–033): Header uses MemberAvatar + useAuth (header-search, header-avatar testids); MemberAvatar initials rules + AvatarGroup testid + image error fallback (RTL: act + fireEvent.error); BalanceCard/GroupCard formatCurrency + per-group testid + tests."
   ],
   "req_sequence": 33,
   "task_sequence": 60,
@@ -86,12 +87,12 @@
     { "id": "TASK-025", "title": "Implement useExpenses hook", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-006", "REQ-011", "REQ-012"], "depends_on": ["TASK-023", "TASK-021"] },
     { "id": "TASK-026", "title": "Implement useBalances hook", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-013", "REQ-014"], "depends_on": ["TASK-023", "TASK-017", "TASK-018"] },
     { "id": "TASK-027", "title": "Implement useSettlements hook", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-015"], "depends_on": ["TASK-023", "TASK-021"] },
-    { "id": "TASK-028", "title": "Implement Header component", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-005", "TASK-022"] },
+    { "id": "TASK-028", "title": "Implement Header component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-005", "TASK-022"] },
     { "id": "TASK-029", "title": "Implement BottomNav component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-019", "REQ-027"], "depends_on": ["TASK-005"] },
     { "id": "TASK-030", "title": "Implement AppLayout with auth guard", "phase": "frontend", "effort": "M", "status": "pending", "implements": ["REQ-019", "REQ-026"], "depends_on": ["TASK-028", "TASK-029", "TASK-022"] },
-    { "id": "TASK-031", "title": "Implement MemberAvatar component", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-002", "REQ-005"], "depends_on": ["TASK-004"] },
-    { "id": "TASK-032", "title": "Implement BalanceCard component", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-006"] },
-    { "id": "TASK-033", "title": "Implement GroupCard component", "phase": "frontend", "effort": "S", "status": "pending", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-031", "TASK-006"] },
+    { "id": "TASK-031", "title": "Implement MemberAvatar component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-002", "REQ-005"], "depends_on": ["TASK-004"] },
+    { "id": "TASK-032", "title": "Implement BalanceCard component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-006"] },
+    { "id": "TASK-033", "title": "Implement GroupCard component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-005", "REQ-027"], "depends_on": ["TASK-031", "TASK-006"] },
     { "id": "TASK-034", "title": "Implement EmptyState component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-005", "REQ-016"], "depends_on": [] },
     { "id": "TASK-035", "title": "Implement ConfirmDialog component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-012"], "depends_on": [] },
     { "id": "TASK-036", "title": "Implement Toast notification component", "phase": "frontend", "effort": "S", "status": "done", "implements": ["REQ-006", "REQ-015"], "depends_on": [] },

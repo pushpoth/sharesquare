@@ -1,9 +1,9 @@
-session: 12 | 2026-04-02 | completed: TASK-029, TASK-034, TASK-035, TASK-036
+session: 13 | 2026-03-31 | completed: TASK-028, TASK-031, TASK-032, TASK-033
 
 decisions:
-  - BottomNav switched from `Link` to `NavLink` for a11y + active styles; FAB uses ring when on add-expense route.
+  - MemberAvatar image-error test uses `act` + `fireEvent.error` so React 19 applies `onError` state updates (raw `dispatchEvent` leaves `<img>` mounted).
 
 next session:
-  - start with: Batch 12 — TASK-028, TASK-031, TASK-032, TASK-033 (Header, MemberAvatar, BalanceCard, GroupCard)
-  - check first: existing `Header`, `MemberAvatar`, `GroupCard`, `BalanceCard` vs tasks.md AC + tests
-  - watch out: TASK-030 (AppLayout) depends on 028+029 — 029 is done
+  - start with: Batch 13 — TASK-030, TASK-037, TASK-038, TASK-039, TASK-040 (AppLayout auth guard + expense building blocks)
+  - check first: `AppLayout` vs tasks.md (redirect when unauthenticated, loading, max-width); TASK-030 deps: 028+029+022 all done
+  - watch out: TASK-037 is M-effort (ExpenseForm + SplitSelector)

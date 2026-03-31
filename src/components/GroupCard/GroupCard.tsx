@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-033
+// Implements: TASK-033 (REQ-005, REQ-027)
 
 import { Link } from "react-router-dom";
 import type { Group } from "@/types";

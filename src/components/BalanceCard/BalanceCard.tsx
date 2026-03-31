@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-032
+// Implements: TASK-032 (REQ-005, REQ-027)
 
 import { formatCurrency } from "@/utils/currency";
 

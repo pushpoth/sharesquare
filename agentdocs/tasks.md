@@ -673,7 +673,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-005, REQ-027
 **Depends on:** TASK-005, TASK-022
 
@@ -682,8 +682,8 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Acceptance Criteria:**
 
-- [ ] Avatar uses profile/session data (not hardcoded Google-only copy)
-- [ ] `data-testid="header"`
+- [x] Avatar uses profile/session data (not hardcoded Google-only copy)
+- [x] `data-testid="header"`
 
 **Test Plan:**
 
@@ -739,7 +739,7 @@ Create `src/contexts/AuthContext.tsx`: `user`, `session`, `isLoading`, `signIn`,
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-002, REQ-005
 **Depends on:** TASK-004
 
@@ -748,7 +748,7 @@ Same as before: image + initials fallback, `AvatarGroup`, broken image handling.
 
 **Acceptance Criteria:**
 
-- [ ] Fallback when `avatarUrl` missing or broken
+- [x] Fallback when `avatarUrl` missing or broken
 
 **Test Plan:**
 
@@ -760,7 +760,7 @@ Same as before: image + initials fallback, `AvatarGroup`, broken image handling.
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-005, REQ-027
 **Depends on:** TASK-006
 
@@ -769,7 +769,7 @@ Balance card with cents props; integrate **`useCurrency`** when TASK-059 lands (
 
 **Acceptance Criteria:**
 
-- [ ] Correct formatting from cents
+- [x] Correct formatting from cents
 
 **Test Plan:**
 
@@ -781,7 +781,7 @@ Balance card with cents props; integrate **`useCurrency`** when TASK-059 lands (
 
 **Phase:** frontend
 **Effort:** S
-**Status:** ⬜ Pending
+**Status:** ✅ Done
 **Implements:** REQ-005, REQ-027
 **Depends on:** TASK-031, TASK-006
 
@@ -790,7 +790,7 @@ Group list card + navigation to `/groups/:id` via React Router.
 
 **Acceptance Criteria:**
 
-- [ ] `data-testid` per group id
+- [x] `data-testid` per group id
 
 **Test Plan:**
 

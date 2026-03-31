@@ -24,3 +24,4 @@
 - [2026-04-01 TASK-026] `useBalances` / `useOverallBalances` load expenses/settlements/payers/splits through `RepositoryBundle`, not `db`, so Supabase-backed repos work; list hooks still use `useLiveQuery` for Dexie reactivity.
 - [2026-04-01 TASK-025-T027] Hook tests that mock only repositories jest-mock `dexie-react-hooks` `useLiveQuery` to resolve async callbacks (real hook waits on Dexie observation).
 - [2026-04-02 TASK-029] BottomNav uses `NavLink` with `end={false}` only for `ROUTES.GROUPS` so `/groups/:id` keeps Groups active; other tabs use `end` for exact segment match.
+- [2026-03-31 TASK-031] RTL tests for `<img onError>` should use `fireEvent.error(img)` inside `act(...)` so the fallback-to-initials state update is flushed (raw `dispatchEvent` does not run React’s `onError` the same way).

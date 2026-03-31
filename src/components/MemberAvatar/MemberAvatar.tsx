@@ -1,5 +1,5 @@
 "use client";
-// Implements: TASK-031
+// Implements: TASK-031 (REQ-002, REQ-005)
 
 import { useState } from "react";
 
@@ -18,9 +18,12 @@ export interface MemberAvatarProps {
 }
 
 function getInitials(name: string): string {
-  const trimmed = name.trim();
-  if (!trimmed) return "?";
-  return trimmed[0].toUpperCase();
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+  return parts[0].slice(0, 2).toUpperCase() || "?";
 }
 
 export function MemberAvatar({ name, avatarUrl, size = "md" }: MemberAvatarProps) {
@@ -68,7 +71,7 @@ export function AvatarGroup({ members, max = 4 }: AvatarGroupProps) {
   const overflowCount = members.length - max;
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center" data-testid="avatar-group">
       {visible.map((member, index) => (
         <div
           key={member.name + index}

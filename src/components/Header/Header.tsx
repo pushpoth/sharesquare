@@ -1,15 +1,8 @@
 "use client";
-// Implements: TASK-028
+// Implements: TASK-028 (REQ-005, REQ-027)
 
+import { MemberAvatar } from "@/components/MemberAvatar/MemberAvatar";
 import { useAuth } from "@/hooks/useAuth";
-
-function getInitials(name: string): string {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length >= 2) {
-    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-  }
-  return name.slice(0, 2).toUpperCase() || "?";
-}
 
 export function Header() {
   const { currentUser } = useAuth();
@@ -31,21 +24,16 @@ export function Header() {
           type="button"
           aria-label="Search"
           className="rounded p-1 text-white/80 hover:text-white"
+          data-testid="header-search"
         >
           <SearchIcon />
         </button>
-        <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-primary-light bg-accent/20">
-          {currentUser?.avatarUrl ? (
-            <img
-              src={currentUser.avatarUrl}
-              alt={currentUser.name}
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <span className="text-sm font-medium text-accent">
-              {currentUser ? getInitials(currentUser.name) : "?"}
-            </span>
-          )}
+        <div data-testid="header-avatar">
+          <MemberAvatar
+            name={currentUser?.name ?? ""}
+            avatarUrl={currentUser?.avatarUrl}
+            size="md"
+          />
         </div>
       </div>
     </header>

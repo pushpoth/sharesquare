@@ -288,6 +288,34 @@
     "signatures": [],
     "imports": []
   },
+  "src/components/Header/Header.tsx": {
+    "task": "TASK-028",
+    "status": "complete",
+    "exports": ["Header"],
+    "signatures": [],
+    "imports": ["@/components/MemberAvatar/MemberAvatar", "@/hooks/useAuth"]
+  },
+  "src/components/MemberAvatar/MemberAvatar.tsx": {
+    "task": "TASK-031",
+    "status": "complete",
+    "exports": ["MemberAvatar", "AvatarGroup"],
+    "signatures": [],
+    "imports": ["react"]
+  },
+  "src/components/BalanceCard/BalanceCard.tsx": {
+    "task": "TASK-032",
+    "status": "complete",
+    "exports": ["BalanceCard"],
+    "signatures": [],
+    "imports": ["@/utils/currency"]
+  },
+  "src/components/GroupCard/GroupCard.tsx": {
+    "task": "TASK-033",
+    "status": "complete",
+    "exports": ["GroupCard"],
+    "signatures": [],
+    "imports": ["react-router-dom", "@/types", "@/constants/routes", "@/utils/currency", "@/utils/dateUtils", "@/components/MemberAvatar/MemberAvatar"]
+  },
   "src/app/page.tsx": {
     "task": "TASK-044,T015",
     "status": "complete",

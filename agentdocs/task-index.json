@@ -300,7 +300,7 @@
       "title": "Implement Header component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-005",
         "TASK-022"
@@ -333,7 +333,7 @@
       "title": "Implement MemberAvatar component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-004"
       ]
@@ -343,7 +343,7 @@
       "title": "Implement BalanceCard component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-006"
       ]
@@ -353,7 +353,7 @@
       "title": "Implement GroupCard component",
       "phase": "frontend",
       "effort": "S",
-      "status": "pending",
+      "status": "done",
       "depends_on": [
         "TASK-031",
         "TASK-006"
