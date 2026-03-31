@@ -1,6 +1,6 @@
 # Requirements: ShareSquare
 
-> Linked to: spec.md v0.2 | Last updated: 2026-03-31
+> Linked to: spec.md v1.0 | Last updated: 2026-03-31
 
 ---
 

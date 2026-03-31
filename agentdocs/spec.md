@@ -1,6 +1,6 @@
 # Spec: ShareSquare
 
-> Version: 0.2 | Status: Draft | Last updated: 2026-03-31
+> Version: 1.0 | Status: Released (MVP) | Last updated: 2026-03-31
 
 ---
 
@@ -21,7 +21,7 @@ Splitting expenses among friends, roommates, and family is a common source of fr
 ### Non-Goals
 
 - Real-time payment processing (Venmo, PayPal, bank transfers)
-- Multi-currency support (MVP is single-currency: USD)
+- Multi-currency **conversion** / exchange rates (display-only currency formatting without FX is in scope; see REQ-032)
 - Native iOS/Android app store distribution
 - Social features (comments, reactions, chat)
 - Receipt scanning / OCR

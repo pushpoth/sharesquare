@@ -1,10 +1,12 @@
 # ShareSquare
 
+**Current release: v1.0.0 (MVP)** — see [`agentdocs/RELEASE-1.0.md`](agentdocs/RELEASE-1.0.md) and [`agentdocs/context.json`](agentdocs/context.json).
+
 A browser-first expense tracking PWA for friends, roommates, and families. ShareSquare records shared expenses, calculates “who owes whom,” and supports settlements — with **Supabase** for auth and data, and a **Vite + React** SPA.
 
 ## Target architecture (living docs)
 
-The **source of truth** is [`agentdocs/`](agentdocs/): `spec.md` (v0.2), `design.md` (v0.3), `requirements.md`, `tasks.md` (v0.3), and [`agentdocs/context.json`](agentdocs/context.json).
+The **source of truth** is [`agentdocs/`](agentdocs/): `spec.md` (v1.0), `design.md` (v1.0), `requirements.md`, `tasks.md` (v1.0), and [`agentdocs/context.json`](agentdocs/context.json).
 
 | Layer        | Technology (target) |
 | ------------ | ------------------- |
@@ -15,7 +17,7 @@ The **source of truth** is [`agentdocs/`](agentdocs/): `spec.md` (v0.2), `design
 | PWA          | vite-plugin-pwa (Workbox); **online-first** data, precached shell/assets |
 | Testing      | Jest + React Testing Library |
 
-**Implementation note:** The app shell is **Vite + React** (see `agentdocs/tasks.md` TASK-001). **IndexedDB (Dexie)** remains the interim data layer until Supabase repository tasks land. Treat `agentdocs` as canonical for the target stack.
+**Implementation note:** The app shell is **Vite + React**. Data uses **Supabase** repositories when `VITE_USE_SUPABASE_REPOS=true`; **IndexedDB (Dexie)** remains available for local/demo mode. Treat `agentdocs` as canonical for the product definition.
 
 ## Features (product)
 

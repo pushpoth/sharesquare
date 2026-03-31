@@ -1,7 +1,7 @@
 # Tasks: ShareSquare
 
-> Version: 0.3 | Status: Draft | Last updated: 2026-03-31
-> Implements: spec.md v0.2 | design.md v0.3
+> Version: 1.0 | Status: Complete (all tasks shipped) | Last updated: 2026-03-31
+> Implements: spec.md v1.0 | design.md v1.0
 
 ---
 
@@ -9,9 +9,9 @@
 
 | Status       | Count |
 | ------------ | ----- |
-| ⬜ Pending   | 60    |
+| ⬜ Pending   | 0     |
 | 🔄 In Progress | 0   |
-| ✅ Done      | 0     |
+| ✅ Done      | 60    |
 
 ---
 

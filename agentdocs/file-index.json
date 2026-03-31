@@ -162,6 +162,13 @@
     "signatures": [],
     "imports": []
   },
+  "agentdocs/RELEASE-1.0.md": {
+    "task": "RELEASE-1.0",
+    "status": "complete",
+    "exports": [],
+    "signatures": [],
+    "imports": []
+  },
   "src/services/authService.ts": {
     "task": "TASK-015",
     "status": "complete",

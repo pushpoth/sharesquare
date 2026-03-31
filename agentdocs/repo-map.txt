@@ -1,3 +1,4 @@
+agentdocs/RELEASE-1.0.md [📄] v1.0.0 MVP release notes
 index.html [📄] Vite entry
 vite.config.ts [✅T001,T003] vite, react, tailwind, VitePWA
 src/main.tsx [✅T001] createRoot, BrowserRouter

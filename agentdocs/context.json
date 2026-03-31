@@ -1,7 +1,8 @@
 {
   "project": "sharesquare",
   "description": "A browser-first expense tracking PWA for friends, roommates, and families to record shared expenses, calculate balances, and settle debts.",
-  "phase": "IMPLEMENT",
+  "product_version": "1.0.0",
+  "phase": "RELEASE",
   "status": "complete",
   "mode": "greenfield",
   "created": "2026-03-10T00:00:00Z",
@@ -14,10 +15,16 @@
     "last_session_date": "2026-03-31"
   },
   "documentation": {
-    "spec_version": "0.2",
-    "design_version": "0.3",
-    "tasks_version": "0.3",
-    "requirements_linked_spec": "0.2"
+    "spec_version": "1.0",
+    "design_version": "1.0",
+    "tasks_version": "1.0",
+    "requirements_linked_spec": "1.0"
+  },
+  "release": {
+    "label": "v1.0",
+    "version": "1.0.0",
+    "date": "2026-03-31",
+    "summary": "All 60 tasks complete; MVP shipped as documented in spec, design, requirements, and tasks."
   },
   "phases_completed": ["SPEC", "DESIGN", "TASKS", "REQUIREMENTS"],
   "stack": {
@@ -36,7 +43,7 @@
     "env_public": ["VITE_SUPABASE_URL", "VITE_SUPABASE_ANON_KEY"]
   },
   "notes": [
-    "Living docs: spec.md v0.2, design.md v0.3, requirements.md (linked to spec v0.2), tasks.md v0.3.",
+    "Release v1.0 (2026-03-31): living docs aligned at spec.md v1.0, design.md v1.0, requirements.md (spec v1.0), tasks.md v1.0 — all TASK-001–060 done.",
     "Architecture: Vite SPA deployed as static assets; no Next.js App Router or Next API routes.",
     "Data and auth: Supabase Postgres + Supabase Auth; invite codes are unique on groups.invite_code (no Vercel KV).",
     "PWA is online-first: core CRUD requires network; service worker precaches app shell and static assets.",

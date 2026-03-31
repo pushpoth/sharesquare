@@ -1,7 +1,7 @@
 # Design: ShareSquare
 
-> Version: 0.3 | Status: Draft | Last updated: 2026-03-31
-> Implements: spec.md v0.2
+> Version: 1.0 | Status: Released (MVP) | Last updated: 2026-03-31
+> Implements: spec.md v1.0
 
 ---
 
